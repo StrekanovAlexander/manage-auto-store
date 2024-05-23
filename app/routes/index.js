@@ -1,2 +1,3 @@
-export { default as brand } from './brand.js';
 export { default as home } from './home.js';
+export { default as brands } from './brands.js';
+export { default as users } from './users.js';

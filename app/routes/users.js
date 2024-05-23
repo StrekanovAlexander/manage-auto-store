@@ -2,7 +2,7 @@ import express from 'express';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.send('Index Brand page');
+    res.render('users', { title: 'Users' });
 });
 
 router.post('/', (req, res) => {
