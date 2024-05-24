@@ -1,9 +1,12 @@
 import 'dotenv/config';
 import express from 'express';
 import hbs from 'express-handlebars';
+import session from 'express-session';
 import { routes } from './app/routes/index.js';
 
 const app = express();
+
+app.use(session({ secret: process.env.JWT_KEY, resave: false, saveUninitialized: true }));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

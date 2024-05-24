@@ -17,9 +17,13 @@ const logIn = (req, res) => {
         return res.redirect('/login');
     }
 
-    const token = jwt.sign(user.username, process.env.JWT_KEY);
-    // res.json( {token} );
-    //return res.redirect('/');
-}
+    req.session.token = jwt.sign(user, process.env.JWT_KEY, { expiresIn: 3600 });
+    return res.redirect('/');
+};
 
-export { logIn };
+const logOut = (req, res) => {
+    delete req.session.token;
+	return res.redirect('/');
+};
+
+export { logIn, logOut };
