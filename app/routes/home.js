@@ -9,7 +9,7 @@ router.get('/', auth, (req, res) =>
 );
 
 router.get('/login', (req, res) => 
-    res.render('home/login', { title: 'Login page' }));
+    res.render('home/login', { title: 'Manage Auto Store', layout: false }));
 
 router.post('/login', logIn);
 
