@@ -5,15 +5,13 @@ import auth from '../middleware/auth.js';
 const router = express.Router();
 
 router.get('/', auth, (req, res) => 
-    res.render('home', { title: 'Home page' })
+    res.render('home', { title: 'Главная' })
 );
 
 router.get('/login', (req, res) => 
-    res.render('home/login', { title: 'Manage Auto Store', layout: false }));
+    res.render('home/login', { title: 'Вход', layout: false }));
 
 router.post('/login', logIn);
-
 router.get('/logout', logOut);
-
 
 export default router;
