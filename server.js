@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import hbs from 'express-handlebars';
-import { home, brands, users } from './app/routes/index.js';
+import { routes } from './app/routes/index.js';
 
 const app = express();
 
@@ -13,9 +13,9 @@ app.engine('.hbs', hbs.engine({ extname: '.hbs' }));
 app.set('view engine', '.hbs');
 app.set('views', './app/views');
 
-app.use('/', home);
-app.use('/brands', brands);
-app.use('/users', users);
+app.use('/', routes.home);
+app.use('/brands', routes.brands);
+app.use('/users', routes.users);
 
 app.listen(
     process.env.PORT || 3000, 
