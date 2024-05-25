@@ -1,6 +1,36 @@
 <h1>Пользователи</h1>
-{{#each users}}
+<div class="row mb-2">
+    <div class="col ms-auto text-end">
+        <a href="/users/create" class="btn btn-sm btn-dark{{#unless role}} disabled{{/unless}}">
+            Создать
+        </a>
+    </div>
+</div>
+{{#if users}} 
+<table class="table table-sm table-striped table-hover">
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Имя</th>
+        <th scope="col">Права</th>
+        <th scope="col">Активность</th>
+        <th scope="col">Время создания</th>
+    </tr>
+    {{#each users}}
     {{#with this.dataValues}}
-        {{ id }} {{ username}} {{ Permission.dataValues.title }}
+    <tr>
+        <td>{{ id }}</td>
+        <td>{{ username}}</td>
+        <td>{{ Permission.dataValues.title }}</td> 
+        <td>
+            {{#if activity }}
+                <i class="bi bi-check2-square"></i>
+            {{else}}
+                <i class="bi bi-x"></i>
+            {{/if}}
+        </td> 
+        <td>{{ date created_at }} {{ time created_at }}</td> 
     {{/with}}
+    </tr>
 {{/each}}
+</table>
+{{/if }}

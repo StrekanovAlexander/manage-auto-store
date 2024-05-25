@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import hbs from 'express-handlebars';
 import session from 'express-session';
+import helpers from './app/common/helpers.js';
 import { routes } from './app/routes/index.js';
 import sequelize from './app/db/sequelize.js';
 
@@ -13,7 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static('public'));
 
-app.engine('.hbs', hbs.engine({ extname: '.hbs' }));
+app.engine('.hbs', hbs.engine({ extname: '.hbs', helpers }));
 app.set('view engine', '.hbs');
 app.set('views', './app/views');
 

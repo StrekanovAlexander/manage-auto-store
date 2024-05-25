@@ -1,13 +1,17 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import helpers from '../common/helpers.js';
+import Permission from '../models/Permission.js';
+import User from '../models/User.js';
 
-const logIn = (req, res) => {
+const logIn = async (req, res) => {
     const { username, password } = req.body;
-    let user = {
-        username: 'admin',
-        password: '$2a$12$pz8n51f/Gog7jF6q2YXvIuK1DhcLx2IjmOGxVxKIqPw38Q8r7XN3C'
-    };
-
+    User.belongsTo(Permission, { foreignKey: 'permission_id' });
+    const user = await User.findOne({ 
+        include: Permission, 
+        where: { username: username }
+    });
+        
     if (!user) {
         return res.redirect('/login');
     }
@@ -17,7 +21,16 @@ const logIn = (req, res) => {
         return res.redirect('/login');
     }
 
-    req.session.token = jwt.sign(user, process.env.JWT_KEY, { expiresIn: 3600 });
+    const payload = { 
+        id: user.id, 
+        username: user.username,
+        role: user.Permission.role,
+    };
+
+    req.session.token = jwt.sign(payload, process.env.JWT_KEY, { expiresIn: 3600 });
+    req.session.user = user.username;
+    req.session.role = user.Permission.role;
+    helpers.user = () => user.username;
     return res.redirect('/');
 };
 
