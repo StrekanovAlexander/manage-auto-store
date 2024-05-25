@@ -2,7 +2,7 @@ import express from 'express';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.render('brands', { title: 'Brands' });
+    res.render('brands', { title: 'Марки автомобилей' });
 });
 
 router.post('/', (req, res) => {

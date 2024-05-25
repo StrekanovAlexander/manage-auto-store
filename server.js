@@ -3,6 +3,7 @@ import express from 'express';
 import hbs from 'express-handlebars';
 import session from 'express-session';
 import { routes } from './app/routes/index.js';
+import sequelize from './app/db/sequelize.js';
 
 const app = express();
 
@@ -16,15 +17,21 @@ app.engine('.hbs', hbs.engine({ extname: '.hbs' }));
 app.set('view engine', '.hbs');
 app.set('views', './app/views');
 
-app.use('/', routes.home);
-app.use('/brands', routes.brands);
-app.use('/users', routes.users);
+try {
+    await sequelize.authenticate();
 
-app.all('*', (req, res) => { 
-    res.status(404).send('404! Page not found'); 
-}); 
+    app.use('/', routes.home);
+    app.use('/brands', routes.brands);
+    app.use('/users', routes.users);
 
-app.listen(
-    process.env.PORT || 3000, 
-    () => console.log('Server is running...')
-);
+    app.all('*', (req, res) => { 
+        res.status(404).send('404! Page not found'); 
+    }); 
+
+    app.listen(
+        process.env.PORT || 3000, 
+        () => console.log('Server is running...')
+    );
+} catch (e) {
+    console.error('Can`t connect to database', e);
+}

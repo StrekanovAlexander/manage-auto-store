@@ -1,1 +1,6 @@
 <h1>Пользователи</h1>
+{{#each users}}
+    {{#with this.dataValues}}
+        {{ id }} {{ username}} {{ Permission.dataValues.title }}
+    {{/with}}
+{{/each}}
