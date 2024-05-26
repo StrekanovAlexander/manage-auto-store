@@ -1,11 +1,11 @@
 import express from 'express';
-import { getAll } from '../controllers/UserController.js';
+import { getAll, create, store } from '../controllers/UserController.js';
 const router = express.Router();
 
 router.get('/', getAll);
 
-router.post('/', (req, res) => {
-    res.json(req.body);
-});
+router.get('/create', create);
+
+router.post('/create', store);
 
 export default router;

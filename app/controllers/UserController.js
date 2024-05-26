@@ -14,4 +14,18 @@ const getAll = async (req, res) => {
      });
 }
 
-export { getAll };
+const create = async (req, res) => {
+    const permissions = await Permission.findAll({ order: [
+        ['id', 'DESC'],
+    ] });
+    res.render('users/create', { 
+        title: 'Создание пользователя',
+        permissions: permissions
+    });
+}
+
+const store = (req, res) => {
+    res.send('Storing data...')
+}
+
+export { getAll, create, store };
