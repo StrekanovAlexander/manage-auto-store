@@ -1,6 +1,7 @@
 import Permission from '../models/Permission.js';
 import User from '../models/User.js';
 import grades from '../common/grades.js';
+import scriptPath from '../common/script-path.js';
 
 const getAll = async (req, res) => {
     User.belongsTo(Permission, { foreignKey: 'permission_id' });
@@ -20,7 +21,8 @@ const create = async (req, res) => {
     ] });
     res.render('users/create', { 
         title: 'Создание пользователя',
-        permissions: permissions
+        permissions: permissions,
+        script: scriptPath('users/user-edit-form.js')
     });
 }
 

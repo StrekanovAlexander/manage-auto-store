@@ -4,8 +4,10 @@ import auth from '../middleware/auth.js';
 
 const router = express.Router();
 
-router.get('/', auth, (req, res) => 
-    res.render('home', { title: 'Главная' })
+router.get('/', (req, res) => 
+    res.render('home', { 
+        title: 'Главная',
+    })
 );
 
 router.get('/login', (req, res) => 
