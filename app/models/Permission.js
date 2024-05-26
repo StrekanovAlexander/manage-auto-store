@@ -4,7 +4,7 @@ import User from './User.js';
 
 const Permission = sequelize.define('Permission', {
     title: DataTypes.STRING,
-    role: DataTypes.STRING,
+    grade: DataTypes.STRING,
 }, {
     tableName: 'permissions',
     timestamps: true,

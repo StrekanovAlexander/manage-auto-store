@@ -1,5 +1,6 @@
 import Permission from '../models/Permission.js';
 import User from '../models/User.js';
+import grades from '../common/grades.js';
 
 const getAll = async (req, res) => {
     User.belongsTo(Permission, { foreignKey: 'permission_id' });
@@ -9,7 +10,7 @@ const getAll = async (req, res) => {
     res.render('users', { 
         title: 'Пользователи',
         users: users,
-        role: req.session.role === 'admin'
+        grade: grades.isHigh(req.session.grade)
      });
 }
 

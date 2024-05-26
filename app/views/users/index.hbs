@@ -1,8 +1,8 @@
-<h1>Пользователи</h1>
+<h1><i class="bi bi-person-fill"></i> Пользователи</h1>
 <div class="row mb-2">
-    <div class="col ms-auto text-end">
-        <a href="/users/create" class="btn btn-sm btn-dark{{#unless role}} disabled{{/unless}}">
-            Создать
+    <div class="col ms-auto text-end mb-2">
+        <a href="/users/create" class="{{#unless grade}} disabled{{/unless}}">
+             <i class="bi bi-plus-circle-fill"></i> Создать
         </a>
     </div>
 </div>
@@ -14,6 +14,7 @@
         <th scope="col">Права</th>
         <th scope="col">Активность</th>
         <th scope="col">Время создания</th>
+        <th scope="col">Действия</th>
     </tr>
     {{#each users}}
     {{#with this.dataValues}}
@@ -23,12 +24,17 @@
         <td>{{ Permission.dataValues.title }}</td> 
         <td>
             {{#if activity }}
-                <i class="bi bi-check2-square"></i>
+                <i class="bi bi-check-square"></i>
             {{else}}
-                <i class="bi bi-x"></i>
+                <i class="bi bi-square"></i>
             {{/if}}
         </td> 
         <td>{{ date created_at }} {{ time created_at }}</td> 
+        <td>
+            <a href="/users/edit/{{ id }}"> 
+                <i class="bi bi-pen-fill"></i> Правка
+            </a>
+        </td> 
     {{/with}}
     </tr>
 {{/each}}

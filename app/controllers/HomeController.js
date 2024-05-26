@@ -11,7 +11,7 @@ const logIn = async (req, res) => {
         include: Permission, 
         where: { username: username }
     });
-        
+
     if (!user) {
         return res.redirect('/login');
     }
@@ -21,16 +21,16 @@ const logIn = async (req, res) => {
         return res.redirect('/login');
     }
 
-    const payload = { 
-        id: user.id, 
-        username: user.username,
-        role: user.Permission.role,
-    };
-
-    req.session.token = jwt.sign(payload, process.env.JWT_KEY, { expiresIn: 3600 });
-    req.session.user = user.username;
-    req.session.role = user.Permission.role;
+    req.session.token = jwt.sign(
+        { id: user.id, username: username }, 
+        process.env.JWT_KEY, 
+        { expiresIn: 3600 }
+    );
+    
+    req.session.user_id = user.id;
+    req.session.grade = user.Permission.grade;
     helpers.user = () => user.username;
+    
     return res.redirect('/');
 };
 
