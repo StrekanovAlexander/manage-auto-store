@@ -2,18 +2,18 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../db/sequelize.js';
 import User from './User.js';
 
-const Permission = sequelize.define('Permission', {
+const Role = sequelize.define('Role', {
     title: DataTypes.STRING,
     grade: DataTypes.STRING,
 }, {
-    tableName: 'permissions',
+    tableName: 'roles',
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at'
 });
 
-Permission.hasMany(User, {
-    foreignKey: 'permission_id'
+Role.hasMany(User, {
+    foreignKey: 'role_id'
 });
 
-export default Permission;
+export default Role;

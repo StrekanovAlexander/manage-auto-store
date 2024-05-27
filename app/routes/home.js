@@ -4,7 +4,7 @@ import auth from '../middleware/auth.js';
 
 const router = express.Router();
 
-router.get('/', (req, res) => 
+router.get('/', auth, (req, res) => 
     res.render('home', { 
         title: 'Главная',
     })

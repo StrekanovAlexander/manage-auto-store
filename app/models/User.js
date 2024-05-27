@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../db/sequelize.js';
 
 const User = sequelize.define('User', {
-    permission_id: DataTypes.INTEGER,
+    role_id: DataTypes.INTEGER,
     username: DataTypes.STRING,
     password: DataTypes.STRING,
     activity: {

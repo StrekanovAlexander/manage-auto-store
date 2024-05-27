@@ -1,14 +1,14 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import helpers from '../common/helpers.js';
-import Permission from '../models/Permission.js';
+import Role from '../models/Role.js';
 import User from '../models/User.js';
 
 const logIn = async (req, res) => {
     const { username, password } = req.body;
-    User.belongsTo(Permission, { foreignKey: 'permission_id' });
+    User.belongsTo(Role, { foreignKey: 'role_id' });
     const user = await User.findOne({ 
-        include: Permission, 
+        include: Role, 
         where: { username: username }
     });
 
@@ -28,7 +28,7 @@ const logIn = async (req, res) => {
     );
     
     req.session.user_id = user.id;
-    req.session.grade = user.Permission.grade;
+    req.session.grade = user.Role.grade;
     helpers.user = () => user.username;
     
     return res.redirect('/');

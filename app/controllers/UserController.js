@@ -1,12 +1,12 @@
-import Permission from '../models/Permission.js';
+import Role from '../models/Role.js';
 import User from '../models/User.js';
 import grades from '../common/grades.js';
 import scriptPath from '../common/script-path.js';
 
-const getAll = async (req, res) => {
-    User.belongsTo(Permission, { foreignKey: 'permission_id' });
+const all = async (req, res) => {
+    User.belongsTo(Role, { foreignKey: 'role_id' });
     const users = await User.findAll({ 
-        include: Permission 
+        include: Role 
     });
     res.render('users', { 
         title: 'Пользователи',
@@ -16,12 +16,12 @@ const getAll = async (req, res) => {
 }
 
 const create = async (req, res) => {
-    const permissions = await Permission.findAll({ order: [
+    const roles = await Role.findAll({ order: [
         ['id', 'DESC'],
     ] });
     res.render('users/create', { 
         title: 'Создание пользователя',
-        permissions: permissions,
+        roles: roles,
         script: scriptPath('users/user-edit-form.js')
     });
 }
@@ -30,4 +30,11 @@ const store = (req, res) => {
     res.send('Storing data...')
 }
 
-export { getAll, create, store };
+const roles = async (req, res) => {
+    const roles = await Role.findAll({ order: [
+        ['id', 'DESC'],
+    ] });
+    res.json({ roles });
+}
+
+export default { all, create, roles, store };
