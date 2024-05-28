@@ -7,7 +7,11 @@ const User = sequelize.define('User', {
     password: DataTypes.STRING,
     activity: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        defaultValue: false,
+    },
+    root: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
     }
 }, {
     tableName: 'users',

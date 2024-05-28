@@ -8,6 +8,11 @@ router.get('/', userController.all);
 router.get('/create', userController.create);
 router.post('/create', userController.store);
 
-router.get('/roles', userController.roles);
+router.get('/edit/:id', userController.edit);
+router.post('/edit', userController.update);
+
+router.get('/pwd/:id', userController.pwd);
+router.post('/pwd', userController.storePwd);
+
 
 export default router;

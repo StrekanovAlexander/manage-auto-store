@@ -1,9 +1,12 @@
-export default (req) => {
-    let message = null;
-    if (req.session.msgTitle) {
-        message = { title: req.session.msgTitle, type: req.session.msgType };
-        req.session.msgTitle = null;
-        req.session.msgType = null;
+export const message = (req) => {
+    let msg = null;
+    if (req.session.msg) {
+        msg = req.session.msg;
+        req.session.msg = null;
     }
-    return message;
+    return msg;
+}
+
+export const setMessage = (req, title, type) => {
+    req.session.msg = { title, type };
 }

@@ -14,7 +14,7 @@
         <th scope="col">Права</th>
         <th scope="col">Активность</th>
         <th scope="col">Время создания</th>
-        <th scope="col">Действия</th>
+        <th scope="col" colspan="2">Действия</th>
     </tr>
     {{#each users}}
     {{#with this.dataValues}}
@@ -34,7 +34,12 @@
             <a href="/users/edit/{{ id }}"> 
                 <i class="bi bi-pen-fill"></i> Правка
             </a>
-        </td> 
+        </td>
+        <td>
+            <a href="/users/pwd/{{ id }}"> 
+                <i class="bi bi-key-fill"></i> Пароль
+            </a>
+        </td>  
     {{/with}}
     </tr>
 {{/each}}
