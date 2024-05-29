@@ -1,10 +1,11 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import helpers from '../common/helpers.js';
+import breadcrumb from '../common/breadcrumb.js';
 import Role from '../models/Role.js';
 import User from '../models/User.js';
 
-const logIn = async (req, res) => {
+const login = async (req, res) => {
     const { username, password } = req.body;
     User.belongsTo(Role, { foreignKey: 'role_id' });
     const user = await User.findOne({ 
@@ -34,9 +35,16 @@ const logIn = async (req, res) => {
     return res.redirect('/');
 };
 
-const logOut = (req, res) => {
+const logout = (req, res) => {
     delete req.session.token;
 	return res.redirect('/');
 };
 
-export { logIn, logOut };
+const home = (req, res) => {
+    res.render('home', { 
+        title: 'Главная',
+        breadcrumb: breadcrumb.build([breadcrumb.make('/','Главная')])
+    });
+};
+
+export { login, logout, home };

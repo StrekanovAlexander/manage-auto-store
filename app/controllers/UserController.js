@@ -3,6 +3,7 @@ import { Op } from 'sequelize';
 import Role from '../models/Role.js';
 import User from '../models/User.js';
 import access from '../common/access.js';
+import breadcrumb from '../common/breadcrumb.js';
 import scriptPath from '../common/script-path.js';
 import { message, setMessage } from '../common/message.js';
 
@@ -13,7 +14,12 @@ const all = async (req, res) => {
         title: 'Пользователи',
         users: users,
         access: access.high(req),
-        msg: message(req)
+        msg: message(req),
+        breadcrumb: breadcrumb.build([
+            breadcrumb.make('/', 'Главная'),
+            breadcrumb.make('/#', 'Справочники'),
+            breadcrumb.make('/users', 'Пользователи'),
+        ])
      });
 }
 
@@ -25,7 +31,13 @@ const create = async (req, res) => {
         title: 'Создание пользователя',
         roles: roles,
         validator: scriptPath('validators/user/user-create.js'),
-        msg: message(req)
+        msg: message(req),
+        breadcrumb: breadcrumb.build([
+            breadcrumb.make('/', 'Главная'),
+            breadcrumb.make('/#', 'Справочники'),
+            breadcrumb.make('/users', 'Пользователи'),
+            breadcrumb.make('#', 'Создание пользователя'),
+        ])
     });
 }
 
@@ -56,7 +68,13 @@ const edit = async (req, res) => {
         user: user.dataValues,
         validator: scriptPath('validators/user/user-edit.js'),
         roles: roles,
-        msg: message(req)
+        msg: message(req),
+        breadcrumb: breadcrumb.build([
+            breadcrumb.make('/', 'Главная'),
+            breadcrumb.make('/#', 'Справочники'),
+            breadcrumb.make('/users', 'Пользователи'),
+            breadcrumb.make('#', user.username),
+        ])
     });
 }
 

@@ -4,15 +4,15 @@ import auth from '../middleware/auth.js';
 
 const router = express.Router();
 
-router.get('/', userController.all);
-router.get('/create', userController.create);
-router.post('/create', userController.store);
+router.get('/', auth, userController.all);
+router.get('/create', auth, userController.create);
+router.post('/create', auth, userController.store);
 
-router.get('/edit/:id', userController.edit);
-router.post('/edit', userController.update);
+router.get('/edit/:id', auth, userController.edit);
+router.post('/edit', auth, userController.update);
 
-router.get('/pwd/:id', userController.pwd);
-router.post('/pwd', userController.storePwd);
+router.get('/pwd/:id', auth, userController.pwd);
+router.post('/pwd', auth, userController.storePwd);
 
 
 export default router;
