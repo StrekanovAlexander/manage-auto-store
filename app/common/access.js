@@ -1,8 +1,8 @@
 import { setMessage } from './message.js';
 
 const high = (req) => req.session.grade === 'xx';
-const middle = (req) => req.session.grade === 'x0';
-const low = (req) => req.session.grade === '00';
+const middle = (req) => req.session.grade === 'x-';
+const low = (req) => req.session.grade === '--';
 
 const attempt = (req, res, isGrade, rout) => {
     if (!isGrade(req)) {

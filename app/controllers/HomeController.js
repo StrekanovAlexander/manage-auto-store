@@ -9,7 +9,7 @@ const logIn = async (req, res) => {
     User.belongsTo(Role, { foreignKey: 'role_id' });
     const user = await User.findOne({ 
         include: Role, 
-        where: { username: username }
+        where: { username: username, activity: true }
     });
 
     if (!user) {
