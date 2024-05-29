@@ -1,0 +1,40 @@
+<h1><i class="bi bi-flag-fill"></i> {{ title }}</h1>
+<div class="row mb-2">
+    <div class="col ms-auto text-end mb-2">
+        <a href="/origins/create">
+             <i class="bi bi-plus-circle-fill"></i> Создать
+        </a>
+    </div>
+</div>
+{{#if origins}} 
+<table class="table table-sm table-striped table-hover">
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Наименование</th>
+        <th scope="col">Активность</th>
+        <th scope="col">Время создания</th>
+        <th scope="col">Действия</th>
+    </tr>
+    {{#each origins}}
+    {{#with this.dataValues}}
+    <tr>
+        <td>{{ id }}</td>
+        <td>{{ title }}</td>
+        <td>
+            {{#if activity }}
+                <i class="bi bi-check-square"></i>
+            {{else}}
+                <i class="bi bi-square"></i>
+            {{/if}}
+        </td> 
+        <td>{{ date created_at }} {{ time created_at }}</td> 
+        <td>
+            <a href="/origins/edit/{{ id }}"> 
+                <i class="bi bi-pen-fill"></i> Правка
+            </a>
+        </td>  
+    </tr>
+    {{/with}}
+{{/each}}
+</table>
+{{/if }}

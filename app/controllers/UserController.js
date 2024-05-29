@@ -108,7 +108,14 @@ const pwd = async (req, res) => {
     res.render('users/pwd', {
         title: 'Новый пароль пользователя',
         user: user.dataValues,
-        validator: scriptPath('validators/user/user-pwd.js')
+        validator: scriptPath('validators/user/user-pwd.js'),
+        breadcrumb: breadcrumb.build([
+            breadcrumb.make('/', 'Главная'),
+            breadcrumb.make('/#', 'Справочники'),
+            breadcrumb.make('/users', 'Пользователи'),
+            breadcrumb.make('#', user.username),
+            breadcrumb.make('#', 'Новый пароль пользователя'),
+        ])
     });
 }
 
