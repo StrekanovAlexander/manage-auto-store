@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import { Op } from 'sequelize';
 import Role from '../models/Role.js';
 import User from '../models/User.js';
-import grades from '../common/grades.js';
+import access from '../common/access.js';
 import scriptPath from '../common/script-path.js';
 import { message, setMessage } from '../common/message.js';
 
@@ -12,12 +12,14 @@ const all = async (req, res) => {
     res.render('users', { 
         title: 'Пользователи',
         users: users,
-        grade: grades.isHigh(req.session.grade),
+        access: access.high(req),
         msg: message(req)
      });
 }
 
 const create = async (req, res) => {
+    access.attempt(req, res, access.high, '/users');
+
     const roles = await Role.findAll({ order: [['id', 'DESC']] });
     res.render('users/create', { 
         title: 'Создание пользователя',
@@ -28,6 +30,7 @@ const create = async (req, res) => {
 }
 
 const store = async (req, res) => {
+    access.attempt(req, res, access.high, '/users');
     const { username, password, role_id } = req.body;
     const user = await User.findOne({ where: { username } });
     if (user) {
@@ -41,6 +44,7 @@ const store = async (req, res) => {
 }
 
 const edit = async (req, res) => {
+    access.attempt(req, res, access.high, '/users');
     const { id } = req.params;
     const user = await User.findOne({ attributes: ['id', 'role_id', 'username', 'activity'],
         where: { id }
@@ -57,6 +61,7 @@ const edit = async (req, res) => {
 }
 
 const update = async (req, res) => {
+    access.attempt(req, res, access.high, '/users');
     const { id, role_id, username, activity } = req.body;
     let user = await User.findOne({ attributes: ['id', 'username'], 
         where: { id: { [Op.ne]: id }, username: username }
@@ -79,16 +84,18 @@ const update = async (req, res) => {
 }
 
 const pwd = async (req, res) => {
+    access.attempt(req, res, access.high, '/users');
     const { id } = req.params;
     const user = await User.findOne({ attributes: ['id', 'username'], where: { id } });
     res.render('users/pwd', {
-        title: 'Изменить пароль пользователя',
+        title: 'Новый пароль пользователя',
         user: user.dataValues,
         validator: scriptPath('validators/user/user-pwd.js')
     });
 }
 
 const storePwd = async (req, res) => {
+    access.attempt(req, res, access.high, '/users');
     const { id, password } = req.body;
     const user = await User.findOne({ attributes: ['username'], where: { id } });
     const hash = bcrypt.hashSync(password, bcrypt.genSaltSync());
