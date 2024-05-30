@@ -1,1 +1,44 @@
-<h1>Марки автомобилей</h1>
+<div class="row mb-3">
+    <div>
+        <a href="/brands/create" class="btn btn-sm btn-primary {{#unless access}}disabled{{/unless}}">
+            <i class="bi bi-plus-square"></i> Создать
+        </a>
+    </div>
+</div>
+{{#if brands}} 
+<table class="table table-bordered table-sm table-striped table-hover border">
+    <tr>
+        <th scope="col" class="col-1 text-end">ID</th>
+        <th scope="col" class="col-4 text-start">Наименование</th>
+        <th scope="col" class="col-3 text-start">Страна происхождения</th>
+        <th scope="col" class="col-2 text-center">Активность</th>
+        <th scope="col" class="col-2 text-center" colspan="2">Действия</th>
+    </tr>
+    {{#each brands}}
+    {{#with this.dataValues}}
+    <tr>
+        <td class="text-end">{{ id }}</td>
+        <td>{{ title }}</td>
+        <td class="fst-italic">{{ Origin.dataValues.title }}</td> 
+        <td class="text-center">
+            {{#if activity }}
+                <i class="bi bi-check-square"></i>
+            {{else}}
+                <i class="bi bi-square"></i>
+            {{/if}}
+        </td>
+        <td class="text-center">
+            <a href="/brands/models/{{ id }}" class="{{#unless ../../access}}disabled{{/unless}}"> 
+                <i class="bi bi-card-list"></i> Модели
+            </a>
+        </td>  
+        <td class="text-center">
+            <a href="/brands/edit/{{ id }}" class="{{#unless ../../access}}disabled{{/unless}}"> 
+                <i class="bi bi-pen-fill"></i> Правка
+            </a>
+        </td>  
+    </tr>
+    {{/with}}
+{{/each}}
+</table>
+{{/if }}

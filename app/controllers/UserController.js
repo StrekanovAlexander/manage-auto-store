@@ -16,7 +16,7 @@ const all = async (req, res) => {
         access: access.high(req),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/#', 'Справочники'),
+            breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/users', 'Пользователи'),
         ])
      });
@@ -32,7 +32,7 @@ const create = async (req, res) => {
         validator: scriptPath('validators/user/user-create.js'),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/#', 'Справочники'),
+            breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/users', 'Пользователи'),
             breadcrumb.make('#', 'Создать...'),
         ])
@@ -68,7 +68,7 @@ const edit = async (req, res) => {
         roles: roles,
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/#', 'Справочники'),
+            breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/users', 'Пользователи'),
             breadcrumb.make('#', user.username),
             breadcrumb.make('#', 'Редактировать...'),
@@ -104,11 +104,11 @@ const pwd = async (req, res) => {
     const { id } = req.params;
     const user = await User.findOne({ attributes: ['id', 'username'], where: { id } });
     res.render('users/pwd', {
-        title: 'Новый пароль пользователя',
+        title: 'Новый пароль',
         user: user.dataValues,
         validator: scriptPath('validators/user/user-pwd.js'),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/#', 'Справочники'),
+            breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/users', 'Пользователи'),
             breadcrumb.make('#', user.username),
             breadcrumb.make('#', 'Новый пароль...'),

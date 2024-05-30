@@ -1,10 +1,11 @@
-<div class="row">
+<div class="row mt-5">
     <div class="col-md-4 offset-md-4">
         <form action="/users/edit" method="POST">
             <div class="mb-3">
-                <label for="username" class="form-label">Имя <span class="small text-secondary">(не менее 5 символов)</span></label>
+                <label for="username" class="form-label">Логин</label>
                 <input type="text" id="username" name="username" 
-                    class="form-control form-control-sm" value="{{ user.username}}" />
+                    class="form-control form-control-sm" value="{{ user.username }}" />
+                <span class="small text-secondary">не менее 5 символов</span>    
             </div>
             <div class="mb-3"> 
                 <label for="role_id" class="form-label">Роль</label>
@@ -25,12 +26,16 @@
                     name="activity" {{#if user.activity }} value="on" checked {{/if}} 
                 />
                 <label class="form-check-label" for="activity">
-                    Активность {{ user.root }}
+                    Активность
                 </label>
             </div>
             <div class="d-flex justify-content-between">
-                <a href="/users" class="btn btn-sm btn-dark">Отмена</a>
-                <button type="submit" id="button-submit" class="btn btn-sm btn-success">Далее</button>
+                <a href="/users" class="btn btn-sm btn-danger">
+                    <i class="bi bi-arrow-left-square"></i> Отмена
+                </a>
+                <button type="submit" id="button-submit" class="btn btn-sm btn-success">
+                    <i class="bi bi-save2"></i> Записать
+                </button>
             </div>
             <input type="hidden" name="id" value="{{ user.id }}" />
         </form>

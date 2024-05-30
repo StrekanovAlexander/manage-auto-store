@@ -44,4 +44,13 @@ const home = (req, res) => {
     res.render('home', { title: 'Операции', breadcrumb: breadcrumb.build() });
 };
 
-export { login, logout, home };
+const dictionaries = (req, res) => {
+    res.render('home/dictionaries', { 
+        title: 'Справочники', 
+        breadcrumb: breadcrumb.build([
+            breadcrumb.make('/dictionaries', 'Справочники')
+        ]) 
+    });
+};
+
+export default { login, logout, home, dictionaries };

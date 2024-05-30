@@ -1,3 +1,10 @@
+<div class="row mb-3">
+    <div>
+        <a href="/users/create" class="btn btn-sm btn-primary {{#unless access}}disabled{{/unless}}">
+            <i class="bi bi-plus-square"></i> Создать
+        </a>
+    </div>
+</div>
 {{#if users}} 
 <table class="table table-bordered table-sm table-striped table-hover border mb-3">
     <tr>
@@ -37,10 +44,3 @@
 {{/each}}
 </table>
 {{/if }}
-<div class="row">
-    <div>
-        <a href="/users/create" class="btn btn-sm btn-dark {{#unless access}}disabled{{/unless}}">
-             <i class="bi bi-plus-circle-fill"></i> Создать
-        </a>
-    </div>
-</div>

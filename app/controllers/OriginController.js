@@ -13,7 +13,7 @@ const all = async (req, res) => {
         access: access.high(req),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/#', 'Справочники'),
+            breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/origins', 'Страны')
         ])
      });
@@ -26,7 +26,7 @@ const create = async (req, res) => {
         validator: scriptPath('validators/single/single-edit.js'),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/#', 'Справочники'),
+            breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/origins', 'Страны'),
             breadcrumb.make('#', 'Создать....'),
         ])
@@ -58,7 +58,7 @@ const edit = async (req, res) => {
         validator: scriptPath('validators/single/single-edit.js'),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/#', 'Справочники'),
+            breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/origins', 'Страны'),
             breadcrumb.make('#', origin.title),
             breadcrumb.make('#', 'Редактировать...'),

@@ -1,16 +1,18 @@
 import express from 'express';
-import { login, logout, home } from '../controllers/HomeController.js';
+import homeController from '../controllers/HomeController.js';
 import auth from '../middleware/auth.js';
 
 
 const router = express.Router();
 
-router.get('/', auth, home);
+router.get('/', auth, homeController.home);
+router.get('/dictionaries', auth, homeController.dictionaries);
 
 router.get('/login', (req, res) => 
-    res.render('home/login', { title: 'Вход', layout: false }));
+    res.render('home/login', { title: 'Вход', layout: false })
+);
 
-router.post('/login', login);
-router.get('/logout', logout);
+router.post('/login', homeController.login);
+router.get('/logout', homeController.logout);
 
 export default router;
