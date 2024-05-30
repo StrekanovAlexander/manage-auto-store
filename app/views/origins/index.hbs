@@ -1,35 +1,17 @@
-<h1><i class="bi bi-flag-fill"></i> {{ title }}</h1>
-<div class="row mb-2">
-    <div class="col ms-auto text-end mb-2">
-        <a href="/origins/create">
-             <i class="bi bi-plus-circle-fill"></i> Создать
-        </a>
-    </div>
-</div>
 {{#if origins}} 
-<table class="table table-sm table-striped table-hover">
+<table class="table table-bordered table-sm table-striped table-hover border">
     <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Наименование</th>
-        <th scope="col">Активность</th>
-        <th scope="col">Время создания</th>
-        <th scope="col">Действия</th>
+        <th scope="col" class="col-1 text-end">ID</th>
+        <th scope="col" class="text-start">Наименование</th>
+        <th scope="col" class="col-1 text-center">Действия</th>
     </tr>
     {{#each origins}}
     {{#with this.dataValues}}
     <tr>
-        <td>{{ id }}</td>
+        <td class="text-end">{{ id }}</td>
         <td>{{ title }}</td>
-        <td>
-            {{#if activity }}
-                <i class="bi bi-check-square"></i>
-            {{else}}
-                <i class="bi bi-square"></i>
-            {{/if}}
-        </td> 
-        <td>{{ date created_at }} {{ time created_at }}</td> 
-        <td>
-            <a href="/origins/edit/{{ id }}"> 
+        <td class="text-center">
+            <a href="/origins/edit/{{ id }}" class="{{#unless ../../access}}disabled{{/unless}}"> 
                 <i class="bi bi-pen-fill"></i> Правка
             </a>
         </td>  
@@ -38,3 +20,10 @@
 {{/each}}
 </table>
 {{/if }}
+<div class="row">
+    <div>
+        <a href="/origins/create" class="btn btn-sm btn-dark {{#unless access}}disabled{{/unless}}">
+             <i class="bi bi-plus-circle-fill"></i> Создать
+        </a>
+    </div>
+</div>

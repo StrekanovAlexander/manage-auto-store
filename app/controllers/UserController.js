@@ -9,14 +9,13 @@ import { message, setMessage } from '../common/message.js';
 
 const all = async (req, res) => {
     User.belongsTo(Role, { foreignKey: 'role_id' });
-    const users = await User.findAll({ order: [['username', 'ASC']], include: Role });
+    const users = await User.findAll({ order: [['username']], include: Role });
     res.render('users', { 
         title: 'Пользователи',
         users: users,
         access: access.high(req),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/', 'Главная'),
             breadcrumb.make('/#', 'Справочники'),
             breadcrumb.make('/users', 'Пользователи'),
         ])
@@ -33,10 +32,9 @@ const create = async (req, res) => {
         validator: scriptPath('validators/user/user-create.js'),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/', 'Главная'),
             breadcrumb.make('/#', 'Справочники'),
             breadcrumb.make('/users', 'Пользователи'),
-            breadcrumb.make('#', 'Создание пользователя'),
+            breadcrumb.make('#', 'Создать...'),
         ])
     });
 }
@@ -70,10 +68,10 @@ const edit = async (req, res) => {
         roles: roles,
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/', 'Главная'),
             breadcrumb.make('/#', 'Справочники'),
             breadcrumb.make('/users', 'Пользователи'),
             breadcrumb.make('#', user.username),
+            breadcrumb.make('#', 'Редактировать...'),
         ])
     });
 }
@@ -110,11 +108,10 @@ const pwd = async (req, res) => {
         user: user.dataValues,
         validator: scriptPath('validators/user/user-pwd.js'),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/', 'Главная'),
             breadcrumb.make('/#', 'Справочники'),
             breadcrumb.make('/users', 'Пользователи'),
             breadcrumb.make('#', user.username),
-            breadcrumb.make('#', 'Новый пароль пользователя'),
+            breadcrumb.make('#', 'Новый пароль...'),
         ])
     });
 }

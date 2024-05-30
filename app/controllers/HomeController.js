@@ -41,10 +41,7 @@ const logout = (req, res) => {
 };
 
 const home = (req, res) => {
-    res.render('home', { 
-        title: 'Главная',
-        breadcrumb: breadcrumb.build([breadcrumb.make('/','Главная')])
-    });
+    res.render('home', { title: 'Операции', breadcrumb: breadcrumb.build() });
 };
 
 export { login, logout, home };

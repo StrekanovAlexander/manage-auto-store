@@ -1,7 +1,9 @@
 import { Sequelize } from 'sequelize';
 
-export default new Sequelize('sql7710378', 'sql7710378', 'kEUbYwx6gU', {
-    host: 'sql7.freemysqlhosting.net',
+const host='localhost', dbname = 'auto_store_db', username = 'root', password = 'root';
+
+export default new Sequelize(dbname, username, password, {
+    host: host,
     dialect: 'mysql',
     logging: false
 }); 
