@@ -22,7 +22,9 @@ const all = async (req, res) => {
 }
 
 const create = async (req, res) => {
-    access.attempt(req, res, access.high, '/brands');
+    if (!access.isAllow(req, access.high)) {
+        return res.redirect('/brands');
+    }
     const origins = await Origin.findAll({ order: [['title']]});
     res.render('brands/create', { 
         title: 'Создание автомобильной марки',
@@ -32,13 +34,15 @@ const create = async (req, res) => {
         breadcrumb: breadcrumb.build([
             breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/brands', 'Автомобильные марки'),
-            breadcrumb.make('#', 'Создать....'),
+            breadcrumb.make('#', 'Создание....'),
         ])
     });
 }
 
 const store = async (req, res) => {
-    access.attempt(req, res, access.high, '/brands');
+    if (!access.isAllow(req, access.high)) {
+        return res.redirect('/brands');
+    }
     
     const { title, origin_id } = req.body;
     const brand = await Brand.findOne({ where: { title: title.trim() } });
@@ -56,7 +60,9 @@ const store = async (req, res) => {
 }
 
 const edit = async (req, res) => {
-    access.attempt(req, res, access.high, '/origins');
+    if (!access.isAllow(req, access.high)) {
+        return res.redirect('/brands');
+    }
     const { id } = req.params;
     const brand = await Brand.findOne({ attributes: ['id', 'origin_id', 'title', 'activity'], where: { id } });
     const origins = await Origin.findAll({ order: [['title']]});
@@ -71,23 +77,25 @@ const edit = async (req, res) => {
             breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/brands', 'Автомобильные марки'),
             breadcrumb.make('#', brand.title),
-            breadcrumb.make('#', 'Редактировать...'),
+            breadcrumb.make('#', 'Редактирование...'),
         ])
     });
 }
 
 const update = async (req, res) => {
-    access.attempt(req, res, access.high, '/brands');
+    if (!access.isAllow(req, access.high)) {
+        return res.redirect('/brands');
+    }
     const { id, origin_id, title, activity } = req.body;
     let brand = await Brand.findOne({ attributes: ['id', 'title', 'origin_id'], 
         where: { id: { [Op.ne]: id }, title: title }
     });
     if (brand) {
         setMessage(req, `Автомобильная марка ${ title } уже используется`, 'danger');
-        return res.redirect('/brands/edit/' + id);    
+        return res.redirect(`/brands/${ id }/edit`);    
     }
 
-    const _activity = activity === 'on' ? true : false
+    const _activity = activity === 'on' ? true : false;
     const _brand = !origin_id ? {origin_id: null, title, activity: _activity} : 
         { origin_id, title, activity: _activity };
 

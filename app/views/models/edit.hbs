@@ -1,6 +1,6 @@
 <div class="row mt-5">
     <div class="col col-lg-6">
-        <form action="/brands/models/create" method="POST">
+        <form action="/brands/models/edit" method="POST">
             <div class="row">
                 <div class="col-auto">
                     <label for="title" class="form-label">Наименование</label>
@@ -9,39 +9,44 @@
             <div class="row g-2 mb-3">
                 <div class="col-auto">
                     <input type="text" class="form-control form-control-sm" 
-                        id="brand-title" value="{{ brand.title }}" readonly />
+                        id="brand-title" value="{{ model.Brand.dataValues.title }}" readonly />
                 </div>
                 <div class="col">
                     <input type="text" id="title" name="title" 
-                        class="form-control form-control-sm" />
+                        class="form-control form-control-sm" value="{{ model.title }}" />
                 </div>
             </div>
-            <div class="row g-3 mb-4">
+            <div class="row g-3 mb-3">
                 <div class="col">
                     <label for="cylinders" class="form-label">Цилиндров</label>
                     <input type="text" id="cylinders" name="cylinders" 
-                        class="form-control form-control-sm number" />
+                        class="form-control form-control-sm number" value="{{ model.cylinders }}" />
                 </div> 
                 <div class="col">
                     <label for="horsepower" class="form-label">ЛС</label>
                     <input type="text" id="horsepower" name="horsepower" 
-                        class="form-control form-control-sm number" />
+                        class="form-control form-control-sm number" value="{{ model.horsepower }}" />
                 </div> 
                 <div class="col">
                     <label for="miles_per_gallon" class="form-label">Миль на галлон</label>
                     <input type="text" id="miles_per_gallon" name="miles_per_gallon" 
-                        class="form-control form-control-sm number" />
+                        class="form-control form-control-sm number" value="{{ model.miles_per_gallon }}" />
                 </div>        
             </div>
+            <div class="mb-4">
+                <input class="form-check-input" type="checkbox" name="activity" {{#if model.activity }}checked{{/if}} />
+                <label class="form-label" for="activity">Активность</label>
+            </div>
             <div class="d-flex justify-content-between">
-                <a href="/brands/{{ brand.id}}/models" class="btn btn-sm btn-danger">
+                <a href="/brands/{{ model.brand_id}}/models" class="btn btn-sm btn-danger">
                     <i class="bi bi-arrow-left-square"></i> Отмена
                 </a>
-                <button type="submit" id="button-submit" class="btn btn-sm btn-success" disabled>
+                <button type="submit" id="button-submit" class="btn btn-sm btn-success">
                      <i class="bi bi-save2"></i> Записать
                 </button>
             </div>
-            <input type="hidden" name="brand_id" value="{{ brand.id }}" />
+            <input type="hidden" name="id" value="{{ model.id }}" />
+            <input type="hidden" name="brand_id" value="{{ model.brand_id }}" />
         </form>
     </div>
 </div>

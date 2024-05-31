@@ -9,9 +9,10 @@
 <table class="table table-bordered table-sm table-striped table-hover mb-3">
     <tr>
         <th scope="col" class="col-1 text-end">ID</th>
-        <th scope="col" class="col-5">Наименование</th>
+        <th scope="col" class="col-3">Наименование</th>
         <th scope="col" class="col-1 text-center">Цилиндров</th>
         <th scope="col" class="col-1 text-center">ЛС</th>
+        <th scope="col" class="col-2 text-center">Mиль на галлон</th>
         <th scope="col" class="col-1 text-center">Активность</th>
         <th scope="col" colspan="2" class="col-3 text-center">Действия</th>
     </tr>
@@ -22,6 +23,7 @@
         <td>{{ title }}</td>
         <td class="text-center">{{ cylinders }}</td>
         <td class="text-center">{{ horsepower }}</td>
+        <td class="text-center">{{ miles_per_gallon }}</td>
         <td class="text-center">
             {{#if activity }}
                 <i class="bi bi-check-square"></i>

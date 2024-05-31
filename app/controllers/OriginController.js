@@ -20,7 +20,9 @@ const all = async (req, res) => {
 }
 
 const create = async (req, res) => {
-    access.attempt(req, res, access.high, '/origins');
+    if (!access.isAllow(req, access.high)) {
+        return res.redirect('/origins');
+    }
     res.render('origins/create', { 
         title: 'Создание cтраны',
         validator: scriptPath('validators/single/single-edit.js'),
@@ -28,13 +30,15 @@ const create = async (req, res) => {
         breadcrumb: breadcrumb.build([
             breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/origins', 'Страны'),
-            breadcrumb.make('#', 'Создать....'),
+            breadcrumb.make('#', 'Создание....'),
         ])
     });
 }
 
 const store = async (req, res) => {
-    access.attempt(req, res, access.high, '/origins');
+    if (!access.isAllow(req, access.high)) {
+        return res.redirect('/origins');
+    }
     const { title } = req.body;
     const origin = await Origin.findOne({ where: { title: title.trim() } });
     if (origin) {
@@ -48,7 +52,9 @@ const store = async (req, res) => {
 }
 
 const edit = async (req, res) => {
-    access.attempt(req, res, access.high, '/origins');
+    if (!access.isAllow(req, access.high)) {
+        return res.redirect('/origins');
+    }
     const { id } = req.params;
     const origin = await Origin.findOne({ attributes: ['id', 'title'], where: { id } });
 
@@ -61,20 +67,22 @@ const edit = async (req, res) => {
             breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/origins', 'Страны'),
             breadcrumb.make('#', origin.title),
-            breadcrumb.make('#', 'Редактировать...'),
+            breadcrumb.make('#', 'Редактирование...'),
         ])
     });
 }
 
 const update = async (req, res) => {
-    access.attempt(req, res, access.high, '/origins');
+    if (!access.isAllow(req, access.high)) {
+        return res.redirect('/origins');
+    }
     const { id, title } = req.body;
     let origin = await Origin.findOne({ attributes: ['id', 'title'], 
         where: { id: { [Op.ne]: id }, title: title }
     });
     if (origin) {
         setMessage(req, `Страна ${ title } уже используется`, 'danger');
-        return res.redirect('/origins/edit/' + id);    
+        return res.redirect(`/origins/${ id }/edit`);    
     }
     await Origin.update({ title }, { where: { id } });
     setMessage(req, `Страна ${ title } была отредактирована`, 'success');

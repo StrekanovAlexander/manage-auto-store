@@ -23,7 +23,9 @@ const all = async (req, res) => {
 }
 
 const create = async (req, res) => {
-    access.attempt(req, res, access.high, '/users');
+    if (!access.isAllow(req, access.high)) {
+        return res.redirect('/users');
+    }
 
     const roles = await Role.findAll({ order: [['id', 'DESC']] });
     res.render('users/create', { 
@@ -34,13 +36,15 @@ const create = async (req, res) => {
         breadcrumb: breadcrumb.build([
             breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/users', 'Пользователи'),
-            breadcrumb.make('#', 'Создать...'),
+            breadcrumb.make('#', 'Создание...'),
         ])
     });
 }
 
 const store = async (req, res) => {
-    access.attempt(req, res, access.high, '/users');
+    if (!access.isAllow(req, access.high)) {
+        return res.redirect('/users');
+    }
     const { username, password, role_id } = req.body;
     const user = await User.findOne({ where: { username } });
     if (user) {
@@ -54,7 +58,9 @@ const store = async (req, res) => {
 }
 
 const edit = async (req, res) => {
-    access.attempt(req, res, access.high, '/users');
+    if (!access.isAllow(req, access.high)) {
+        return res.redirect('/users');
+    }
     const { id } = req.params;
     const user = await User.findOne({ attributes: ['id', 'role_id', 'username', 'activity'],
         where: { id }
@@ -70,20 +76,22 @@ const edit = async (req, res) => {
         breadcrumb: breadcrumb.build([
             breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/users', 'Пользователи'),
-            breadcrumb.make('#', 'Редактировать...'),
+            breadcrumb.make('#', 'Редактирование...'),
         ])
     });
 }
 
 const update = async (req, res) => {
-    access.attempt(req, res, access.high, '/users');
+    if (!access.isAllow(req, access.high)) {
+        return res.redirect('/users');
+    }
     const { id, role_id, username, activity } = req.body;
     let user = await User.findOne({ attributes: ['id', 'username'], 
         where: { id: { [Op.ne]: id }, username: username }
     });
     if (user) {
         setMessage(req, `Имя пользователя ${username} уже используется`, 'danger');
-        return res.redirect('/users/edit/' + id);    
+        return res.redirect(`/users/${id}/edit`);    
     }
     user = await User.findOne({ where: { id } });
     if (user.root) {
@@ -99,23 +107,27 @@ const update = async (req, res) => {
 }
 
 const pwd = async (req, res) => {
-    access.attempt(req, res, access.high, '/users');
+    if (!access.isAllow(req, access.high)) {
+        return res.redirect('/users');
+    }
     const { id } = req.params;
     const user = await User.findOne({ attributes: ['id', 'username'], where: { id } });
     res.render('users/pwd', {
-        title: 'Новый пароль',
+        title: 'Изменение пароля',
         user: user.dataValues,
         validator: scriptPath('validators/user/user-pwd.js'),
         breadcrumb: breadcrumb.build([
             breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/users', 'Пользователи'),
-            breadcrumb.make('#', 'Новый пароль...'),
+            breadcrumb.make('#', 'Изменение пароля...'),
         ])
     });
 }
 
 const storePwd = async (req, res) => {
-    access.attempt(req, res, access.high, '/users');
+    if (!access.isAllow(req, access.high)) {
+        return res.redirect('/users');
+    }
     const { id, password } = req.body;
     const user = await User.findOne({ attributes: ['username'], where: { id } });
     const hash = bcrypt.hashSync(password, bcrypt.genSaltSync());

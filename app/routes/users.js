@@ -4,14 +4,14 @@ import auth from '../middleware/auth.js';
 
 const router = express.Router();
 
-router.get('/', userController.all);
+router.get('/', auth, userController.all);
 router.get('/create', auth, userController.create);
 router.post('/create', auth, userController.store);
 
-router.get('/edit/:id', auth, userController.edit);
+router.get('/:id/edit', auth, userController.edit);
 router.post('/edit', auth, userController.update);
 
-router.get('/pwd/:id', auth, userController.pwd);
+router.get('/:id/pwd', auth, userController.pwd);
 router.post('/pwd', auth, userController.storePwd);
 
 

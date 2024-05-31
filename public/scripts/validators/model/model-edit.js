@@ -1,7 +1,7 @@
 const min = 1;
 
 const title = document.querySelector('#title');
-const numbers = document.querySelectorAll('input[type="number"]');
+const numbers = document.querySelectorAll('.number');
 
 [...numbers].forEach(el => {
     el.addEventListener('keyup', function(ev) {

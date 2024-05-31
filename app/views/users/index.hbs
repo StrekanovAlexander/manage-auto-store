@@ -30,12 +30,12 @@
         </td> 
         <td class="text-center">{{ date created_at }} {{ time created_at }}</td> 
         <td class="text-center">
-            <a href="/users/edit/{{ id }}" class="{{#unless ../../access}}disabled{{/unless}}"> 
+            <a href="/users/{{ id }}/edit" class="{{#unless ../../access}}disabled{{/unless}}"> 
                 <i class="bi bi-pen-fill"></i> Правка
             </a>
         </td>
         <td class="text-center">
-            <a href="/users/pwd/{{ id }}" class="{{#unless ../../access}}disabled{{/unless}}"> 
+            <a href="/users/{{ id }}/pwd" class="{{#unless ../../access}}disabled{{/unless}}"> 
                 <i class="bi bi-key-fill"></i> Пароль
             </a>
         </td>  

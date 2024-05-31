@@ -14,12 +14,18 @@ a, a:hover {
     color: black;
     text-decoration: none;
 }
+
 a:hover {
     color: #dc3545;
 }
+
 a.disabled {
     color: gray;
     pointer-events: none;
+}
+
+label {
+    font-weight: bold;
 }
 
 .message {

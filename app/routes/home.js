@@ -15,6 +15,7 @@ router.get('/login', (req, res) =>
 router.post('/login', homeController.login);
 router.get('/logout', homeController.logout);
 
-router.get('/404', (req, res) => res.render('home/404', { title: '404. Страница не найдена' }));
+router.get('/404', auth, (req, res) => 
+    res.render('home/404', { title: '404. Страница не найдена' }));
 
 export default router;
