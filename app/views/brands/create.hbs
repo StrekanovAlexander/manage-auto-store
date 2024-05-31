@@ -1,12 +1,13 @@
 <div class="row mt-5">
-    <div class="col-md-4 offset-md-4">
+    <div class="col col-lg-6">
         <form action="/brands/create" method="POST">
             <div class="mb-3">
-                <label for="title" class="form-label">Наименование <span class="small text-secondary">(не менее 3 символов)</span></label>
+                <label for="title" class="form-label">Наименование <span class="small text-secondary"></span></label>
                 <input type="text" id="title" name="title" 
                     class="form-control form-control-sm" />
+                    <span class="small text-secondary">не менее 3 символов</span>
             </div>
-            <div class="mb-3"> 
+            <div class="mb-4"> 
                 <label for="origin_id" class="form-label">Страна происхождения</label>
                 <select class="form-select form-select-sm" id="origin_id" name="origin_id">
                     <option value="" selected>Выбрать...</option>

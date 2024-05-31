@@ -38,7 +38,7 @@ const create = async (req, res) => {
 }
 
 const store = async (req, res) => {
-    access.attempt(req, res, access.high, '/origins');
+    access.attempt(req, res, access.high, '/brands');
     
     const { title, origin_id } = req.body;
     const brand = await Brand.findOne({ where: { title: title.trim() } });

@@ -70,7 +70,6 @@ const edit = async (req, res) => {
         breadcrumb: breadcrumb.build([
             breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/users', 'Пользователи'),
-            breadcrumb.make('#', user.username),
             breadcrumb.make('#', 'Редактировать...'),
         ])
     });
@@ -110,7 +109,6 @@ const pwd = async (req, res) => {
         breadcrumb: breadcrumb.build([
             breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/users', 'Пользователи'),
-            breadcrumb.make('#', user.username),
             breadcrumb.make('#', 'Новый пароль...'),
         ])
     });

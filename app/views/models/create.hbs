@@ -1,0 +1,47 @@
+<div class="row mt-5">
+    <div class="col col-lg-6">
+        <form action="/brands/models/create" method="POST">
+            <div class="row">
+                <div class="col-auto">
+                    <label for="title" class="form-label">Наименование</label>
+                </div>
+            </div>
+            <div class="row g-2 mb-3">
+                <div class="col-auto">
+                    <input type="text" class="form-control form-control-sm" 
+                        id="brand-title" value="{{ model.Brand.dataValues.title }}" readonly />
+                </div>
+                <div class="col">
+                    <input type="text" id="title" name="title" 
+                        class="form-control form-control-sm" />
+                </div>
+            </div>
+            <div class="row g-3 mb-4">
+                <div class="col">
+                    <label for="cylinders" class="form-label">Цилиндров</label>
+                    <input type="number" id="cylinders" name="cylinders" 
+                        class="form-control form-control-sm" />
+                </div> 
+                <div class="col">
+                    <label for="horsepower" class="form-label">ЛС</label>
+                    <input type="number" id="horsepower" name="horsepower" 
+                        class="form-control form-control-sm" />
+                </div> 
+                <div class="col">
+                    <label for="miles_per_gallon" class="form-label">Миль на галлон</label>
+                    <input type="number" id="miles_per_gallon" name="miles_per_gallon" 
+                        class="form-control form-control-sm" />
+                </div>        
+            </div>
+            <div class="d-flex justify-content-between">
+                <a href="/brands/{{ model.brand_id}}/models" class="btn btn-sm btn-danger">
+                    <i class="bi bi-arrow-left-square"></i> Отмена
+                </a>
+                <button type="submit" id="button-submit" class="btn btn-sm btn-success" disabled>
+                     <i class="bi bi-save2"></i> Записать
+                </button>
+            </div>
+            <input type="hidden" name="brand_id" value="{{ model.brand_id }}" />
+        </form>
+    </div>
+</div>

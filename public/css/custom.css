@@ -1,13 +1,13 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 
 h1 {
-    font-size: xx-large;
-    font-weight: 700;
+    font-size: 1.75em;
+    font-weight: bold;
 }
 
 h2 {
-    font-size: x-large;
-
+    font-size: 1.25em;
+    font-weight: bold;
 }
 
 a, a:hover {
@@ -22,11 +22,8 @@ a.disabled {
     pointer-events: none;
 }
 
-.table-fit {
-    table-layout: auto;
+.message {
+    position: absolute;
+    top: 75px;
+    right: 25px;
 }
-
-.table-fit td, .table-fit th {
-    width: 1% !important; /* Минимально возможные размеры */
-    white-space: nowrap !important; /* Полный контроль */
-  }

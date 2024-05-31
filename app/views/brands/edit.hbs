@@ -1,5 +1,5 @@
 <div class="row mt-5">
-    <div class="col-md-4 offset-md-4">
+    <div class="col col-lg-6">
         <form action="/brands/edit" method="POST">
             <div class="mb-3">
                 <label for="title" class="form-label">Наименование</label>
@@ -18,7 +18,7 @@
                     {{/each}}
                 </select>
             </div>
-            <div class="form-check mb-3">
+            <div class="form-check mb-4">
                 <input class="form-check-input" type="checkbox" id="activity" 
                     name="activity" {{#if brand.activity }} value="on" checked {{/if}} 
                 />
