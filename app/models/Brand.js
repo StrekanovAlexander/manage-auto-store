@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db/sequelize.js';
-import Model from './Model.js';
+// import Model from './Model.js';
 
 const Brand = sequelize.define('Brand', {
     origin_id: DataTypes.INTEGER,
@@ -16,8 +16,8 @@ const Brand = sequelize.define('Brand', {
     updatedAt: 'updated_at'
 });
 
-Brand.hasMany(Model, {
-    foreignKey: 'brand_id'
-});
+// Brand.hasMany(Model, {
+//     foreignKey: 'brand_id'
+// });
 
 export default Brand;

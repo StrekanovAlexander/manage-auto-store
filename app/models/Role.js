@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db/sequelize.js';
-import User from './User.js';
+// import User from './User.js';
 
 const Role = sequelize.define('Role', {
     title: DataTypes.STRING,
@@ -12,8 +12,8 @@ const Role = sequelize.define('Role', {
     updatedAt: 'updated_at'
 });
 
-Role.hasMany(User, {
-    foreignKey: 'role_id'
-});
+// Role.hasMany(User, {
+//     foreignKey: 'role_id'
+// });
 
 export default Role;

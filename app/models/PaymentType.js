@@ -1,22 +1,17 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db/sequelize.js';
-// import Brand from './Brand.js';
 
-const Origin = sequelize.define('Origin', {
+const PaymentType = sequelize.define('PaymentType', {
     title: DataTypes.STRING,
     activity: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
     }
 }, {
-    tableName: 'origins',
+    tableName: 'payment_types',
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at'
 });
 
-// Origin.hasMany(Brand, {
-//     foreignKey: 'origin_id'
-// });
-
-export default Origin;
+export default PaymentType;
