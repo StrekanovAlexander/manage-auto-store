@@ -23,6 +23,7 @@ try {
 
     app.use('/', routes.home);
     app.use('/brands', routes.brands);
+    app.use('/operations', routes.operations);
     app.use('/origins', routes.origins);
     app.use('/users', routes.users);
 

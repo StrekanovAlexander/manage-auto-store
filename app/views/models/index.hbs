@@ -1,34 +1,23 @@
 {{#if models}} 
-    <div class="columns-4">
-    {{#each models}}
-        {{#with this.dataValues}}
-        <div class="column-item border rounded">
-            <div class="d-flex justify-content-between">
-                <div class="d-flex flex-column justify-content-between">
-                    <div class="fw-bold">{{ title }}</div>
-                    <div class="small">
-                    {{#if activity }}
-                        <i class="bi bi-check-square"></i>
-                    {{else}}
-                        <span class="text-muted">
-                            <i class="bi bi-square"></i>
-                        </span>
-                    {{/if}} Активность | Марка: <a href="/brands/#">{{ Brand.dataValues.title }}</a>
-                </div>    
-            </div>
-            <div class="px-3 border-start">
-                    <a href="/brands/{{ brand_id }}/models/{{ id }}/details" class="{{#unless ../../access}}disabled{{/unless}}" title="Модели">
-                        <i class="bi bi-card-list"></i>
-                    </a><br/>
-                    <a href="/brands/{{ brand_id }}/models/{{ id }}/edit" class="{{#unless ../../access}}disabled{{/unless}}" title="Правка"> 
-                        <i class="bi bi-pen-fill"></i>
-                    </a>
-                </div>
-            </div>
+    <div class="row">
+        <div class="col-4">
+            <table class="table table-sm table-bordered">
+            {{#each models}}
+                {{#with this.dataValues}}
+                <tr>
+                    <td class="text-end">{{ id }}</td>
+                    <td>{{ title }}</td>
+                    <td class="text-center">
+                        <a href="/brands/{{ brand_id }}/models/{{ id }}/edit" class="{{#unless ../../access}} disabled{{/unless}}" title="Правка"> 
+                            <i class="bi bi-gear"></i>
+                        </a>
+                    </td>
+                </tr>
+                {{/with}}
+            {{/each}}
+            </table>
         </div>
-        {{/with}}
-    {{/each}}
-    </div>
+    </div>    
 {{/if }}
 <div class="d-flex justify-content-start my-3">
     <a href="/brands/{{ brand.id }}/models/create" class="btn btn-sm btn-primary{{#unless access}} disabled{{/unless}}">

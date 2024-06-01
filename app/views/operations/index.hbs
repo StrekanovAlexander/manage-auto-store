@@ -1,0 +1,34 @@
+{{#if operations}}
+    <table class="table table-sm table-bordered">
+        <thead>
+            <tr>
+                <th scope="col" class="col-2">Номер</th>
+                <th scope="col" class="col-1">Движение</th>
+                <th scope="col" class="col-2">Вид операции</th>
+                <th scope="col" class="col-2">Вид платежа</th>
+                <th scope="col" class="col-1">Участник</th>
+                <th scope="col" class="col-1 text-center">Сумма</th>
+                <th scope="col" class="col-2">Комментарий</th>
+                <th scope="col" class="col-1"></th>
+            </tr>
+        </thead>
+        {{#each operations}}
+            {{#with this.dataValues}}
+                <tr>
+                    <td>{{ id }} / {{ date created_at }} {{ time created_at }}</td>
+                    <td>{{ direct direction }}</td>
+                    <td>{{ OperationType.dataValues.title }}</td>
+                    <td>{{ PaymentType.dataValues.title }}</td>
+                    <td>{{ Participant.dataValues.full_name }}</td>
+                    <td class="text-center">{{ amount }}</td>
+                    <td>{{ description }}</td>
+                    <td class="text-center">
+                        <a href="#">
+                            <i class="bi bi-gear"></i>
+                        </a>
+                    </td>
+                </tr>
+            {{/with}}
+        {{/each}}
+    </table>
+{{/if}}

@@ -1,37 +1,45 @@
-{{#if users}} 
-    <div class="col-6">
-        <ul class="list-group">
-        {{#each users}}
-            {{#with this.dataValues}}
-            <li class="list-group-item" style="padding-right: 0">
-                <div class="d-flex justify-content-between">
-                    <div class="d-flex flex-column justify-content-between">
-                        <div class="fw-bold">{{ username }}</div>
-                        <div class="small">
+{{#if users}}
+    <div class="row">
+        <div class="col-4">
+            <table class="table table-sm table-bordered">
+                <tr>
+                    <th class="text-end">ID</th>
+                    <th>Логин</th>
+                    <th>Роль</th>
+                    <th class="text-center">Активность</th>
+                    <th colspan="2"></th>
+                </tr>
+                {{#each users}}
+                    {{#with this.dataValues}}
+                    <tr>
+                        <td class="text-end">{{ id }}</td>
+                        <td>{{ username }}</td>
+                        <td>{{ Role.dataValues.title }}</td>
+                        <td class="text-center">
                         {{#if activity }}
                             <i class="bi bi-check-square"></i>
                         {{else}}
                             <span class="text-muted">
                                 <i class="bi bi-square"></i>
                             </span>
-                        {{/if}} Активность | Роль: {{ Role.dataValues.title }} |
-                            Дата создания: {{ date created_at }} {{ time created_at }}
-                        </div>
-                    </div>
-                    <div class="px-4 border-start text-center">
-                        <a href="/users/{{ id }}/edit" class="{{#unless ../../access}}disabled{{/unless}}" title="Правка">
-                            <i class="bi bi-pen-fill"></i>
-                        </a><br/>
-                        <a href="/users/{{ id }}/pwd" class="{{#unless ../../access}}disabled{{/unless}}" title="Пароль"> 
-                            <i class="bi bi-key-fill"></i>
-                        </a>
-                    </div>
-                </div>
-            </li>
-            {{/with}}
-        {{/each}}
-        </ul>
-    </div>
+                        {{/if}}
+                        </td>
+                        <td class="text-center">
+                            <a href="/users/{{ id }}/edit" class="{{#unless ../../access}}disabled{{/unless}}" title="Правка">
+                                <i class="bi bi-gear"></i>
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            <a href="/users/{{ id }}/pwd" class="{{#unless ../../access}}disabled{{/unless}}" title="Пароль"> 
+                                <i class="bi bi-key-fill"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {{/with}}
+                {{/each}}
+            </table>
+        </div>
+    </div>            
 {{/if }}
 <div class="d-flex justify-content-start my-3">
     <a href="/users/create" class="btn btn-sm btn-75 btn-primary{{#unless access}} disabled{{/unless}}">

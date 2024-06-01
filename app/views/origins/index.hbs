@@ -1,30 +1,21 @@
 {{#if origins}} 
-    <div class="columns-4">
-    {{#each origins}}
-        {{#with this.dataValues}}
-        <div class="column-item border rounded">
-            <div class="d-flex justify-content-between">
-                <div class="d-flex flex-column justify-content-between">
-                    <div class="fw-bold">{{ title }}</div>
-                    <div class="small">
-                    {{#if activity }}
-                        <i class="bi bi-check-square"></i>
-                    {{else}}
-                        <span class="text-muted">
-                            <i class="bi bi-square"></i>
-                        </span>
-                    {{/if}} Активность 
-                    </div>    
-                </div>
-                <div class="px-3 border-start d-flex flex-column justify-content-center">
-                    <a href="/origins/{{ id }}/edit" class="{{#unless ../../access}}disabled{{/unless}}" title="Правка"> 
-                        <i class="bi bi-pen-fill"></i>
-                    </a>
-                </div>
-            </div>
-        </div>    
-        {{/with}}
-    {{/each}}
+    <div class="row">
+        <div class="col-3">
+            <table class="table table-sm table-bordered">
+            {{#each origins}}
+                {{#with this.dataValues}}
+                <tr>
+                    <td>{{ title }}</td>
+                    <td class="text-center">
+                        <a href="/origins/{{ id }}/edit" class="{{#unless ../../access}} disabled{{/unless}}" title="Правка"> 
+                            <i class="bi bi-gear"></i>
+                        </a>
+                    </td>
+                </tr>
+                {{/with}}
+            {{/each}}
+            </table>
+        </div>
     </div>
 {{/if }}
 <div class="d-flex justify-content-start my-3">
