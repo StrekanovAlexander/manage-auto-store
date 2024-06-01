@@ -1,32 +1,34 @@
 {{#if origins}} 
-    <ol class="list-group list-group-numbered">
+    <div class="columns-4">
     {{#each origins}}
         {{#with this.dataValues}}
-        <li class="list-group-item d-flex justify-content-between align-items-start">
-            <div class="ms-2 me-auto">
-                <div class="fw-bold">{{ title }}</div>
-                <div class="small">
+        <div class="column-item border rounded">
+            <div class="d-flex justify-content-between">
+                <div class="d-flex flex-column justify-content-between">
+                    <div class="fw-bold">{{ title }}</div>
+                    <div class="small">
                     {{#if activity }}
                         <i class="bi bi-check-square"></i>
                     {{else}}
-                        <span class="text-secondary">
+                        <span class="text-muted">
                             <i class="bi bi-square"></i>
                         </span>
                     {{/if}} Активность 
+                    </div>    
+                </div>
+                <div class="px-3 border-start d-flex flex-column justify-content-center">
+                    <a href="/origins/{{ id }}/edit" class="{{#unless ../../access}}disabled{{/unless}}" title="Правка"> 
+                        <i class="bi bi-pen-fill"></i>
+                    </a>
                 </div>
             </div>
-            <div>
-                <a href="/origins/{{ id }}/edit" class="btn btn-sm btn-75 btn-primary{{#unless ../../access}} disabled{{/unless}}">
-                    <i class="bi bi-pen-fill"></i> Правка
-                </a>
-            </div>
-        </li>
+        </div>    
         {{/with}}
     {{/each}}
-    </ol>
+    </div>
 {{/if }}
 <div class="d-flex justify-content-start my-3">
-    <a href="/origins/create" class="btn btn-sm btn-75 btn-primary{{#unless access}} disabled{{/unless}}">
+    <a href="/origins/create" class="btn btn-sm btn-primary{{#unless access}} disabled{{/unless}}">
         <i class="bi bi-plus-square"></i> Создать
     </a>
 </div>
