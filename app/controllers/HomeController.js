@@ -41,16 +41,7 @@ const logout = (req, res) => {
 };
 
 const home = (req, res) => {
-    res.render('home', { title: 'Операции', breadcrumb: breadcrumb.build() });
+    res.render('home', { title: 'Главная', breadcrumb: breadcrumb.build() });
 };
 
-const dictionaries = (req, res) => {
-    res.render('home/dictionaries', { 
-        title: 'Справочники', 
-        breadcrumb: breadcrumb.build([
-            breadcrumb.make('/dictionaries', 'Справочники')
-        ]) 
-    });
-};
-
-export default { login, logout, home, dictionaries };
+export default { login, logout, home };

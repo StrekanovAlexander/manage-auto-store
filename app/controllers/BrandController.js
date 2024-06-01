@@ -15,7 +15,6 @@ const all = async (req, res) => {
         access: access.high(req),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/brands', 'Автомобильные марки')
         ])
     });
@@ -32,7 +31,6 @@ const create = async (req, res) => {
         validator: scriptPath('validators/single/single-edit.js'),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/brands', 'Автомобильные марки'),
             breadcrumb.make('#', 'Создание....'),
         ])
@@ -68,13 +66,12 @@ const edit = async (req, res) => {
     const origins = await Origin.findAll({ order: [['title']]});
 
     res.render('brands/edit', {
-        title: 'Редактирование автомобильной марки',
+        title: `Редактирование автомобильной марки "${ brand.title }"`,
         brand: brand.dataValues,
         origins,
         validator: scriptPath('validators/single/single-edit.js'),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/brands', 'Автомобильные марки'),
             breadcrumb.make('#', brand.title),
             breadcrumb.make('#', 'Редактирование...'),

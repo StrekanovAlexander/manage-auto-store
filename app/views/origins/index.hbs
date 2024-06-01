@@ -1,29 +1,32 @@
-<div class="row mb-3">
-    <div>
-        <a href="/origins/create" class="btn btn-sm btn-primary {{#unless access}}disabled{{/unless}}">
-            <i class="bi bi-plus-square"></i> Создать
-        </a>
-    </div>
-</div>
 {{#if origins}} 
-<table class="table table-bordered table-sm table-striped table-hover border">
-    <tr>
-        <th scope="col" class="col-1 text-end">ID</th>
-        <th scope="col" class="text-start">Наименование</th>
-        <th scope="col" class="col-1 text-center">Действия</th>
-    </tr>
+    <ol class="list-group list-group-numbered">
     {{#each origins}}
-    {{#with this.dataValues}}
-    <tr>
-        <td class="text-end">{{ id }}</td>
-        <td>{{ title }}</td>
-        <td class="text-center">
-            <a href="/origins/{{ id }}/edit" class="{{#unless ../../access}}disabled{{/unless}}"> 
-                <i class="bi bi-pen-fill"></i> Правка
-            </a>
-        </td>  
-    </tr>
-    {{/with}}
-{{/each}}
-</table>
+        {{#with this.dataValues}}
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+                <div class="fw-bold">{{ title }}</div>
+                <div class="small">
+                    {{#if activity }}
+                        <i class="bi bi-check-square"></i>
+                    {{else}}
+                        <span class="text-secondary">
+                            <i class="bi bi-square"></i>
+                        </span>
+                    {{/if}} Активность 
+                </div>
+            </div>
+            <div>
+                <a href="/origins/{{ id }}/edit" class="btn btn-sm btn-75 btn-primary{{#unless ../../access}} disabled{{/unless}}">
+                    <i class="bi bi-pen-fill"></i> Правка
+                </a>
+            </div>
+        </li>
+        {{/with}}
+    {{/each}}
+    </ol>
 {{/if }}
+<div class="d-flex justify-content-start my-3">
+    <a href="/origins/create" class="btn btn-sm btn-75 btn-primary{{#unless access}} disabled{{/unless}}">
+        <i class="bi bi-plus-square"></i> Создать
+    </a>
+</div>

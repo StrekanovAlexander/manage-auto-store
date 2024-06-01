@@ -1,5 +1,5 @@
 const home = `<li class="breadcrumb-item">
-    <a href="/" class="text-decoration-underline">Операции</a>
+    <a href="/">Главная</a>
 </li>`;
 
 const build = (arr = null) => {
@@ -9,7 +9,7 @@ const build = (arr = null) => {
     return arr.reduce((acc, el, ix) => {
         const item = ix !== arr.length - 1 ?
             `<li class="breadcrumb-item">
-                <a href="${el.url}" class="text-decoration-underline">${el.title}</a>
+                <a href="${el.url}">${el.title}</a>
             </li>` :
             `<li class="breadcrumb-item active">${el.title}</li>`;
         acc += item;     

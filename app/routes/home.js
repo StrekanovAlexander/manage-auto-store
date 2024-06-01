@@ -6,7 +6,6 @@ import auth from '../middleware/auth.js';
 const router = express.Router();
 
 router.get('/', auth, homeController.home);
-router.get('/dictionaries', auth, homeController.dictionaries);
 
 router.get('/login', (req, res) => 
     res.render('home/login', { title: 'Вход', layout: false })

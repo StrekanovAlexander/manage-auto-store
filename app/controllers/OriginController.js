@@ -13,7 +13,6 @@ const all = async (req, res) => {
         access: access.high(req),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/origins', 'Страны')
         ])
      });
@@ -28,7 +27,6 @@ const create = async (req, res) => {
         validator: scriptPath('validators/single/single-edit.js'),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/origins', 'Страны'),
             breadcrumb.make('#', 'Создание....'),
         ])
@@ -59,12 +57,11 @@ const edit = async (req, res) => {
     const origin = await Origin.findOne({ attributes: ['id', 'title'], where: { id } });
 
     res.render('origins/edit', {
-        title: 'Редактирование страны',
+        title: `Редактирование страны "${ origin.title }"`,
         origin: origin.dataValues,
         validator: scriptPath('validators/single/single-edit.js'),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/origins', 'Страны'),
             breadcrumb.make('#', origin.title),
             breadcrumb.make('#', 'Редактирование...'),

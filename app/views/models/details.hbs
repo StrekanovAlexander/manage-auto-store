@@ -1,27 +1,2 @@
-<div class="row mt-5">
-    <div class="col col-lg-6">
-        <div>
-            <label>Наименование</label>
-            <p>{{ model.title }}</p>
-        </div>
-        <div>
-            <label>Цилиндров</label>
-            <p>{{ model.cylinders }}</p>
-        </div>
-        <div>
-            <label>Лошадиных сил</label>
-            <p>{{ model.horsepower }}</p>
-        </div>
-        <div>
-            <label>Миль на галлон</label>
-            <p>{{ model.miles_per_gallon }}</p>
-        </div>
-        <div class="mb-4">
-            <input class="form-check-input" type="checkbox" {{#if model.activity }}checked{{/if}} disabled>
-            <label class="form-label">Активность</label>
-        </div>
-        <a href="/brands/{{ model.Brand.dataValues.id }}/models" class="btn btn-sm btn-primary">
-            <i class="bi bi-arrow-left-square"></i> Назад
-        </a>
-    </div>
-</div>        
+<p class="lead">Карточка модели автомобильной марки</p>
+<p>Необходимые данные уточняются...</p>

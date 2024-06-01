@@ -12,7 +12,7 @@ router.get('/:id/edit', auth, userController.edit);
 router.post('/edit', auth, userController.update);
 
 router.get('/:id/pwd', auth, userController.pwd);
-router.post('/pwd', auth, userController.storePwd);
+router.post('/pwd', auth, userController.savePwd);
 
 
 export default router;

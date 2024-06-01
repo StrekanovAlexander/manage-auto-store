@@ -16,7 +16,6 @@ const all = async (req, res) => {
         access: access.high(req),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/users', 'Пользователи'),
         ])
      });
@@ -34,7 +33,6 @@ const create = async (req, res) => {
         validator: scriptPath('validators/user/user-create.js'),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/users', 'Пользователи'),
             breadcrumb.make('#', 'Создание...'),
         ])
@@ -74,7 +72,6 @@ const edit = async (req, res) => {
         roles: roles,
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/users', 'Пользователи'),
             breadcrumb.make('#', 'Редактирование...'),
         ])
@@ -117,14 +114,13 @@ const pwd = async (req, res) => {
         user: user.dataValues,
         validator: scriptPath('validators/user/user-pwd.js'),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/users', 'Пользователи'),
             breadcrumb.make('#', 'Изменение пароля...'),
         ])
     });
 }
 
-const storePwd = async (req, res) => {
+const savePwd = async (req, res) => {
     if (!access.isAllow(req, access.high)) {
         return res.redirect('/users');
     }
@@ -136,4 +132,4 @@ const storePwd = async (req, res) => {
     res.redirect('/users');
 }
 
-export default { all, create, store, edit, update, pwd, storePwd };
+export default { all, create, store, edit, update, pwd, savePwd };

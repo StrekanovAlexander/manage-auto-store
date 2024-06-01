@@ -11,9 +11,11 @@ const all = async (req, res) => {
         res.send('404. Page not found');
     }
     const brand = await Brand.findByPk(id);
+    Model.belongsTo(Brand, { foreignKey: 'brand_id' });
     const models = await Model.findAll({ 
         where: { brand_id: id},
-        order: [['title'], ['cylinders']] 
+        order: [['title'], ['cylinders']],
+        include: Brand 
     });
     res.render('models', { 
         title: `Модели марки ${ brand.title }`,
@@ -22,7 +24,6 @@ const all = async (req, res) => {
         access: access.high(req),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/brands', 'Автомобильные марки'),
             breadcrumb.make('/#', brand.title)
         ])
@@ -37,12 +38,11 @@ const create = async (req, res) => {
     }
     
     res.render('models/create', { 
-        title: 'Создание модели',
+        title: `Создание модели марки "${ brand.title }"`,
         validator: scriptPath('validators/model/model-edit.js'),
         brand: brand.dataValues,
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/brands', 'Автомобильные марки'),
             breadcrumb.make(`/brands/${ id }/models`, brand.title),
             breadcrumb.make('#', 'Создание....'),
@@ -92,7 +92,6 @@ const details = async (req, res) => {
         model: model.dataValues,
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/brands', 'Автомобильные марки'),
             breadcrumb.make(`/brands/${ model.Brand.id }/models`, model.Brand.title),
             breadcrumb.make('#', model.title),
@@ -115,12 +114,11 @@ const edit = async (req, res) => {
     model.title = model.title.split(' ').splice(1).join(' ');
     
     res.render('models/edit', { 
-        title: `Редактирование модели ${ model.title }`,
+        title: `Редактирование модели "${ model.Brand.title } ${ model.title }"`,
         model: model.dataValues,
         validator: scriptPath('validators/model/model-edit.js'),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/dictionaries', 'Справочники'),
             breadcrumb.make('/brands', 'Автомобильные марки'),
             breadcrumb.make(`/brands/${ model.Brand.id }/models`, model.Brand.title),
             breadcrumb.make(`/brands/${ model.Brand.id }/models/${ model.id }/details`, model.title),
