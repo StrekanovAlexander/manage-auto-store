@@ -1,0 +1,43 @@
+{{#if operationTypes }} 
+    <div class="row">
+        <div class="col-6">
+            <table class="table table-sm table-bordered">
+                <tr>
+                    <th class="text-end">ID</th>
+                    <th>Наименование</th>
+                    <th class="text-center">Движение</th>
+                    <th class="text-center">Активность</th>
+                    <th></th>
+                </tr>
+            {{#each operationTypes }}
+                {{#with this.dataValues}}
+                <tr>
+                    <td class="text-end">{{ id }}</td>
+                    <td>{{ title }}</td>
+                    <td class="text-center">{{ direct direction }}</td>
+                    <td class="text-center">
+                        {{#if activity }}
+                            <i class="bi bi-check-square"></i>
+                        {{else}}
+                            <span class="text-muted">
+                                <i class="bi bi-square"></i>
+                            </span>
+                        {{/if}}
+                    </td>
+                    <td class="text-center">
+                        <a href="/operation-types/{{ id }}/edit" class="{{#unless ../../access}} disabled{{/unless}}" title="Правка"> 
+                            <i class="bi bi-gear"></i>
+                        </a>
+                    </td>
+                </tr>
+                {{/with}}
+            {{/each}}
+            </table>
+        </div>
+    </div>
+{{/if }}
+<div class="d-flex justify-content-start my-3">
+    <a href="/operation-types/create" class="btn btn-sm btn-primary{{#unless access}} disabled{{/unless}}">
+        <i class="bi bi-plus-square"></i> Создать
+    </a>
+</div>

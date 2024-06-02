@@ -24,7 +24,9 @@ try {
     app.use('/', routes.home);
     app.use('/brands', routes.brands);
     app.use('/operations', routes.operations);
+    app.use('/operation-types', routes.operationTypes);
     app.use('/origins', routes.origins);
+    app.use('/participants', routes.participants);
     app.use('/users', routes.users);
 
     app.all('*', (req, res) => { 
