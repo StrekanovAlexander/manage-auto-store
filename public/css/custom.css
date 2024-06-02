@@ -20,8 +20,16 @@ label {
     font-weight: bold;
 }
 
+textarea {
+    font-size: .85em !important;
+}
+
 th, tr {
     font-size: .9em;
+}
+
+a.disabled {
+    pointer-events: none;
 }
 
 .breadcrumb-item, .breadcrumb-item.active {
@@ -48,6 +56,10 @@ th, tr {
     font-weight: normal;
 }
 
+.fs-75 {
+    font-size: .75em;
+}
+
 .message {
     font-size: .8em;
     position: absolute;
@@ -58,9 +70,3 @@ th, tr {
 .nav-item, .dropdown-item {
     font-size: .9em;
 }
-
-.fs-75 {
-    font-size: .75em;
-}
-
-

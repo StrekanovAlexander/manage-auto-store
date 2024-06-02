@@ -1,0 +1,82 @@
+<div class="row">
+    <div class="col col-md-6">
+        <div class="card">
+            <form action="/operations/create" method="POST">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-3"></div>
+                        <div class="col small">
+                            Свойства записи
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-3">
+                             <label for="participant_id" class="form-label small">Участник</label>
+                        </div>
+                        <div class="col">
+                            <select class="form-select form-select-sm" id="participant_id" name="participant_id">
+                                <option value="" selected>Выбрать...</option>
+                                {{#each participants }}
+                                    <option value="{{ this.dataValues.id }}">{{ this.dataValues.full_name }}</option>
+                                {{/each}}
+                            </select>    
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-3">
+                             <label for="operation_type_id" class="form-label small">Вид операции</label>
+                        </div>
+                        <div class="col">
+                            <select class="form-select form-select-sm" id="operation_type_id" name="operation_type_id">
+                                <option value="" selected>Выбрать...</option>
+                                {{#each operationTypes }}
+                                    <option value="{{ this.dataValues.id }}">{{ this.dataValues.title }}</option>
+                                {{/each}}
+                            </select>    
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-3">
+                             <label for="payment_type_id" class="form-label small">Вид оплаты</label>
+                        </div>
+                        <div class="col">
+                            <select class="form-select form-select-sm" id="payment_type_id" name="payment_type_id">
+                                <option value="" selected>Выбрать...</option>
+                                {{#each paymentTypes }}
+                                    <option value="{{ this.dataValues.id }}">{{ this.dataValues.title }}</option>
+                                {{/each}}
+                            </select>    
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <label for="amount" class="form-label small">Сумма</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="text" id="amount" name="amount" 
+                                class="form-control form-control-sm number" />
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <label for="description" class="form-label small">Комментарий</label>
+                        </div>
+                        <div class="col">
+                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <a href="/operations" class="btn btn-sm btn-primary">
+                        <i class="bi bi-arrow-left-square"></i> Отмена
+                    </a>
+                    <button type="submit" id="button-submit" class="btn btn-sm btn-primary" disabled>
+                        <i class="bi bi-save2"></i> Записать
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

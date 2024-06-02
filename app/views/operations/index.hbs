@@ -23,7 +23,7 @@
                     <td class="text-center">{{ amount }}</td>
                     <td>{{ description }}</td>
                     <td class="text-center">
-                        <a href="#">
+                        <a href="/operations/{{ id }}/edit" class="{{#unless ../../access}} disabled{{/unless}}" title="Правка"> 
                             <i class="bi bi-gear"></i>
                         </a>
                     </td>
@@ -32,3 +32,8 @@
         {{/each}}
     </table>
 {{/if}}
+<div class="d-flex justify-content-start my-3">
+    <a href="/operations/create" class="btn btn-sm btn-primary{{#unless access}} disabled{{/unless}}">
+        <i class="bi bi-plus-square"></i> Создать
+    </a>
+</div>
