@@ -23,12 +23,12 @@ const create = async (req, res) => {
         return res.redirect('/vehicle-styles');
     }
     res.render('vehicle-styles/create', { 
-        title: 'Создание cтраны',
+        title: '',
         validator: scriptPath('validators/single/single-edit.js'),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/vehicle-styles', 'Страны'),
-            breadcrumb.make('#', 'Создание....'),
+            breadcrumb.make('/vehicle-styles', ''),
+            breadcrumb.make('#', ''),
         ])
     });
 }
@@ -40,12 +40,12 @@ const store = async (req, res) => {
     const { title } = req.body;
     const vehicleStyle = await VehicleStyle.findOne({ where: { title: title.trim() } });
     if (vehicleStyle) {
-        setMessage(req, `Страна ${title} уже существует`, 'danger');
+        setMessage(req, ` ${title} `, 'danger');
         return res.redirect('/vehicle-styles/create');
     }
     
     await VehicleStyle.create({ title });
-    setMessage(req, `Страна ${title} была создана`, 'success');
+    setMessage(req, ` ${title} `, 'success');
     res.redirect('/vehicle-styles');
 }
 
@@ -57,14 +57,14 @@ const edit = async (req, res) => {
     const vehicleStyle = await VehicleStyle.findOne({ attributes: ['id', 'title'], where: { id } });
 
     res.render('vehicle-styles/edit', {
-        title: `Редактирование страны "${ VehicleStyle.title }"`,
+        title: ` "${ VehicleStyle.title }"`,
         VehicleStyle: vehicleStyle.dataValues,
         validator: scriptPath('validators/single/single-edit.js'),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/vehicle-styles', 'Страны'),
+            breadcrumb.make('/vehicle-styles', ''),
             breadcrumb.make('#', vehicleStyle.title),
-            breadcrumb.make('#', 'Редактирование...'),
+            breadcrumb.make('#', ''),
         ])
     });
 }
@@ -78,11 +78,11 @@ const update = async (req, res) => {
         where: { id: { [Op.ne]: id }, title: title }
     });
     if (vehicleStyle) {
-        setMessage(req, `Страна ${ title } уже используется`, 'danger');
+        setMessage(req, `${ title } `, 'danger');
         return res.redirect(`/vehicle-styles/${ id }/edit`);    
     }
     await VehicleStyle.update({ title }, { where: { id } });
-    setMessage(req, `Страна ${ title } была отредактирована`, 'success');
+    setMessage(req, ` ${ title } `, 'success');
 
     res.redirect('/VehicleStyles');
 }
