@@ -6,39 +6,23 @@
                     <div class="row">
                         <div class="col-3"></div>
                         <div class="col small">
-                            Свойства записи
+                            Record properties
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="row mb-3">
                         <div class="col-3">
-                             <label for="title" class="form-label small">Наименование</label>
+                             <label for="title" class="form-label small">Title</label>
                         </div>
                         <div class="col">
                             <input type="text" class="form-control form-control-sm" id="title" 
                                 name="title" value="{{ brand.title }}" />
-                            <span class="fs-75 text-muted fst-italic">Не менее 3 символов</span>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-3">
-                             <label for="origin_id" class="form-label small">Страна</label>
-                        </div>
-                        <div class="col">
-                            <select class="form-select form-select-sm" id="origin_id" name="origin_id">
-                                <option value="">Выбрать...</option>
-                                {{#each origins}}
-                                    <option value="{{ this.dataValues.id }}" {{#if (equals this.dataValues.id ../brand.origin_id)}}selected{{/if}}>
-                                        {{ this.dataValues.title }}
-                                    </option>
-                                {{/each}}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-3">
-                            <label for="activity" class="form-label small">Активность</label>
+                            <label for="activity" class="form-label small">Activity</label>
                         </div>
                         <div class="col-3">
                             <input class="form-check-input" type="checkbox" name="activity" {{#if brand.activity }}checked{{/if}} />
@@ -47,10 +31,10 @@
                 </div>
                 <div class="card-footer d-flex justify-content-between">
                     <a href="/brands" class="btn btn-sm btn-primary">
-                        <i class="bi bi-arrow-left-square"></i> Отмена
+                        <i class="bi bi-arrow-left-square"></i> Cancel
                     </a>
                     <button type="submit" id="button-submit" class="btn btn-sm btn-primary">
-                        <i class="bi bi-save2"></i> Записать
+                        <i class="bi bi-save2"></i> Save
                     </button>
                 </div>
                 <input type="hidden" name="id" value="{{ brand.id }}" />

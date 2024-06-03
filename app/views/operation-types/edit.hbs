@@ -6,45 +6,44 @@
                     <div class="row">
                         <div class="col-3"></div>
                         <div class="col small">
-                            Свойства записи
+                            Record properties
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="row mb-3">
                         <div class="col-3">
-                             <label for="title" class="form-label small">Наименование</label>
+                             <label for="title" class="form-label small">Title</label>
                         </div>
                         <div class="col">
                             <input type="text" class="form-control form-control-sm" id="title" 
                                 name="title" value="{{ operationType.title }}" />
-                            <span class="fs-75 text-muted fst-italic">Не менее 3 символов</span>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-3">
-                             <label for="direction" class="form-label small">Движение</label>
+                             <label for="direction" class="form-label small">Direction</label>
                         </div>
                         <div class="col">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="direction" id="direction-in" 
                                     value="in" {{#if (equals operationType.direction 'in')}}checked{{/if}}>
                                 <label class="form-check-label small" for="direction-in">
-                                    Приход
+                                    In
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="direction" id="direction-out" 
                                     value="out" {{#if (equals operationType.direction "out")}}checked{{/if}}>
                                 <label class="form-check-label small" for="direction-out">
-                                    Расход
+                                    Out
                                 </label>
                             </div>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-3">
-                            <label for="activity" class="form-label small">Активность</label>
+                            <label for="activity" class="form-label small">Activity</label>
                         </div>
                         <div class="col-3">
                             <input class="form-check-input" type="checkbox" name="activity" {{#if operationType.activity }}checked{{/if}} />
@@ -53,10 +52,10 @@
                 </div>
                 <div class="card-footer d-flex justify-content-between">
                     <a href="/operation-types" class="btn btn-sm btn-primary">
-                        <i class="bi bi-arrow-left-square"></i> Отмена
+                        <i class="bi bi-arrow-left-square"></i> Cancel
                     </a>
                     <button type="submit" id="button-submit" class="btn btn-sm btn-primary">
-                        <i class="bi bi-save2"></i> Записать
+                        <i class="bi bi-save2"></i> Save
                     </button>
                 </div>
                 <input type="hidden" name="id" value="{{ operationType.id }}" />

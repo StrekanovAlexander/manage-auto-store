@@ -1,5 +1,5 @@
 const home = `<li class="breadcrumb-item">
-    <a href="/">Главная</a>
+    <a href="/">Home</a>
 </li>`;
 
 const build = (arr = null) => {

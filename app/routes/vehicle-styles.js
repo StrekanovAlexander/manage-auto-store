@@ -1,5 +1,5 @@
 import express from 'express';
-import originController from '../controllers/OriginController.js';
+import originController from '../controllers/VehicleStyleController.js';
 import auth from '../middleware/auth.js';
 
 const router = express.Router();

@@ -7,12 +7,12 @@ import { message, setMessage } from '../common/message.js';
 const all = async (req, res) => {
     const operationTypes = await OperationType.findAll({ order: [['title']] });
     res.render('operation-types', { 
-        title: 'Виды операций',
+        title: 'Operation types',
         operationTypes,
         access: access.high(req),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/operation-types', 'Виды операций')
+            breadcrumb.make('/operation-types', 'Operation types')
         ])
     });
 }
@@ -23,12 +23,12 @@ const create = async (req, res) => {
     }
 
     res.render('operation-types/create', { 
-        title: 'Создание вида операций',
+        title: 'Operation type creating',
         validator: scriptPath('validators/single/single-edit.js'),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/operation-types', 'Виды операций'),
-            breadcrumb.make('#', 'Создание....'),
+            breadcrumb.make('/operation-types', 'Operation types'),
+            breadcrumb.make('#', 'Create....'),
         ])
     });
 }
@@ -39,7 +39,7 @@ const store = async (req, res) => {
     }
 
     await OperationType.create(req.body);
-    setMessage(req, `Вид операции был создан`, 'success');
+    setMessage(req, `Operation type was created`, 'success');
     res.redirect('/operation-types');
 }
 
@@ -51,14 +51,14 @@ const edit = async (req, res) => {
     const operationType = await OperationType.findByPk(id);
     
     res.render('operation-types/edit', {
-        title: `Редактирование вида операций "${ operationType.title }"`,
+        title: `Operation type "${ operationType.title }" edititng`,
         operationType: operationType.dataValues,
         validator: scriptPath('validators/single/single-edit.js'),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/operation-types', 'Виды операций'),
+            breadcrumb.make('/operation-types', 'Operation types'),
             breadcrumb.make('#', operationType.title),
-            breadcrumb.make('#', 'Редактирование...'),
+            breadcrumb.make('#', 'Edit...'),
         ])
     });
 }
@@ -70,7 +70,7 @@ const update = async (req, res) => {
     const { id, title, direction, activity } = req.body;
 
     await OperationType.update({ title, direction, activity: activity === 'on' ? true : false }, { where: { id } });
-    setMessage(req, `Вид операции был отредактирован`, 'success');
+    setMessage(req, `Operation type was edited`, 'success');
     res.redirect('/operation-types');
 }
 

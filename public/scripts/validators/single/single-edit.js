@@ -1,4 +1,4 @@
-const min = 3;
+const min = 1;
 
 const title = document.querySelector('#title');
 const button = document.querySelector('#button-submit');

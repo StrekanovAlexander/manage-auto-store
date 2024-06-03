@@ -7,24 +7,17 @@ import { message, setMessage } from '../common/message.js';
 
 const all = async (req, res) => {
     const { id }= req.params;
-    if (!id) {
-        res.send('404. Page not found');
-    }
     const brand = await Brand.findByPk(id);
     Model.belongsTo(Brand, { foreignKey: 'brand_id' });
-    const models = await Model.findAll({ 
-        where: { brand_id: id},
-        order: [['title'], ['cylinders']],
-        include: Brand 
-    });
+    const models = await Model.findAll({ where: { brand_id: id}, order: [['title']], include: Brand});
     res.render('models', { 
-        title: `Модели марки ${ brand.title }`,
+        title: `Models of ${ brand.title }`,
         brand: brand.dataValues,
         models,
         access: access.high(req),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/brands', 'Автомобильные марки'),
+            breadcrumb.make('/brands', 'Brands'),
             breadcrumb.make('/#', brand.title)
         ])
     });
@@ -38,20 +31,20 @@ const create = async (req, res) => {
     }
     
     res.render('models/create', { 
-        title: `Создание модели марки "${ brand.title }"`,
-        validator: scriptPath('validators/model/model-edit.js'),
+        title: `Creating a model of "${ brand.title }"`,
+        validator: scriptPath('validators/single/single-edit.js'),
         brand: brand.dataValues,
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/brands', 'Автомобильные марки'),
+            breadcrumb.make('/brands', 'Brand'),
             breadcrumb.make(`/brands/${ id }/models`, brand.title),
-            breadcrumb.make('#', 'Создание....'),
+            breadcrumb.make('#', 'Creating....'),
         ])
     });
 }
 
 const store = async (req, res) => {
-    const { brand_id, title, cylinders, horsepower, miles_per_gallon } = req.body;
+    const { brand_id, title } = req.body;
     if (!access.isAllow(req, access.high)) {
         return res.redirect(`/brands/${ brand_id }/models`);
     }
@@ -60,43 +53,11 @@ const store = async (req, res) => {
     const _title = `${ brand.title } ${ title }`;
     const model = { brand_id, title: _title };
 
-    if (cylinders) {
-        model.cylinders = cylinders;
-    }
-
-    if (horsepower) {
-        model.horsepower = horsepower;
-    }
-
-    if (miles_per_gallon) {
-        model.miles_per_gallon = miles_per_gallon;
-    }
-
     await Model.create(model);
     const max = await Model.max('id', { where: { brand_id }});
 
-    setMessage(req, `Модель ${title} была создана`, 'success');
+    setMessage(req, `Model "${title}" was created`, 'success');
     res.redirect(`/brands/${ brand_id }/models`);
-}
-
-const details = async (req, res) => {
-    const { id } = req.params;
-    Model.belongsTo(Brand, { foreignKey: 'brand_id' });
-    const model = await Model.findOne({ where: { id }, include: Brand });
-    if (!model) {
-        return res.redirect('/404');
-    }
-    
-    res.render('models/details', { 
-        title: `Модель ${ model.title }`,
-        model: model.dataValues,
-        msg: message(req),
-        breadcrumb: breadcrumb.build([
-            breadcrumb.make('/brands', 'Автомобильные марки'),
-            breadcrumb.make(`/brands/${ model.Brand.id }/models`, model.Brand.title),
-            breadcrumb.make('#', model.title),
-        ])
-    });
 }
 
 const edit = async (req, res) => {
@@ -114,21 +75,21 @@ const edit = async (req, res) => {
     model.title = model.title.split(' ').splice(1).join(' ');
     
     res.render('models/edit', { 
-        title: `Редактирование модели "${ model.Brand.title } ${ model.title }"`,
+        title: `Editing model "${ model.Brand.title } ${ model.title }"`,
         model: model.dataValues,
-        validator: scriptPath('validators/model/model-edit.js'),
+        validator: scriptPath('validators/single/single-edit.js'),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/brands', 'Автомобильные марки'),
+            breadcrumb.make('/brands', 'Brands'),
             breadcrumb.make(`/brands/${ model.Brand.id }/models`, model.Brand.title),
             breadcrumb.make(`/brands/${ model.Brand.id }/models/${ model.id }/details`, model.title),
-            breadcrumb.make('#', 'Редактирование...')
+            breadcrumb.make('#', 'Edit...')
         ])
     });
 }
 
 const update = async (req, res) => {
-    const { id, brand_id, title, cylinders, horsepower, miles_per_gallon, activity } = req.body;
+    const { id, brand_id, title, activity } = req.body;
 
     if (!access.isAllow(req, access.high)) {
         return res.redirect(`/brands/${ brand_id }/models`);
@@ -139,22 +100,10 @@ const update = async (req, res) => {
     const _activity = activity === 'on' ? true : false;
     const model = { title: _title, activity: _activity };
 
-    if (cylinders) {
-        model.cylinders = cylinders;
-    }
-
-    if (horsepower) {
-        model.horsepower = horsepower;
-    }
-
-    if (miles_per_gallon) {
-        model.miles_per_gallon = miles_per_gallon;
-    }
-
     await Model.update(model, { where: { id } });
-    setMessage(req, `Модель ${title} была отредактирована`, 'success');
+    setMessage(req, `Model "${title}" was edited`, 'success');
     res.redirect(`/brands/${ brand_id }/models`);
   
 }
 
-export default { all, create, store, details, edit, update };
+export default { all, create, store, edit, update };

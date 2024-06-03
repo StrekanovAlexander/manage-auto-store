@@ -6,24 +6,24 @@
                     <div class="row">
                         <div class="col-3"></div>
                         <div class="col small">
-                            Свойства записи
+                            Record properties
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="row mb-3">
                         <div class="col-3">
-                             <label for="full_name" class="form-label small">Полное имя</label>
+                             <label for="full_name" class="form-label small">Name</label>
                         </div>
                         <div class="col">
                             <input type="text" class="form-control form-control-sm" 
                                 id="full_name" name="full_name" value="{{ participant.full_name }}" />
-                            <span class="fs-75 text-muted fst-italic">Не менее 3 символов</span>
+                            <span class="fs-75 text-muted fst-italic">At least 3 characters</span>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-3">
-                            <label for="activity" class="form-label small">Активность</label>
+                            <label for="activity" class="form-label small">Activity</label>
                         </div>
                         <div class="col-3">
                             <input class="form-check-input" type="checkbox" id="activity" 
@@ -34,10 +34,10 @@
                 </div>
                 <div class="card-footer d-flex justify-content-between">
                     <a href="/participants" class="btn btn-sm btn-primary">
-                        <i class="bi bi-arrow-left-square"></i> Отмена
+                        <i class="bi bi-arrow-left-square"></i> Cancel
                     </a>
                     <button type="submit" id="button-submit" class="btn btn-sm btn-primary">
-                        <i class="bi bi-save2"></i> Записать
+                        <i class="bi bi-save2"></i> Save
                     </button>
                 </div>
                 <input type="hidden" name="id" value="{{ participant.id }}" />

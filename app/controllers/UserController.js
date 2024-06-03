@@ -11,12 +11,12 @@ const all = async (req, res) => {
     User.belongsTo(Role, { foreignKey: 'role_id' });
     const users = await User.findAll({ order: [['username']], include: Role });
     res.render('users', { 
-        title: 'Пользователи',
+        title: 'Users',
         users: users,
         access: access.high(req),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/users', 'Пользователи'),
+            breadcrumb.make('/users', 'Users'),
         ])
      });
 }
@@ -28,13 +28,13 @@ const create = async (req, res) => {
 
     const roles = await Role.findAll({ order: [['id', 'DESC']] });
     res.render('users/create', { 
-        title: 'Создание пользователя',
+        title: 'User creating',
         roles: roles,
         validator: scriptPath('validators/user/user-create.js'),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/users', 'Пользователи'),
-            breadcrumb.make('#', 'Создание...'),
+            breadcrumb.make('/users', 'Users'),
+            breadcrumb.make('#', 'Create...'),
         ])
     });
 }
@@ -46,12 +46,12 @@ const store = async (req, res) => {
     const { username, password, role_id } = req.body;
     const user = await User.findOne({ where: { username } });
     if (user) {
-        setMessage(req, `Пользователь ${username} уже существует`, 'danger');
+        setMessage(req, `User "${username}" already exists`, 'danger');
         return res.redirect('/users/create');
     }
     const hash = bcrypt.hashSync(password, bcrypt.genSaltSync());
     await User.create({ role_id, username, password: hash });
-    setMessage(req, `Пользователь '${username}' был создан`, 'success');
+    setMessage(req, `User "${username}" was created`, 'success');
     res.redirect('/users');
 }
 
@@ -60,20 +60,18 @@ const edit = async (req, res) => {
         return res.redirect('/users');
     }
     const { id } = req.params;
-    const user = await User.findOne({ attributes: ['id', 'role_id', 'username', 'activity'],
-        where: { id }
-    });
+    const user = await User.findOne({ where: { id } });
 
     const roles = await Role.findAll({ order: [['id', 'DESC']] });
     res.render('users/edit', {
-        title: 'Редактирование пользователя',
+        title: 'User editing',
         user: user.dataValues,
         validator: scriptPath('validators/user/user-edit.js'),
         roles: roles,
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/users', 'Пользователи'),
-            breadcrumb.make('#', 'Редактирование...'),
+            breadcrumb.make('/users', 'Users'),
+            breadcrumb.make('#', 'Edit...'),
         ])
     });
 }
@@ -87,7 +85,7 @@ const update = async (req, res) => {
         where: { id: { [Op.ne]: id }, username: username }
     });
     if (user) {
-        setMessage(req, `Имя пользователя ${username} уже используется`, 'danger');
+        setMessage(req, `Such login "${username}" already using`, 'danger');
         return res.redirect(`/users/${id}/edit`);    
     }
     user = await User.findOne({ where: { id } });
@@ -99,7 +97,7 @@ const update = async (req, res) => {
         );
     }
     
-    setMessage(req, `Данные пользователя ${ username } были отредактированы`, 'success');
+    setMessage(req, `User "${ username }" was edited`, 'success');
     res.redirect('/users');
 }
 
@@ -110,12 +108,12 @@ const pwd = async (req, res) => {
     const { id } = req.params;
     const user = await User.findOne({ attributes: ['id', 'username'], where: { id } });
     res.render('users/pwd', {
-        title: 'Изменение пароля',
+        title: 'Password changing',
         user: user.dataValues,
         validator: scriptPath('validators/user/user-pwd.js'),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/users', 'Пользователи'),
-            breadcrumb.make('#', 'Изменение пароля...'),
+            breadcrumb.make('/users', 'Users'),
+            breadcrumb.make('#', 'Password change...'),
         ])
     });
 }
@@ -128,7 +126,7 @@ const savePwd = async (req, res) => {
     const user = await User.findOne({ attributes: ['username'], where: { id } });
     const hash = bcrypt.hashSync(password, bcrypt.genSaltSync());
     await User.update({ password: hash }, { where: { id } });
-    setMessage(req, `Пароль пользователя ${ user.username } был изменен`, 'success');
+    setMessage(req, `Password of  "${ user.username }" was changed`, 'success');
     res.redirect('/users');
 }
 

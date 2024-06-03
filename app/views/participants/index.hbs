@@ -4,8 +4,8 @@
             <table class="table table-sm table-bordered">
                 <tr>
                     <th class="text-end">ID</th>
-                    <th>Полное имя</th>
-                    <th class="text-center">Активность</th>
+                    <th>Name</th>
+                    <th class="text-center">Activity</th>
                     <th></th>
                 </tr>
             {{#each participants }}
@@ -36,6 +36,6 @@
 {{/if }}
 <div class="d-flex justify-content-start my-3">
     <a href="/participants/create" class="btn btn-sm btn-primary{{#unless access}} disabled{{/unless}}">
-        <i class="bi bi-plus-square"></i> Создать
+        <i class="bi bi-plus-square"></i> Create
     </a>
 </div>

@@ -14,7 +14,6 @@ router.post('/edit', auth, brandController.update);
 router.get('/:id/models', auth, modelController.all);
 router.get('/:id/models/create', auth, modelController.create);
 router.post('/models/create', auth, modelController.store);
-router.get('/:brand_id/models/:id/details', auth, modelController.details);
 router.get('/:brand_id/models/:id/edit', auth, modelController.edit);
 router.post('/models/edit', auth, modelController.update);
 

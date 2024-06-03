@@ -6,65 +6,32 @@
                     <div class="row">
                         <div class="col-3"></div>
                         <div class="col small">
-                            Свойства записи
+                            Record properties
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="row mb-3">
                         <div class="col-3">
-                             <label for="title" class="form-label small">Наименование</label>
+                             <label for="title" class="form-label small">Title</label>
                         </div>
                         <div class="col">
                             <div class="row">
                                 <div class="col-4">
                                     <input type="text" class="form-control form-control-sm" 
                                         value="{{ model.Brand.dataValues.title }}" readonly />
-                                    <span class="fs-75 text-muted fst-italic">Марка</span>    
+                                    <span class="fs-75 text-muted fst-italic">Brand</span>    
                                 </div>
                                 <div class="col">
                                     <input type="text" class="form-control form-control-sm" 
                                     id="title" name="title" value="{{ model.title }}" />
-                                    <span class="fs-75 text-muted fst-italic">Не менее 3 символов</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-3">
-                            <label for="cylinders" class="form-label small">Цилиндров</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="text" id="cylinders" name="cylinders" 
-                                class="form-control form-control-sm number" value="{{ model.cylinders }}" />
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-3">
-                            <label for="horsepower" class="form-label small">Лошадиных сил</label>
-                        </div>
-                        <div class="col-3">
-                            <input type="text" id="horsepower" name="horsepower" 
-                                class="form-control form-control-sm number" value="{{ model.horsepower }}" />
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-3">
-                            <label for="miles_per_gallon" class="form-label small">
-                                Расход топлива
-                            </label>
-                        </div>
-                        <div class="col-3">
-                            <input type="text" id="miles_per_gallon" name="miles_per_gallon" 
-                                class="form-control form-control-sm number" value="{{ model.miles_per_gallon }}" />
-                        </div>
-                        <div class="col fs-75 text-muted fst-italic pt-1">
-                            Миль на Галлон
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-3">
-                            <label for="activity" class="form-label small">Активность</label>
+                            <label for="activity" class="form-label small">Activity</label>
                         </div>
                         <div class="col-3">
                             <input class="form-check-input" type="checkbox" name="activity" {{#if model.activity }}checked{{/if}} />
@@ -73,10 +40,10 @@
                 </div>
                 <div class="card-footer d-flex justify-content-between">
                     <a href="/brands/{{ model.brand_id }}/models" class="btn btn-sm btn-primary">
-                        <i class="bi bi-arrow-left-square"></i> Отмена
+                        <i class="bi bi-arrow-left-square"></i> Cancel
                     </a>
-                    <button type="submit" id="button-submit" class="btn btn-sm btn-primary" disabled>
-                        <i class="bi bi-save2"></i> Записать
+                    <button type="submit" id="button-submit" class="btn btn-sm btn-primary">
+                        <i class="bi bi-save2"></i> Save
                     </button>
                 </div>
                 <input type="hidden" name="id" value="{{ model.id }}" />

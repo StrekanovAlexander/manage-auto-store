@@ -1,22 +1,17 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db/sequelize.js';
-// import Brand from './Brand.js';
 
-const Origin = sequelize.define('Origin', {
+const VehicleStyle = sequelize.define('VehicleStyle', {
     title: DataTypes.STRING,
     activity: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
     }
 }, {
-    tableName: 'origins',
+    tableName: 'vehicle_styles',
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at'
 });
 
-// Origin.hasMany(Brand, {
-//     foreignKey: 'origin_id'
-// });
-
-export default Origin;
+export default VehicleStyle;

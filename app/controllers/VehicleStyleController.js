@@ -1,33 +1,33 @@
 import { Op } from 'sequelize';
-import Origin from '../models/Origin.js';
+import VehicleStyle from '../models/VehicleStyle.js';
 import access from '../common/access.js';
 import breadcrumb from '../common/breadcrumb.js';
 import scriptPath from '../common/script-path.js';
 import { message, setMessage } from '../common/message.js';
 
 const all = async (req, res) => {
-    const origins = await Origin.findAll({ order: [['title', 'ASC']] });
-    res.render('origins', { 
-        title: 'Страны',
-        origins: origins,
+    const vehicleStyles = await VehicleStyle.findAll({ order: [['title']] });
+    res.render('vehicle-styles', { 
+        title: 'Vehicle styles',
+        vehicleStyles,
         access: access.high(req),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/origins', 'Страны')
+            breadcrumb.make('/vehicle-styles', 'Vehicle styles')
         ])
      });
 }
 
 const create = async (req, res) => {
     if (!access.isAllow(req, access.high)) {
-        return res.redirect('/origins');
+        return res.redirect('/vehicle-styles');
     }
-    res.render('origins/create', { 
+    res.render('vehicle-styles/create', { 
         title: 'Создание cтраны',
         validator: scriptPath('validators/single/single-edit.js'),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/origins', 'Страны'),
+            breadcrumb.make('/vehicle-styles', 'Страны'),
             breadcrumb.make('#', 'Создание....'),
         ])
     });
@@ -35,35 +35,35 @@ const create = async (req, res) => {
 
 const store = async (req, res) => {
     if (!access.isAllow(req, access.high)) {
-        return res.redirect('/origins');
+        return res.redirect('/vehicle-styles');
     }
     const { title } = req.body;
-    const origin = await Origin.findOne({ where: { title: title.trim() } });
-    if (origin) {
+    const vehicleStyle = await VehicleStyle.findOne({ where: { title: title.trim() } });
+    if (vehicleStyle) {
         setMessage(req, `Страна ${title} уже существует`, 'danger');
-        return res.redirect('/origins/create');
+        return res.redirect('/vehicle-styles/create');
     }
     
-    await Origin.create({ title });
+    await VehicleStyle.create({ title });
     setMessage(req, `Страна ${title} была создана`, 'success');
-    res.redirect('/origins');
+    res.redirect('/vehicle-styles');
 }
 
 const edit = async (req, res) => {
     if (!access.isAllow(req, access.high)) {
-        return res.redirect('/origins');
+        return res.redirect('/vehicle-styles');
     }
     const { id } = req.params;
-    const origin = await Origin.findOne({ attributes: ['id', 'title'], where: { id } });
+    const vehicleStyle = await VehicleStyle.findOne({ attributes: ['id', 'title'], where: { id } });
 
-    res.render('origins/edit', {
-        title: `Редактирование страны "${ origin.title }"`,
-        origin: origin.dataValues,
+    res.render('vehicle-styles/edit', {
+        title: `Редактирование страны "${ VehicleStyle.title }"`,
+        VehicleStyle: vehicleStyle.dataValues,
         validator: scriptPath('validators/single/single-edit.js'),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/origins', 'Страны'),
-            breadcrumb.make('#', origin.title),
+            breadcrumb.make('/vehicle-styles', 'Страны'),
+            breadcrumb.make('#', vehicleStyle.title),
             breadcrumb.make('#', 'Редактирование...'),
         ])
     });
@@ -71,20 +71,20 @@ const edit = async (req, res) => {
 
 const update = async (req, res) => {
     if (!access.isAllow(req, access.high)) {
-        return res.redirect('/origins');
+        return res.redirect('/vehicle-styles');
     }
     const { id, title } = req.body;
-    let origin = await Origin.findOne({ attributes: ['id', 'title'], 
+    let vehicleStyle = await VehicleStyle.findOne({ attributes: ['id', 'title'], 
         where: { id: { [Op.ne]: id }, title: title }
     });
-    if (origin) {
+    if (vehicleStyle) {
         setMessage(req, `Страна ${ title } уже используется`, 'danger');
-        return res.redirect(`/origins/${ id }/edit`);    
+        return res.redirect(`/vehicle-styles/${ id }/edit`);    
     }
-    await Origin.update({ title }, { where: { id } });
+    await VehicleStyle.update({ title }, { where: { id } });
     setMessage(req, `Страна ${ title } была отредактирована`, 'success');
 
-    res.redirect('/origins');
+    res.redirect('/VehicleStyles');
 }
 
 export default { all, create, store, edit, update };
