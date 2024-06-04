@@ -1,1 +1,1 @@
-console.log('Lot validator');
+// console.log('Lot validator');
