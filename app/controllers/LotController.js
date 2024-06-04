@@ -5,6 +5,7 @@ import Model from '../models/Model.js';
 import VehicleStyle from '../models/VehicleStyle.js';
 import Specification from '../models/Specification.js';
 import SpecificationItem from '../models/SpecificationItem.js';
+import User from '../models/User.js';
 import access from '../common/access.js';
 import breadcrumb from '../common/breadcrumb.js';
 import scriptPath from '../common/script-path.js';
@@ -16,8 +17,9 @@ const all = async (req, res) => {
     Lot.belongsTo(Model, { foreignKey: 'model_id' });
     Lot.belongsTo(VehicleStyle, { foreignKey: 'vehicle_style_id'});
     Lot.belongsTo(LotStatus, { foreignKey: 'lot_status_id'});
+    Lot.belongsTo(User, { foreignKey: 'user_id'});
 
-    const lots = await Lot.findAll({ order: [['id', 'DESC']], include: [ Model, VehicleStyle, LotStatus ] });
+    const lots = await Lot.findAll({ order: [['id', 'DESC']], include: [ Model, VehicleStyle, LotStatus, User ] });
     
     res.render('lots', { 
         title: 'Lots',
@@ -70,19 +72,21 @@ const create = async (req, res) => {
 }
 
 const store = async (req, res) => {
-    const params = req.body;
     const entries = Object.entries(req.body);
-    const filtered = entries.filter(el => el[0].includes('specification_item_id'));
-    const specificationItems = filtered.reduce((acc, el) => {
-        if (el[1]) {
-            acc.push({ id: el[0].split('_')[3] });
-        }
-        return acc;
-    }, []);
+    const _specifications = entries
+        .filter(el => el[0].includes('specification_') && el[1].length > 0)
+        .reduce((acc, el) => {
+            const specification_id = el[0].split('_')[1];
+            const specification_item_id = el[1];
+            acc.push({ specification_id, specification_item_id });
+            return acc;
+        }, []);
+    const specifications = JSON.stringify(_specifications);
 
     const { stock_id, vehicle_style_id, model_id, lot_status_id, vin, year, description } = req.body;
-    await Lot.create({ stock_id, vehicle_style_id, model_id, lot_status_id, vin, year, description });
-    
+    await Lot.create({ stock_id, vehicle_style_id, model_id, lot_status_id, 
+        vin, year, description, specifications, user_id: req.session.user_id });
+
     setMessage(req, `Lot was created`, 'success');
     res.redirect('/Lots');
 }

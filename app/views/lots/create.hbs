@@ -85,7 +85,7 @@
                                     <label for="status_id" class="form-label small">Status</label>
                                 </div>
                                 <div class="col">
-                                    <select class="form-select form-select-sm" id="lot_status_id" name="lot_status_id">
+                                    <select class="form-select form-select-sm" id="lot_status_id" name="lot_status_id" disabled>
                                     {{#each lotStatuses}}
                                         <option value="{{ this.dataValues.id }}">{{ this.dataValues.title }}</option>
                                     {{/each}}
@@ -98,10 +98,11 @@
                             {{!-- specifications loop --}}
                             <div class="row mb-3">
                                 <div class="col-4">
-                                    <label for="specification_item_id_{{ this.id }}" class="form-label small">{{ this.title }}</label>
+                                    <label for="specification_{{ this.id }}" class="form-label small">{{ this.title }}</label>
                                 </div>
                                 <div class="col">
-                                    <select class="form-select form-select-sm" id="specification_item_id_{{ this.id }}" name="specification_item_id_{{ this.id }}">
+                                    <select class="form-select form-select-sm" 
+                                        id="specification_{{ this.id }}" name="specification_{{ this.id }}">
                                         <option value="">Select...</option>
                                         {{#each this.items}}
                                             <option value="{{ this.dataValues.id }}">{{ this.dataValues.title }}</option>
