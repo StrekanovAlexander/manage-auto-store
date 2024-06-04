@@ -121,7 +121,7 @@ const edit = async (req, res) => {
         return acc;
     }, []); 
 
-    res.render('Lots/edit', {
+    res.render('lots/edit', {
         title: `Lot editing`,
         lot: lot.dataValues,
         brands,
