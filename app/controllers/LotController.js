@@ -72,6 +72,9 @@ const create = async (req, res) => {
 }
 
 const store = async (req, res) => {
+    if (!access.isAllow(req, access.high)) {
+        return res.redirect('/lots');
+    }
     const entries = Object.entries(req.body);
     const _specifications = entries
         .filter(el => el[0].includes('specification_') && el[1].length > 0)
@@ -96,16 +99,42 @@ const edit = async (req, res) => {
         return res.redirect('/Lots');
     }
     const { id } = req.params;
-    const Lot = await Lot.findByPk(id);
+    
+    Lot.belongsTo(Model, { foreignKey: 'model_id' });
+    const lot = await Lot.findOne({ where: {id}, include: [ Model ]});
+    const lotStatuses = await LotStatus.findAll({ order: [['id', 'DESC']] });
+    const brands = await Brand.findAll({ order: [['title']], where: { activity: true } });
+    const models = await Model.findAll({ order: [['title']], where: { activity: true } });
+    const vehicleStyles = await VehicleStyle.findAll({ order: [['title']] });
+    const specificationList = await Specification.findAll({ order: [['title']], where: { activity: true } });
+    const specificationItemLists = await SpecificationItem.findAll({ order: [['title']], where: { activity: true } });
+    const _specifications = JSON.parse(lot.specifications);
+
+    const specifications = specificationList.reduce((acc, el) => {
+        const items = specificationItemLists.filter(item => item.specification_id === el.id);
+        if (items.length) {
+            const _selected = _specifications.filter(s => Number(s.specification_id) === el.id);
+            const selected = _selected.length ? Number(_selected[0].specification_item_id) : false; 
+            const specification = { id: el.id, title: el.title, items, selected };  
+            acc.push(specification);  
+        }
+        return acc;
+    }, []); 
 
     res.render('Lots/edit', {
-        title: `Lot editing "${ Lot.title }"`,
-        Lot: Lot.dataValues,
-        validator: scriptPath('validators/single/single-edit.js'),
+        title: `Lot editing`,
+        lot: lot.dataValues,
+        brands,
+        models,
+        vehicleStyles,
+        lotStatuses,
+        specifications,
+        script: scriptPath('lot/lot.js'),
+        validator: scriptPath('lot/lot-edit.js'),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/Lots', 'Lots'),
-            breadcrumb.make('#', Lot.title),
+            breadcrumb.make('/lots', 'Lots'),
+            breadcrumb.make('#', lot.id),
             breadcrumb.make('#', 'Edit...'),
         ])
     });
@@ -115,17 +144,24 @@ const update = async (req, res) => {
     if (!access.isAllow(req, access.high)) {
         return res.redirect('/Lots');
     }
-    const { id, title, activity } = req.body;
-    const Lot = await Lot.findOne({ attributes: ['id', 'title'], 
-        where: { id: { [Op.ne]: id }, title: title }
-    });
-    if (Lot) {
-        setMessage(req, `Lot "${ title }" already using`, 'danger');
-        return res.redirect(`/Lots/${ id }/edit`);    
-    }
-    await Lot.update({ title, activity: activity === 'on' ? true : false }, { where: { id } });
-    setMessage(req, `Lot "${ title }" was edited`, 'success');
+    
+    const entries = Object.entries(req.body);
+    const _specifications = entries
+        .filter(el => el[0].includes('specification_') && el[1].length > 0)
+        .reduce((acc, el) => {
+            const specification_id = el[0].split('_')[1];
+            const specification_item_id = el[1];
+            acc.push({ specification_id, specification_item_id });
+            return acc;
+        }, []);
+    const specifications = JSON.stringify(_specifications);
 
+    const { id, vehicle_style_id, model_id, lot_status_id, vin, year, description } = req.body;
+    const lot = { vehicle_style_id, model_id, lot_status_id, vin, year, description, specifications, user_id: req.session.user_id };
+    
+    await Lot.update(lot, { where: { id } });
+    
+    setMessage(req, `Lot was edited`, 'success');
     res.redirect('/Lots');
 }
 
