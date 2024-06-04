@@ -23,6 +23,7 @@ try {
 
     app.use('/', routes.home);
     app.use('/brands', routes.brands);
+    app.use('/lots', routes.lots);
     app.use('/operations', routes.operations);
     app.use('/operation-types', routes.operationTypes);
     app.use('/participants', routes.participants);

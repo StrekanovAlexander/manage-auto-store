@@ -41,7 +41,7 @@ const logout = (req, res) => {
 };
 
 const home = (req, res) => {
-    res.render('home', { title: 'Главная', breadcrumb: breadcrumb.build() });
+    res.render('home', { title: 'Home', breadcrumb: breadcrumb.build() });
 };
 
 export default { login, logout, home };

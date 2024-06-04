@@ -17,4 +17,6 @@ router.post('/models/create', auth, modelController.store);
 router.get('/:brand_id/models/:id/edit', auth, modelController.edit);
 router.post('/models/edit', auth, modelController.update);
 
+router.get('/:brand_id/models/json', modelController.jsonByBrand);
+
 export default router;

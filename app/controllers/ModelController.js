@@ -106,4 +106,10 @@ const update = async (req, res) => {
   
 }
 
-export default { all, create, store, edit, update };
+const jsonByBrand = async (req, res) => {
+    const { brand_id } = req.params;
+    const models = await Model.findAll({ where: { activity: true, brand_id }});
+    res.json(models);
+}
+
+export default { all, create, store, edit, update, jsonByBrand };
