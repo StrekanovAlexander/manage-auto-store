@@ -1,57 +1,45 @@
 <div class="row mb-3">
     <div class="col">
-        <ul class="list-group">
-            <li class="list-group-item">
-                <div class="row fw-bold">
-                    <div class="col">Stock No</div>
-                    <div class="col">{{ lot.stock_id }}</div>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <div class="row">
-                    <div class="col">Vehicle style</div>
-                    <div class="col">{{ lot.VehicleStyle.dataValues.title }}</div>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <div class="row">
-                    <div class="col">Model</div>
-                    <div class="col">{{ lot.Model.dataValues.title }}</div>
-                </div>
-            </li>
-        </ul>
+        <table class="table table-sm table-bordered">
+            <tr class="fw-bold">
+               <td class="col-6">Stock No</td>
+               <td class="col-6">{{ lot.stock_id }}</td> 
+            </tr>
+            <tr>
+               <td class="col-6">Vehicle style</td>
+               <td class="col-6">{{ lot.VehicleStyle.dataValues.title }}</td> 
+            </tr>
+            <tr>
+               <td class="col-6">Model</td>
+               <td class="col-6">{{ lot.Model.dataValues.title }}</td> 
+            </tr>
+        </table>
     </div>
     <div class="col">
-        <ul class="list-group">
-            <li class="list-group-item">
-                <div class="row">
-                    <div class="col">Vin</div>
-                    <div class="col">{{ lot.vin }}</div>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <div class="row">
-                    <div class="col">Year</div>
-                    <div class="col">{{ lot.year }}</div>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <div class="row">
-                    <div class="col">Status</div>
-                    <div class="col">{{ lot.LotStatus.dataValues.title }}</div>
-                </div>
-            </li>
-        </ul>
+        <table class="table table-sm table-bordered">
+            <tr>
+               <td class="col-6">Vin</td>
+               <td class="col-6">{{ lot.vin }}</td> 
+            </tr>
+            <tr>
+               <td class="col-6">Year</td>
+               <td class="col-6">{{ lot.year }}</td> 
+            </tr>
+            <tr>
+               <td class="col-6">Status</td>
+               <td class="col-6">{{ lot.LotStatus.dataValues.title }}</td> 
+            </tr>
+        </table>
     </div>
     <div class="col">
-        <ul class="list-group mb-2">
-            <li class="list-group-item">
-                Description
-            </li>
-            <li class="list-group-item">
-                <div class="col">{{ lot.description }}</div>
-            </li>
-        </ul>
+        <table class="table table-sm table-bordered">
+            <tr>
+               <td>Description</td>
+            </tr>
+            <tr>
+               <td class="col-6">{{ lot.description }}</td>
+            </tr>
+        </table>
         <a href="/lots/{{ lot.id }}/edit" class="btn btn-primary btn-sm" title="Edit"> 
             <i class="bi bi-gear"></i> Edit lot
         </a>
@@ -63,16 +51,14 @@
 <div class="row hidden" id="specifications">
     <ul class="col-4">
         {{#if specifications}}
-        <ul class="list-group">
+        <table class="table table-sm table-bordered">
             {{#each specifications }}
-            <li class="list-group-item">
-                <div class="row">
-                    <div class="col">{{ this.title }}</div>
-                    <div class="col">{{ this.itemTitle }}</div>
-                </div>
-            </li>
+            <tr>
+                <td class="col-6">{{ this.title }}</td>
+                <td class="col-6">{{ this.itemTitle }}</td>
+            </tr>
             {{/each}}
-        </ul>    
+        </table>    
         {{/if}}  
     </div>  
 </div>
