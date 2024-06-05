@@ -3,8 +3,8 @@
         <div class="col">
             <table class="table table-sm table-bordered">
                 <tr>
-                    <th class="col-1 text-end">ID</th>
                     <th class="col-1">Stock No.</th>
+                    <th class="col-1">Date</th>
                     <th class="col-1">Vehicle style</th>
                     <th class="col-2">Model</th>
                     <th class="col-1">Year</th>
@@ -17,8 +17,8 @@
             {{#each lots }}
                 {{#with this.dataValues}}
                 <tr>
-                    <td class="text-end">{{ id }}</td>
                     <td>{{ stock_id }}</td>
+                    <td>{{ date created_at }}</td>
                     <td>{{ VehicleStyle.dataValues.title }}</td>
                     <td>{{ Model.dataValues.title }}</td>
                     <td>{{ year }}</td>
