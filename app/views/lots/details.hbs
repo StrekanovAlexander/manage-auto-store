@@ -1,16 +1,16 @@
 <div class="row mb-3">
     <div class="col">
         <table class="table table-sm table-bordered">
-            <tr class="fw-bold">
-               <td class="col-6">Stock No</td>
+            <tr>
+               <td class="col-6 fw-bold">Stock No</td>
                <td class="col-6">{{ lot.stock_id }}</td> 
             </tr>
             <tr>
-               <td class="col-6">Vehicle style</td>
+               <td class="col-6 fw-bold">Vehicle style</td>
                <td class="col-6">{{ lot.VehicleStyle.dataValues.title }}</td> 
             </tr>
             <tr>
-               <td class="col-6">Model</td>
+               <td class="col-6 fw-bold">Model</td>
                <td class="col-6">{{ lot.Model.dataValues.title }}</td> 
             </tr>
         </table>
@@ -18,15 +18,15 @@
     <div class="col">
         <table class="table table-sm table-bordered">
             <tr>
-               <td class="col-6">Vin</td>
+               <td class="col-6 fw-bold">Vin</td>
                <td class="col-6">{{ lot.vin }}</td> 
             </tr>
             <tr>
-               <td class="col-6">Year</td>
+               <td class="col-6 fw-bold">Year</td>
                <td class="col-6">{{ lot.year }}</td> 
             </tr>
             <tr>
-               <td class="col-6">Status</td>
+               <td class="col-6 fw-bold">Status</td>
                <td class="col-6">{{ lot.LotStatus.dataValues.title }}</td> 
             </tr>
         </table>
@@ -54,7 +54,7 @@
         <table class="table table-sm table-bordered">
             {{#each specifications }}
             <tr>
-                <td class="col-6">{{ this.title }}</td>
+                <td class="col-6 fw-bold">{{ this.title }}</td>
                 <td class="col-6">{{ this.itemTitle }}</td>
             </tr>
             {{/each}}
