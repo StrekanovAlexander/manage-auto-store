@@ -17,12 +17,17 @@ import { message, setMessage } from '../common/message.js';
 
 const offset = 100;
 
-const all = async (req, res) => {
-    Lot.belongsTo(Model, { foreignKey: 'model_id' });
-    Lot.belongsTo(VehicleStyle, { foreignKey: 'vehicle_style_id'});
-    Lot.belongsTo(LotStatus, { foreignKey: 'lot_status_id'});
-    Lot.belongsTo(User, { foreignKey: 'user_id'});
+Lot.belongsTo(Model, { foreignKey: 'model_id' });
+Lot.belongsTo(VehicleStyle, { foreignKey: 'vehicle_style_id'});
+Lot.belongsTo(LotStatus, { foreignKey: 'lot_status_id'});
+Lot.belongsTo(User, { foreignKey: 'user_id'});
 
+Operation.belongsTo(Participant, { foreignKey: 'participant_id' });
+Operation.belongsTo(OperationType, { foreignKey: 'operation_type_id' });
+Operation.belongsTo(PaymentType, { foreignKey: 'payment_type_id' });
+Operation.belongsTo(User, { foreignKey: 'user_id' });
+
+const all = async (req, res) => {
     const lots = await Lot.findAll({ order: [['id', 'DESC']], include: [ Model, VehicleStyle, LotStatus, User ] });
     
     res.render('lots', { 
@@ -94,8 +99,10 @@ const store = async (req, res) => {
     await Lot.create({ stock_id, vehicle_style_id, model_id, lot_status_id, 
         vin, year, description, specifications, user_id: req.session.user_id });
 
+    const lot = await Lot.findOne({ where: { stock_id }});   
+    
     setMessage(req, `Lot was created`, 'success');
-    res.redirect('/Lots');
+    return res.redirect(`/lots/${ lot.id }/details`); 
 }
 
 const edit = async (req, res) => {
@@ -104,7 +111,6 @@ const edit = async (req, res) => {
     }
     const { id } = req.params;
     
-    Lot.belongsTo(Model, { foreignKey: 'model_id' });
     const lot = await Lot.findOne({ where: {id}, include: [ Model ]});
     const lotStatuses = await LotStatus.findAll({ order: [['id', 'DESC']] });
     const brands = await Brand.findAll({ order: [['title']], where: { activity: true } });
@@ -138,7 +144,7 @@ const edit = async (req, res) => {
         msg: message(req),
         breadcrumb: breadcrumb.build([
             breadcrumb.make('/lots', 'Lots'),
-            breadcrumb.make('#', lot.id),
+            breadcrumb.make(`/lots/${ lot.id}/details`, lot.stock_id),
             breadcrumb.make('#', 'Edit...'),
         ])
     });
@@ -166,43 +172,17 @@ const update = async (req, res) => {
     await Lot.update(lot, { where: { id } });
     
     setMessage(req, `Lot was edited`, 'success');
-    res.redirect('/Lots');
+    res.redirect(`/lots/${ id }/details`);
 }
 
 const details = async (req, res) => {
     const { id } = req.params;
-    Lot.belongsTo(Model, { foreignKey: 'model_id' });
-    Lot.belongsTo(VehicleStyle, { foreignKey: 'vehicle_style_id'});
-    Lot.belongsTo(LotStatus, { foreignKey: 'lot_status_id'});
     const lot = await Lot.findOne({ where: { id }, include: [ Model, VehicleStyle, LotStatus ]});
-
-    Operation.belongsTo(Participant, { foreignKey: 'participant_id' });
-    Operation.belongsTo(OperationType, { foreignKey: 'operation_type_id' });
-    Operation.belongsTo(PaymentType, { foreignKey: 'payment_type_id' });
-    Operation.belongsTo(User, { foreignKey: 'user_id' });
-    
     const operations = await Operation.findAll({ where: { lot_id: id }, 
         include: [ Participant, OperationType, PaymentType, User ]
     });
 
-    const specificationList = await Specification.findAll({ order: [['title']], where: { activity: true } });
-    const specificationItemLists = await SpecificationItem.findAll({ order: [['title']], where: { activity: true } });
-    const _specifications = JSON.parse(lot.specifications);
-
-    const specifications = specificationList.reduce((acc, el) => {
-        const items = specificationItemLists.filter(item => item.specification_id === el.id);
-        if (items.length) {
-            const _selected = _specifications.filter(s => Number(s.specification_id) === el.id);
-            const selected = _selected.length ? Number(_selected[0].specification_item_id) : false; 
-            if (selected) {
-                const item = items.filter(item => item.id === selected)[0];
-                const specification = { title: el.title, itemTitle: item.title };  
-                acc.push(specification);  
-            }
-        }
-        return acc;
-    }, []); 
-
+    const specifications = lot.specifications ? await buildSpecifications(lot.specifications) : [];
     const participants = await Participant.findAll({ order: [['full_name']], where: {activity: true}});
     const operationTypes = await OperationType.findAll({ order: [['title']], where: {activity: true, is_lot: true}});
     const paymentTypes = await PaymentType.findAll({ order: [['title']], where: {activity: true}});
@@ -223,6 +203,26 @@ const details = async (req, res) => {
             breadcrumb.make('#', lot.id),
         ])
     });
+}
+
+const buildSpecifications = async (specifications) => {
+    const data = JSON.parse(specifications);
+    const specificationList = await Specification.findAll({ order: [['title']], where: { activity: true } });
+    const specificationItemLists = await SpecificationItem.findAll({ order: [['title']], where: { activity: true } });
+
+    return specificationList.reduce((acc, el) => {
+        const items = specificationItemLists.filter(item => item.specification_id === el.id);
+        if (items.length) {
+            const _selected = data.filter(s => Number(s.specification_id) === el.id);
+            const selected = _selected.length ? Number(_selected[0].specification_item_id) : false; 
+            if (selected) {
+                const item = items.filter(item => item.id === selected)[0];
+                const specification = { title: el.title, itemTitle: item.title };  
+                acc.push(specification);  
+            }
+        }
+        return acc;
+    }, []);
 }
 
 export default { all, create, store, edit, update, details };
