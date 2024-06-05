@@ -14,11 +14,26 @@ const numbers = document.querySelectorAll('.number');
     });
 });
 
+const dateReg = document.querySelector('#date_reg');
+
+dateReg.addEventListener('keyup', function (ev) {
+    handleDate(ev, this);
+    validate();
+});
+
 const button = document.querySelector('#button-submit');
 
 function validate() {
-    const result = checkSelects() && checkNumbers();
+    const result = checkSelects() && checkNumbers() && checkDateReg();
     button.disabled = !result;
+}
+
+function checkDateReg() {
+    if (!isDateValid(dateReg.value)) {
+        dateReg.className = setClass('is-invalid');
+        return false; 
+    }
+    return true;
 }
 
 function checkSelects() {
@@ -39,6 +54,15 @@ function checkNumbers() {
         }
     } 
     return true;   
+}
+
+function isDateValid(date) {
+    const regex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
+    return date.match(regex);
+} 
+
+function handleDate(ev, that) {
+    that.className = !isDateValid(ev.target.value) ? setClass('is-invalid') : setClass('is-valid');
 }
 
 function handleSelect(ev, that) {

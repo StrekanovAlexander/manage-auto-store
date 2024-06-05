@@ -3,6 +3,7 @@ import OperationType from '../models/OperationType.js';
 import Participant from '../models/Participant.js';
 import PaymentType from '../models/PaymentType.js';
 import User from '../models/User.js';
+import Lot from '../models/Lot.js';
 
 import access from '../common/access.js';
 import breadcrumb from '../common/breadcrumb.js';
@@ -14,9 +15,10 @@ const all = async (req, res) => {
     Operation.belongsTo(OperationType, { foreignKey: 'operation_type_id' });
     Operation.belongsTo(PaymentType, { foreignKey: 'payment_type_id' });
     Operation.belongsTo(User, { foreignKey: 'user_id' });
+    Operation.belongsTo(Lot, { foreignKey: 'lot_id' });
     
     const operations = await Operation.findAll({ 
-        include: [ Participant, OperationType, PaymentType, User ]
+        include: [ Participant, OperationType, PaymentType, User, Lot ]
     });
 
     res.render('operations', { 

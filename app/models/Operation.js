@@ -7,6 +7,10 @@ const Operation = sequelize.define('Operation', {
     operation_type_id: DataTypes.INTEGER,
     payment_type_id: DataTypes.INTEGER,
     lot_id: DataTypes.INTEGER,
+    date_reg: {
+        type: DataTypes.DATEONLY,
+        defaultValue: DataTypes.NOW
+    },
     amount: DataTypes.DECIMAL(10, 2), 
     description: DataTypes.STRING,
     direction: {

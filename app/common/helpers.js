@@ -1,11 +1,9 @@
 export default {
-    date: (date) => { 
-        return date.toLocaleDateString('RU', { 
-            year: 'numeric', 
-            month: '2-digit', 
-            day: '2-digit' 
-        })
-    },
-    time: (date) => date.toLocaleTimeString('RU'),
+    date: (date) => date.toISOString().slice(0, 10),
+    
+    currentDate: () => new Date().toISOString().slice(0, 10),
+    
+    time: (date) => date.toLocaleTimeString('en-US'),
+    
     equals: (val1, val2) => val1 === val2,
 }

@@ -144,7 +144,7 @@ const edit = async (req, res) => {
         msg: message(req),
         breadcrumb: breadcrumb.build([
             breadcrumb.make('/lots', 'Lots'),
-            breadcrumb.make(`/lots/${ lot.id}/details`, lot.stock_id),
+            breadcrumb.make(`/lots/${ lot.id}/details`, `Stock No: ${lot.stock_id}`),
             breadcrumb.make('#', 'Edit...'),
         ])
     });
@@ -200,7 +200,7 @@ const details = async (req, res) => {
         msg: message(req),
         breadcrumb: breadcrumb.build([
             breadcrumb.make('/lots', 'Lots'),
-            breadcrumb.make('#', lot.id),
+            breadcrumb.make('#', `Stock No: ${ lot.stock_id }`),
         ])
     });
 }

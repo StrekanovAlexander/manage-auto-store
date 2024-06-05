@@ -2,12 +2,13 @@
     <table class="table table-sm table-bordered">
         <thead>
             <tr>
-                <th scope="col" class="col-2">ID / Direction</th>
+                <th scope="col" class="col-1 text-end">ID. Date</th>
+                <th scope="col" class="col-1 text-center">Direction</th>
                 <th scope="col" class="col-2">Operation type</th>
-                <th scope="col" class="col-2">Payment type</th>
+                <th scope="col" class="col-1">Payment type</th>
                 <th scope="col" class="col-1">Participant</th>
-                <th scope="col" class="col-1 text-center">Amount</th>
-                <th scope="col" class="col-1 text-center">Lot</th>
+                <th scope="col" class="col-1 text-end">Amount</th>
+                <th scope="col" class="col-2">Description</th>
                 <th scope="col" class="col-1">Author</th>
                 <th scope="col" class="col-1"></th>
             </tr>
@@ -15,12 +16,16 @@
         {{#each operations}}
             {{#with this.dataValues}}
                 <tr>
-                    <td>{{ id }} / {{ date created_at }} {{ time created_at }} / {{ direction }}</td>
+                    <td class="text-end">{{ id }}. {{ date_reg }}</td>
+                    <td class="col-1 text-center">{{ direction }}</td>
                     <td>{{ OperationType.dataValues.title }}</td>
                     <td>{{ PaymentType.dataValues.title }}</td>
                     <td>{{ Participant.dataValues.full_name }}</td>
-                    <td class="text-center">{{ amount }}</td>
-                    <td class="text-center"><a href="/lots/{{ lot_id }}/details">{{ lot_id }}</a></td>
+                    <td class="text-end">{{ amount }}</td>
+                    <td>
+                        {{#if lot_id}}<a href="/lots/{{ lot_id }}/details">Stock No: {{ Lot.dataValues.stock_id }}</a>{{/if}}
+                        {{ description }}
+                     </td>
                     <td>{{ User.dataValues.username }}</td>
                     <td class="text-center">
                         <a href="/operations/{{ id }}/edit" class="{{#unless ../../access}} disabled{{/unless}}" title="Правка"> 
