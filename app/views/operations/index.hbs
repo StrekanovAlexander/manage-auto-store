@@ -2,26 +2,26 @@
     <table class="table table-sm table-bordered">
         <thead>
             <tr>
-                <th scope="col" class="col-2">Номер</th>
-                <th scope="col" class="col-1">Движение</th>
-                <th scope="col" class="col-2">Вид операции</th>
-                <th scope="col" class="col-2">Вид платежа</th>
-                <th scope="col" class="col-1">Участник</th>
-                <th scope="col" class="col-1 text-center">Сумма</th>
-                <th scope="col" class="col-2">Комментарий</th>
+                <th scope="col" class="col-2">ID / Direction</th>
+                <th scope="col" class="col-2">Operation type</th>
+                <th scope="col" class="col-2">Payment type</th>
+                <th scope="col" class="col-1">Participant</th>
+                <th scope="col" class="col-1 text-center">Amount</th>
+                <th scope="col" class="col-1 text-center">Lot</th>
+                <th scope="col" class="col-1">Author</th>
                 <th scope="col" class="col-1"></th>
             </tr>
         </thead>
         {{#each operations}}
             {{#with this.dataValues}}
                 <tr>
-                    <td>{{ id }} / {{ date created_at }} {{ time created_at }}</td>
-                    <td>{{ direct direction }}</td>
+                    <td>{{ id }} / {{ date created_at }} {{ time created_at }} / {{ direction }}</td>
                     <td>{{ OperationType.dataValues.title }}</td>
                     <td>{{ PaymentType.dataValues.title }}</td>
                     <td>{{ Participant.dataValues.full_name }}</td>
                     <td class="text-center">{{ amount }}</td>
-                    <td>{{ description }}</td>
+                    <td class="text-center"><a href="/lots/{{ lot_id }}/details">{{ lot_id }}</a></td>
+                    <td>{{ User.dataValues.username }}</td>
                     <td class="text-center">
                         <a href="/operations/{{ id }}/edit" class="{{#unless ../../access}} disabled{{/unless}}" title="Правка"> 
                             <i class="bi bi-gear"></i>
@@ -34,6 +34,6 @@
 {{/if}}
 <div class="d-flex justify-content-start my-3">
     <a href="/operations/create" class="btn btn-sm btn-primary{{#unless access}} disabled{{/unless}}">
-        <i class="bi bi-plus-square"></i> Создать
+        <i class="bi bi-plus-square"></i> Create
     </a>
 </div>

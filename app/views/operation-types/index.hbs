@@ -6,6 +6,7 @@
                     <th class="text-end">ID</th>
                     <th>Title</th>
                     <th class="text-center">Direction</th>
+                    <th class="text-center">Is lot</th>
                     <th class="text-center">Activity</th>
                     <th></th>
                 </tr>
@@ -15,6 +16,15 @@
                     <td class="text-end">{{ id }}</td>
                     <td>{{ title }}</td>
                     <td class="text-center">{{ direction }}</td>
+                    <td class="text-center">
+                        {{#if is_lot }}
+                            <i class="bi bi-check-square"></i>
+                        {{else}}
+                            <span class="text-muted">
+                                <i class="bi bi-square"></i>
+                            </span>
+                        {{/if}}
+                    </td>
                     <td class="text-center">
                         {{#if activity }}
                             <i class="bi bi-check-square"></i>

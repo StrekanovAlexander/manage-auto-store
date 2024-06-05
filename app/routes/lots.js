@@ -9,5 +9,6 @@ router.get('/create', auth, lotController.create);
 router.post('/create', auth, lotController.store);
 router.get('/:id/edit', lotController.edit);
 router.post('/edit', lotController.update);
+router.get('/:id/details', lotController.details);
 
 export default router;

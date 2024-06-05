@@ -11,7 +11,8 @@
                     <th class="col-2">Vin</th>
                     <th class="col-1">Status</th>
                     <th class="col-1">Author</th>
-                    <th class="col" colspan="2"></th>
+                    <th class="col-1 text-center">Details</th>
+                    <th class="col"></th>
                 </tr>
             {{#each lots }}
                 {{#with this.dataValues}}
@@ -25,7 +26,7 @@
                     <td>{{ LotStatus.dataValues.title }}</td>
                     <td>{{ User.dataValues.username }}</td>
                     <td class="text-center">
-                        <a href="#"> 
+                        <a href="/lots/{{ id }}/details"> 
                             <i class="bi bi-card-list"></i>
                         </a>
                     </td>

@@ -2,6 +2,7 @@ import Operation from '../models/Operation.js';
 import OperationType from '../models/OperationType.js';
 import Participant from '../models/Participant.js';
 import PaymentType from '../models/PaymentType.js';
+import User from '../models/User.js';
 
 import access from '../common/access.js';
 import breadcrumb from '../common/breadcrumb.js';
@@ -12,18 +13,19 @@ const all = async (req, res) => {
     Operation.belongsTo(Participant, { foreignKey: 'participant_id' });
     Operation.belongsTo(OperationType, { foreignKey: 'operation_type_id' });
     Operation.belongsTo(PaymentType, { foreignKey: 'payment_type_id' });
+    Operation.belongsTo(User, { foreignKey: 'user_id' });
     
     const operations = await Operation.findAll({ 
-        include: [ Participant, OperationType, PaymentType ]
+        include: [ Participant, OperationType, PaymentType, User ]
     });
 
     res.render('operations', { 
-        title: 'Движение денежных средств',
+        title: 'Funds movement',
         operations,
         access: access.high(req),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/operations', 'Движение средств')
+            breadcrumb.make('/operations', 'Funds movement')
         ])
      });
 }
@@ -33,18 +35,18 @@ const create = async (req, res) => {
         return res.redirect('/operations');
     }
     const participants = await Participant.findAll({ order: [['full_name']], where: {activity: true}});
-    const operationTypes = await OperationType.findAll({ order: [['title']], where: {activity: true}});
+    const operationTypes = await OperationType.findAll({ order: [['title']], where: {activity: true, is_lot: false}});
     const paymentTypes = await PaymentType.findAll({ order: [['title']], where: {activity: true}});
     res.render('operations/create', { 
-        title: 'Создание записи движения денежных средств',
+        title: 'Funds movement creating',
         participants,
         operationTypes,
         paymentTypes,
         validator: scriptPath('validators/operation/operation-edit.js'),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/operations', 'Движение средств'),
-            breadcrumb.make('#', 'Создание....'),
+            breadcrumb.make('/operations', 'Funds movement'),
+            breadcrumb.make('#', 'Create....'),
         ])
     });
 }
@@ -56,10 +58,11 @@ const store = async (req, res) => {
     const { operation_type_id } = req.body;
     const operationType = await OperationType.findByPk(operation_type_id);
     const direction = operationType.direction;
-    const operation = { ...req.body, direction };
+    const user_id = req.session.user_id;
+    const operation = { ...req.body, direction, user_id };
     
     await Operation.create(operation);
-    setMessage(req, `Операция движения средств была создана`, 'success');
+    setMessage(req, `Funds movement was created`, 'success');
     res.redirect('/operations');
 }
 
@@ -72,11 +75,11 @@ const edit = async (req, res) => {
     const operation = await Operation.findByPk(id);
     
     const participants = await Participant.findAll({ order: [['full_name']], where: {activity: true}});
-    const operationTypes = await OperationType.findAll({ order: [['title']], where: {activity: true}});
+    const operationTypes = await OperationType.findAll({ order: [['title']], where: {activity: true, is_lot: false}});
     const paymentTypes = await PaymentType.findAll({ order: [['title']], where: {activity: true}});
 
     res.render('operations/edit', { 
-        title: `Редактирование записи движения денежных средств #${ id }`,
+        title: `Funds movement edit`,
         operation: operation.dataValues,
         participants,
         operationTypes,
@@ -84,9 +87,9 @@ const edit = async (req, res) => {
         validator: scriptPath('validators/operation/operation-edit.js'),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/operations', 'Движение средств'),
+            breadcrumb.make('/operations', 'Funds movement'),
             breadcrumb.make('#', id),
-            breadcrumb.make('#', 'Редактирование....'),
+            breadcrumb.make('#', 'Edit....'),
         ])
     });
 }
@@ -100,12 +103,28 @@ const update = async (req, res) => {
     
     const operationType = await OperationType.findByPk(operation_type_id);
     const direction = operationType.direction;
-    const operation = { ...req.body, direction };
+    const user_id = req.session.user_id;
+    const operation = { ...req.body, direction, user_id };
 
     await Operation.update(operation, { where: { id } });
     
-    setMessage(req, `Операция движения средств #${ id } была отредактирована`, 'success');
+    setMessage(req, `Funds movement record was edited`, 'success');
     res.redirect('/operations');
 }
 
-export default { all, create, store, edit, update };
+const storeLot = async (req, res) => {
+    if (!access.isAllow(req, access.high)) {
+        return res.redirect('/operations');
+    }
+    const { operation_type_id, lot_id } = req.body;
+    const operationType = await OperationType.findByPk(operation_type_id);
+    const direction = operationType.direction;
+    const user_id = req.session.user_id;
+    const operation = { ...req.body, direction, user_id, lot_id };
+    
+    await Operation.create(operation);
+    setMessage(req, `Operation by lot was created`, 'success');
+    res.redirect(`/lots/${lot_id}/details`);
+}
+
+export default { all, create, store, edit, update, storeLot };

@@ -29,7 +29,7 @@
                                     <label for="vehicle_style_id" class="form-label small">Vehicle style</label>
                                 </div>
                                 <div class="col">
-                                    <select class="form-select form-select-sm" id="vehicle_style_id" name="vehicle_style_id">
+                                    <select class="form-select form-select-sm form-select-required" id="vehicle_style_id" name="vehicle_style_id">
                                         <option value="">Select...</option>
                                         {{#each vehicleStyles }}
                                             <option value="{{ this.dataValues.id }}" 
@@ -44,7 +44,7 @@
                                     <label for="brand_id" class="form-label small">Brand</label>
                                 </div>
                                 <div class="col">
-                                    <select class="form-select form-select-sm" id="brand_id" name="brand_id">
+                                    <select class="form-select form-select-sm form-select-required" id="brand_id" name="brand_id">
                                         <option value="">Select...</option>
                                         {{#each brands}}
                                             <option value="{{ this.dataValues.id }}"
@@ -73,7 +73,7 @@
                                     <label for="vin" class="form-label small">Vin</label>
                                 </div>
                                 <div class="col">
-                                    <input type="text" class="form-control form-control-sm" id="vin" 
+                                    <input type="text" class="form-control form-control-sm form-input-text-required" id="vin" 
                                         name="vin" value="{{ lot.vin }}" />
                                 </div>
                             </div>
@@ -82,7 +82,7 @@
                                     <label for="year" class="form-label small">Year</label>
                                 </div>
                                 <div class="col">
-                                    <input type="text" class="form-control form-control-sm" id="year" 
+                                    <input type="text" class="form-control form-control-sm form-input-number-required" id="year" 
                                         name="year" value="{{ lot.year }}" />
                                 </div>
                             </div>

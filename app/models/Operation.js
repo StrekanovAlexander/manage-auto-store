@@ -2,9 +2,11 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../db/sequelize.js';
 
 const Operation = sequelize.define('Operation', {
+    user_id: DataTypes.INTEGER,
     participant_id: DataTypes.INTEGER,
     operation_type_id: DataTypes.INTEGER,
     payment_type_id: DataTypes.INTEGER,
+    lot_id: DataTypes.INTEGER,
     amount: DataTypes.DECIMAL(10, 2), 
     description: DataTypes.STRING,
     direction: {

@@ -58,3 +58,11 @@ a.disabled {
 .nav-item, .dropdown-item {
     font-size: .9em;
 }
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: block;
+}

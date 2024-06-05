@@ -11,4 +11,6 @@ router.post('/create', auth, operationController.store);
 router.get('/:id/edit', auth, operationController.edit);
 router.post('/edit', auth, operationController.update);
 
+router.post('/lot/create', auth, operationController.storeLot);
+
 export default router;

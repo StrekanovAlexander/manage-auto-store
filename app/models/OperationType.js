@@ -9,6 +9,10 @@ const OperationType = sequelize.define('OperationType', {
             isIn: [['in', 'out']],
         },
     },
+    is_lot: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,    
+    },
     activity: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,

@@ -5,6 +5,10 @@ import Model from '../models/Model.js';
 import VehicleStyle from '../models/VehicleStyle.js';
 import Specification from '../models/Specification.js';
 import SpecificationItem from '../models/SpecificationItem.js';
+import OperationType from '../models/OperationType.js';
+import Operation from '../models/Operation.js';
+import Participant from '../models/Participant.js';
+import PaymentType from '../models/PaymentType.js';
 import User from '../models/User.js';
 import access from '../common/access.js';
 import breadcrumb from '../common/breadcrumb.js';
@@ -130,7 +134,7 @@ const edit = async (req, res) => {
         lotStatuses,
         specifications,
         script: scriptPath('lot/lot.js'),
-        validator: scriptPath('lot/lot-edit.js'),
+        validator: scriptPath('lot/lot-validator.js'),
         msg: message(req),
         breadcrumb: breadcrumb.build([
             breadcrumb.make('/lots', 'Lots'),
@@ -165,4 +169,60 @@ const update = async (req, res) => {
     res.redirect('/Lots');
 }
 
-export default { all, create, store, edit, update };
+const details = async (req, res) => {
+    const { id } = req.params;
+    Lot.belongsTo(Model, { foreignKey: 'model_id' });
+    Lot.belongsTo(VehicleStyle, { foreignKey: 'vehicle_style_id'});
+    Lot.belongsTo(LotStatus, { foreignKey: 'lot_status_id'});
+    const lot = await Lot.findOne({ where: { id }, include: [ Model, VehicleStyle, LotStatus ]});
+
+    Operation.belongsTo(Participant, { foreignKey: 'participant_id' });
+    Operation.belongsTo(OperationType, { foreignKey: 'operation_type_id' });
+    Operation.belongsTo(PaymentType, { foreignKey: 'payment_type_id' });
+    Operation.belongsTo(User, { foreignKey: 'user_id' });
+    
+    const operations = await Operation.findAll({ where: { lot_id: id }, 
+        include: [ Participant, OperationType, PaymentType, User ]
+    });
+
+    const specificationList = await Specification.findAll({ order: [['title']], where: { activity: true } });
+    const specificationItemLists = await SpecificationItem.findAll({ order: [['title']], where: { activity: true } });
+    const _specifications = JSON.parse(lot.specifications);
+
+    const specifications = specificationList.reduce((acc, el) => {
+        const items = specificationItemLists.filter(item => item.specification_id === el.id);
+        if (items.length) {
+            const _selected = _specifications.filter(s => Number(s.specification_id) === el.id);
+            const selected = _selected.length ? Number(_selected[0].specification_item_id) : false; 
+            if (selected) {
+                const item = items.filter(item => item.id === selected)[0];
+                const specification = { title: el.title, itemTitle: item.title };  
+                acc.push(specification);  
+            }
+        }
+        return acc;
+    }, []); 
+
+    const participants = await Participant.findAll({ order: [['full_name']], where: {activity: true}});
+    const operationTypes = await OperationType.findAll({ order: [['title']], where: {activity: true, is_lot: true}});
+    const paymentTypes = await PaymentType.findAll({ order: [['title']], where: {activity: true}});
+
+    res.render('lots/details', {
+        title: `Lot details`,
+        lot: lot.dataValues,
+        specifications,
+        participants,
+        operationTypes,
+        paymentTypes,
+        operations,
+        validator: scriptPath('validators/operation/operation-edit.js'),
+        script: scriptPath('lot/lot-details.js'),
+        msg: message(req),
+        breadcrumb: breadcrumb.build([
+            breadcrumb.make('/lots', 'Lots'),
+            breadcrumb.make('#', lot.id),
+        ])
+    });
+}
+
+export default { all, create, store, edit, update, details };

@@ -1,0 +1,188 @@
+<div class="row mb-3">
+    <div class="col">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">Stock No.</div>
+                    <div class="col">{{ lot.stock_id }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">Vehicle style</div>
+                    <div class="col">{{ lot.VehicleStyle.dataValues.title }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">Model</div>
+                    <div class="col">{{ lot.Model.dataValues.title }}</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="col">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">Vin</div>
+                    <div class="col">{{ lot.vin }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">Year</div>
+                    <div class="col">{{ lot.year }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">Status</div>
+                    <div class="col">{{ lot.LotStatus.dataValues.title }}</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="col">
+        <ul class="list-group">
+            <li class="list-group-item">
+                Description
+            </li>
+            <li class="list-group-item">
+                <div class="col">{{ lot.description }}</div>
+            </li>
+        </ul>
+    </div>
+</div>
+<p>
+    <a href="#" id="btn-specifications">Show specifications</a>
+</p>
+<div class="row hidden" id="specifications">
+    <ul class="col-4">
+        {{#if specifications}}
+        <ul class="list-group">
+            {{#each specifications }}
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col">{{ this.title }}</div>
+                    <div class="col">{{ this.itemTitle }}</div>
+                </div>
+            </li>
+            {{/each}}
+        </ul>    
+        {{/if}}  
+    </div>  
+</div>
+
+<h2 class="mt-4">Operations</h2>
+{{#if operations}}
+    <table class="table table-sm table-bordered">
+        <thead>
+            <tr>
+                <th scope="col" class="col-1">ID</th>
+                <th scope="col" class="col-2">Date</th>
+                <th scope="col" class="col-2">Direction</th>
+                <th scope="col" class="col-2">Operation type</th>
+                <th scope="col" class="col-2">Payment type</th>
+                <th scope="col" class="col-1">Participant</th>
+                <th scope="col" class="col-1 text-center">Amount</th>
+                <th scope="col" class="col-1">Author</th>
+            </tr>
+        </thead>
+        {{#each operations}}
+            {{#with this.dataValues}}
+                <tr>
+                    <td>{{ id }}</td>
+                    <td>{{ date created_at }} {{ time created_at }}</td>
+                    <td>{{ direction }}</td>
+                    <td>{{ OperationType.dataValues.title }}</td>
+                    <td>{{ PaymentType.dataValues.title }}</td>
+                    <td>{{ Participant.dataValues.full_name }}</td>
+                    <td class="text-center">{{ amount }}</td>
+                    <td>{{ User.dataValues.username }}</td>
+                </tr>
+            {{/with}}
+        {{/each}}
+    </table>
+{{/if}}
+
+<a href="#" class="btn btn-primary btn-sm mb-2" id="btn-create-operation"> 
+    <i class="bi bi-plus-square"></i> Create operation
+</a>
+<div class="row hidden" id="create-operation">
+    <div class="row">
+        <div class="col col-md-6">
+            <div class="card">
+                <form action="/operations/lot/create" method="POST">
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-3">
+                                <label for="participant_id" class="form-label small">Participant</label>
+                            </div>
+                            <div class="col">
+                                <select class="form-select form-select-sm" id="participant_id" name="participant_id">
+                                    <option value="" selected>Select...</option>
+                                    {{#each participants }}
+                                        <option value="{{ this.dataValues.id }}">{{ this.dataValues.full_name }}</option>
+                                    {{/each}}
+                                </select>    
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-3">
+                                <label for="operation_type_id" class="form-label small">Operation type</label>
+                            </div>
+                            <div class="col">
+                                <select class="form-select form-select-sm" id="operation_type_id" name="operation_type_id">
+                                    <option value="" selected>Select...</option>
+                                    {{#each operationTypes }}
+                                        <option value="{{ this.dataValues.id }}">{{ this.dataValues.title }}</option>
+                                    {{/each}}
+                                </select>    
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-3">
+                                <label for="payment_type_id" class="form-label small">Payment type</label>
+                            </div>
+                            <div class="col">
+                                <select class="form-select form-select-sm" id="payment_type_id" name="payment_type_id">
+                                    <option value="" selected>Select...</option>
+                                    {{#each paymentTypes }}
+                                        <option value="{{ this.dataValues.id }}">{{ this.dataValues.title }}</option>
+                                    {{/each}}
+                                </select>    
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-3">
+                                <label for="amount" class="form-label small">Amount</label>
+                            </div>
+                            <div class="col-3">
+                                <input type="text" id="amount" name="amount" 
+                                    class="form-control form-control-sm number" />
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-3">
+                                <label for="description" class="form-label small">Description</label>
+                            </div>
+                            <div class="col">
+                                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" id="button-submit" class="btn btn-sm btn-primary" disabled>
+                            <i class="bi bi-save2"></i> Save
+                        </button>
+                    </div>
+                    <input type="hidden" name="lot_id" value="{{ lot.id }}" />
+                </form>
+            </div>
+        </div>    
+    </div>
+</div>
+
+</div>
+{{{ script }}}

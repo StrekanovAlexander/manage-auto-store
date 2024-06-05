@@ -6,18 +6,18 @@
                     <div class="row">
                         <div class="col-3"></div>
                         <div class="col small">
-                            Свойства записи
+                            Record properties
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="row mb-3">
                         <div class="col-3">
-                             <label for="participant_id" class="form-label small">Участник</label>
+                             <label for="participant_id" class="form-label small">Participant</label>
                         </div>
                         <div class="col">
                             <select class="form-select form-select-sm" id="participant_id" name="participant_id">
-                                <option value="" selected>Выбрать...</option>
+                                <option value="" selected>Select...</option>
                                 {{#each participants }}
                                     <option value="{{ this.dataValues.id }}">{{ this.dataValues.full_name }}</option>
                                 {{/each}}
@@ -26,11 +26,11 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-3">
-                             <label for="operation_type_id" class="form-label small">Вид операции</label>
+                             <label for="operation_type_id" class="form-label small">Operation type</label>
                         </div>
                         <div class="col">
                             <select class="form-select form-select-sm" id="operation_type_id" name="operation_type_id">
-                                <option value="" selected>Выбрать...</option>
+                                <option value="" selected>Select...</option>
                                 {{#each operationTypes }}
                                     <option value="{{ this.dataValues.id }}">{{ this.dataValues.title }}</option>
                                 {{/each}}
@@ -39,11 +39,11 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-3">
-                             <label for="payment_type_id" class="form-label small">Вид оплаты</label>
+                             <label for="payment_type_id" class="form-label small">Payment type</label>
                         </div>
                         <div class="col">
                             <select class="form-select form-select-sm" id="payment_type_id" name="payment_type_id">
-                                <option value="" selected>Выбрать...</option>
+                                <option value="" selected>Select...</option>
                                 {{#each paymentTypes }}
                                     <option value="{{ this.dataValues.id }}">{{ this.dataValues.title }}</option>
                                 {{/each}}
@@ -52,7 +52,7 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-3">
-                            <label for="amount" class="form-label small">Сумма</label>
+                            <label for="amount" class="form-label small">Amount</label>
                         </div>
                         <div class="col-3">
                             <input type="text" id="amount" name="amount" 
@@ -61,7 +61,7 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-3">
-                            <label for="description" class="form-label small">Комментарий</label>
+                            <label for="description" class="form-label small">Description</label>
                         </div>
                         <div class="col">
                             <textarea class="form-control" id="description" name="description" rows="3"></textarea>
@@ -70,10 +70,10 @@
                 </div>
                 <div class="card-footer d-flex justify-content-between">
                     <a href="/operations" class="btn btn-sm btn-primary">
-                        <i class="bi bi-arrow-left-square"></i> Отмена
+                        <i class="bi bi-arrow-left-square"></i> Cancel
                     </a>
                     <button type="submit" id="button-submit" class="btn btn-sm btn-primary" disabled>
-                        <i class="bi bi-save2"></i> Записать
+                        <i class="bi bi-save2"></i> Save
                     </button>
                 </div>
             </form>
