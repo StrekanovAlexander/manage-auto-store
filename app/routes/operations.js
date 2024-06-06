@@ -13,4 +13,7 @@ router.post('/edit', auth, operationController.update);
 
 router.post('/lot/create', auth, operationController.storeLot);
 
+router.get('/:id/remove', operationController.remove);
+router.post('/remove', operationController.removeOp);
+
 export default router;

@@ -23,14 +23,23 @@
                     <td>{{ Participant.dataValues.full_name }}</td>
                     <td class="text-end">{{ amount }}</td>
                     <td>
-                        {{#if lot_id}}<a href="/lots/{{ lot_id }}/details">Stock No: {{ Lot.dataValues.stock_id }}</a>{{/if}}
+                        {{#if lot_id}}<a href="/lots/{{ lot_id }}/details">Stock No {{ Lot.dataValues.stock_id }}</a>{{/if}}
                         {{ description }}
                      </td>
                     <td>{{ User.dataValues.username }}</td>
-                    <td class="text-center">
-                        <a href="/operations/{{ id }}/edit" class="{{#unless ../../access}} disabled{{/unless}}" title="Правка"> 
-                            <i class="bi bi-gear"></i>
-                        </a>
+                    <td>
+                        <div class="row text-center">
+                            <div class="col">
+                                <a href="/operations/{{ id }}/edit" class="{{#unless ../../access}} disabled{{/unless}}" title="Edit"> 
+                                    <i class="bi bi-gear"></i>
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="/operations/{{ id }}/remove" class="text-danger {{#unless ../../access}} disabled{{/unless}}" title="Remove"> 
+                                    <i class="bi bi-x-square"></i>
+                                </a>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             {{/with}}

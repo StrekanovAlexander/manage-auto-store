@@ -1,0 +1,64 @@
+<h2 class="text-danger mb-4">Are you sure you want to delete the operation?</h2>
+<div class="col-6">
+    <table class="table table-sm table-bordered mb-4">
+        <tr>
+            <td class="col-3 fw-bold">ID</td><td>{{ operation.id }}</td>
+        </tr>
+        <tr>
+            <td class="col-3 fw-bold">Date</td><td>{{ operation.date_reg }}</td>
+        </tr>
+        <tr>
+            <td class="col-3 fw-bold">Operation type</td><td>{{ operation.OperationType.dataValues.title }}</td>
+        </tr>
+        <tr>
+            <td class="col-3 fw-bold">Payment type</td><td>{{ operation.PaymentType.dataValues.title }}</td>
+        </tr>
+        <tr>
+            <td class="col-3 fw-bold">Participant</td><td>{{ operation.Participant.dataValues.full_name }}</td>
+        </tr>
+        <tr>
+            <td class="col-3 fw-bold">Amount</td><td>{{ operation.amount }}</td>
+        </tr>
+        {{#if operation.lot_id}}
+        <tr>
+            <td class="col-3 fw-bold">Lot</td>
+            <td>
+                <a href="/lots/{{ operation.lot_id }}/details" target="_blank">
+                    Stock No {{ operation.Lot.dataValues.stock_id }}
+                </a>
+            </td>
+        </tr>
+        {{/if}}
+        <tr>
+            <td class="col-3 fw-bold">Description</td><td>{{ operation.description }}</td>
+        </tr>
+        <tr>
+            <td class="col-3 fw-bold">Author</td><td>{{ operation.User.dataValues.username }}</td>
+        </tr>
+        <tr>
+            <td class="col-3 fw-bold">Created at</td>
+            <td>
+                {{ date operation.created_at }} {{ time operation.created_at }}
+            </td>
+        </tr>
+    </table>
+    <div class="form-check mb-2">
+        <input class="form-check-input" type="checkbox" id="check-box-confirm">
+        <label class="form-check-label" for="check-box-confirm">
+            I am sure
+        </label>
+    </div>
+    <form action="/operations/remove" method="POST">
+        <button type="submit" id="button-submit" class="btn btn-sm btn-danger" disabled>
+            <i class="bi bi-x-lg"></i> Remove operation
+        </button>
+        <input type="hidden" name="id" value="{{ operation.id }}" />
+    </form>
+</div>
+<script>
+    (() => {
+        document.querySelector('#check-box-confirm').addEventListener('change', function (ev) {
+            document.querySelector('#button-submit').disabled = !this.checked;
+        })
+    })();
+</script>

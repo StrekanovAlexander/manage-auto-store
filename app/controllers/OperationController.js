@@ -10,12 +10,13 @@ import breadcrumb from '../common/breadcrumb.js';
 import scriptPath from '../common/script-path.js';
 import { message, setMessage } from '../common/message.js';
 
+Operation.belongsTo(Participant, { foreignKey: 'participant_id' });
+Operation.belongsTo(OperationType, { foreignKey: 'operation_type_id' });
+Operation.belongsTo(PaymentType, { foreignKey: 'payment_type_id' });
+Operation.belongsTo(User, { foreignKey: 'user_id' });
+Operation.belongsTo(Lot, { foreignKey: 'lot_id' });
+
 const all = async (req, res) => {
-    Operation.belongsTo(Participant, { foreignKey: 'participant_id' });
-    Operation.belongsTo(OperationType, { foreignKey: 'operation_type_id' });
-    Operation.belongsTo(PaymentType, { foreignKey: 'payment_type_id' });
-    Operation.belongsTo(User, { foreignKey: 'user_id' });
-    Operation.belongsTo(Lot, { foreignKey: 'lot_id' });
     
     const operations = await Operation.findAll({ 
         include: [ Participant, OperationType, PaymentType, User, Lot ]
@@ -129,4 +130,37 @@ const storeLot = async (req, res) => {
     res.redirect(`/lots/${lot_id}/details`);
 }
 
-export default { all, create, store, edit, update, storeLot };
+const remove = async (req, res) => {
+    if (!access.isAllow(req, access.high)) {
+        return res.redirect('/operations');
+    }
+
+    const { id } = req.params;
+    const operation = await Operation.findOne({ where: { id }, 
+        include: [ Participant, OperationType, PaymentType, User, Lot ] });
+
+    res.render('operations/remove', { 
+        title: 'Operation removing',
+        operation: operation.dataValues, 
+        breadcrumb: breadcrumb.build([
+            breadcrumb.make('/operations', 'Funds movement'),
+            breadcrumb.make('#', id),
+            breadcrumb.make('#', 'Remove...'),
+        ])
+    });
+}
+
+const removeOp = async (req, res) => {
+    if (!access.isAllow(req, access.high)) {
+        return res.redirect('/operations');
+    }
+
+    const { id } = req.body;
+
+    await Operation.destroy({ where: { id } });
+    setMessage(req, `Operation was deleted`, 'success');
+    res.redirect('/operations');
+    
+}
+
+export default { all, create, store, edit, update, storeLot, remove, removeOp };
