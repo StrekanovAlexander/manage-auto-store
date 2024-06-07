@@ -16,4 +16,6 @@ router.post('/lot/create', auth, operationController.storeLot);
 router.get('/:id/remove', operationController.remove);
 router.post('/remove', operationController.removeOp);
 
+router.get('/:id/details', auth, operationController.details);
+
 export default router;

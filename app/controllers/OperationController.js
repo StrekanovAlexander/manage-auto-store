@@ -71,14 +71,19 @@ const store = async (req, res) => {
 
 const edit = async (req, res) => {
     if (!access.isAllow(req, access.high)) {
-        return res.redirect('/brands');
+        return res.redirect('/operations');
     }
     const { id } = req.params;
     
     const operation = await Operation.findByPk(id);
     
     const participants = await Participant.findAll({ order: [['full_name']], where: {activity: true}});
-    const operationTypes = await OperationType.findAll({ order: [['title']], where: {activity: true, is_lot: false}});
+    
+    const operationTypes = await OperationType.findAll({ order: [['title']], where: {
+        activity: true, 
+        is_lot: operation.lot_id ? true : false
+    }});
+        
     const paymentTypes = await PaymentType.findAll({ order: [['title']], where: {activity: true}});
 
     res.render('operations/edit', { 
@@ -91,7 +96,7 @@ const edit = async (req, res) => {
         msg: message(req),
         breadcrumb: breadcrumb.build([
             breadcrumb.make('/operations', 'Funds movement'),
-            breadcrumb.make('#', id),
+            breadcrumb.make(`/operations/${ id }/details`, id),
             breadcrumb.make('#', 'Edit....'),
         ])
     });
@@ -112,7 +117,7 @@ const update = async (req, res) => {
     await Operation.update(operation, { where: { id } });
     
     setMessage(req, `Funds movement record was edited`, 'success');
-    res.redirect('/operations');
+    res.redirect(`/operations/${ id}/details`);
 }
 
 const storeLot = async (req, res) => {
@@ -163,4 +168,25 @@ const removeOp = async (req, res) => {
     
 }
 
-export default { all, create, store, edit, update, storeLot, remove, removeOp };
+const details = async (req, res) => {
+    if (!access.isAllow(req, access.high)) {
+        return res.redirect('/operations');
+    }
+    const { id } = req.params;
+    
+    const operation = await Operation.findOne({ where: { id }, 
+        include: [ Participant, OperationType, PaymentType, User, Lot ] 
+    });
+
+    res.render('operations/details', { 
+        title: `Funds movement details`,
+        operation: operation.dataValues,
+        msg: message(req),
+        breadcrumb: breadcrumb.build([
+            breadcrumb.make('/operations', 'Funds movement'),
+            breadcrumb.make('#', id),
+        ])
+    });
+}
+
+export default { all, create, store, edit, update, storeLot, remove, removeOp, details };

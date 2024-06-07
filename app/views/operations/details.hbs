@@ -1,0 +1,61 @@
+<div class="row">
+    <div class="col col-md-6">
+        <table class="table table-small table-bordered">
+            <tr>
+                <td class="col-3 fw-bold">ID</td>
+                <td class="col">{{ operation.id }}</td>
+            </tr>
+            <tr>
+                <td class="col-3 fw-bold">Date</td>
+                <td class="col">{{ operation.date_reg }}</td>
+            </tr>
+            <tr>
+                <td class="col-3 fw-bold">Participant</td>
+                <td class="col">{{ operation.Participant.dataValues.full_name }}</td>
+            </tr>
+            <tr>
+                <td class="col-3 fw-bold">Operation type</td>
+                <td class="col">{{ operation.OperationType.dataValues.title }}</td>
+            </tr>
+            <tr>
+                <td class="col-3 fw-bold">Payment type</td>
+                <td class="col">{{ operation.PaymentType.dataValues.title }}</td>
+            </tr>
+            <tr>
+                <td class="col-3 fw-bold">Amount</td>
+                <td class="col">{{ operation.amount }}</td>
+            </tr>
+            <tr>
+                <td class="col-3 fw-bold">Description</td>
+                <td class="col">{{ operation.description }}</td>
+            </tr>
+            <tr>
+                <td class="col-3 fw-bold">Author</td>
+                <td class="col">{{ operation.User.dataValues.username }}</td>
+            </tr>
+            <tr>
+                <td class="col-3 fw-bold">Created at</td>
+                <td class="col">{{ date operation.created_at }} {{ time operation.created_at }}</td>
+            </tr>
+            <tr>
+                <td class="col-3 fw-bold">Updated at</td>
+                <td class="col">{{ date operation.updated_at }} {{ time operation.updated_at }}</td>
+            </tr>
+        </table>
+        <div class="row">
+            <div class="col-3">
+                <a href="/operations" class="btn btn-sm btn-primary">
+                    <i class="bi bi-arrow-left-square"></i> To List
+                </a>
+            </div>    
+            <div class="col d-flex justify-content-between">
+                <a href="/operations/{{ operation.id }}/edit" class="btn btn-sm btn-primary" title="Edit">
+                    <i class="bi bi-gear"></i> Edit
+                </a>
+                <a href="/operations/{{ operation.id }}/remove" class="btn btn-sm btn-danger" title="Remove">
+                    <i class="bi bi-x-square"></i> Delete
+                </a>
+            </div>
+        </div>    
+    </div>
+</div>

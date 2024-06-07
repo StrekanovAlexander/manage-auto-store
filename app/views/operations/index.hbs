@@ -2,15 +2,16 @@
     <table class="table table-sm table-bordered">
         <thead>
             <tr>
-                <th scope="col" class="col-1 text-end">ID. Date</th>
-                <th scope="col" class="col-1 text-center">Direction</th>
-                <th scope="col" class="col-2">Operation type</th>
-                <th scope="col" class="col-1">Payment type</th>
-                <th scope="col" class="col-1">Participant</th>
-                <th scope="col" class="col-1 text-end">Amount</th>
-                <th scope="col" class="col-2">Description</th>
-                <th scope="col" class="col-1">Author</th>
-                <th scope="col" class="col-1"></th>
+                <th class="col-1 text-end">ID. Date</th>
+                <th class="col-1 text-center">Direction</th>
+                <th class="col-2">Operation type</th>
+                <th class="col-1">Payment type</th>
+                <th class="col-1">Participant</th>
+                <th class="col-1 text-end">Amount</th>
+                <th class="col-1 text-center">Stock no</th>
+                <th class="col-1">Author</th>
+                <th class="col-2">Created at</th>
+                <th class="col-1 text-center">Details</th>
             </tr>
         </thead>
         {{#each operations}}
@@ -22,25 +23,16 @@
                     <td>{{ PaymentType.dataValues.title }}</td>
                     <td>{{ Participant.dataValues.full_name }}</td>
                     <td class="text-end">{{ amount }}</td>
-                    <td>
-                        {{#if lot_id}}<a href="/lots/{{ lot_id }}/details">Stock No {{ Lot.dataValues.stock_id }}</a>{{/if}}
-                        {{ description }}
+                    <td class="text-center">
+                        {{#if lot_id}}<a href="/lots/{{ lot_id }}/details">{{ Lot.dataValues.stock_id }}</a>{{/if}}
                      </td>
                     <td>{{ User.dataValues.username }}</td>
-                    <td>
-                        <div class="row text-center">
-                            <div class="col">
-                                <a href="/operations/{{ id }}/edit" class="{{#unless ../../access}} disabled{{/unless}}" title="Edit"> 
-                                    <i class="bi bi-gear"></i>
-                                </a>
-                            </div>
-                            <div class="col">
-                                <a href="/operations/{{ id }}/remove" class="text-danger {{#unless ../../access}} disabled{{/unless}}" title="Remove"> 
-                                    <i class="bi bi-x-square"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </td>
+                    <td>{{ date created_at }} {{ time created_at }}</td>
+                    <td class="row text-center">
+                        <a href="/operations/{{ id }}/details" class="{{#unless ../../access}} disabled{{/unless}}" title="Details"> 
+                            <i class="bi bi-card-text"></i>
+                        </a>
+                     </td>
                 </tr>
             {{/with}}
         {{/each}}
