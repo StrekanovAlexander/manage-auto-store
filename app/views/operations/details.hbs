@@ -3,7 +3,12 @@
         <table class="table table-small table-bordered">
             <tr>
                 <td class="col-3 fw-bold">ID</td>
-                <td class="col">{{ operation.id }}</td>
+                <td class="col d-flex justify-content-between">
+                    <span>{{ operation.id }}</span>
+                    <a href="/operations/{{ operation.id }}/remove" class="btn btn-sm btn-danger" title="Remove">
+                        <i class="bi bi-x-square"></i> Delete 
+                    </a>
+                </td>
             </tr>
             <tr>
                 <td class="col-3 fw-bold">Date</td>
@@ -43,17 +48,12 @@
             </tr>
         </table>
         <div class="row">
-            <div class="col-3">
+            <div class="col d-flex justify-content-between">
                 <a href="/operations" class="btn btn-sm btn-primary">
                     <i class="bi bi-arrow-left-square"></i> To List
                 </a>
-            </div>    
-            <div class="col d-flex justify-content-between">
                 <a href="/operations/{{ operation.id }}/edit" class="btn btn-sm btn-primary" title="Edit">
                     <i class="bi bi-gear"></i> Edit
-                </a>
-                <a href="/operations/{{ operation.id }}/remove" class="btn btn-sm btn-danger" title="Remove">
-                    <i class="bi bi-x-square"></i> Delete
                 </a>
             </div>
         </div>    

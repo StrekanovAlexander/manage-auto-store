@@ -32,6 +32,10 @@ a.disabled {
     pointer-events: none;
 }
 
+.bg-whitesmoke {
+    background-color: whitesmoke;
+}
+
 .breadcrumb-item, .breadcrumb-item.active {
     font-size: .85em;
 }

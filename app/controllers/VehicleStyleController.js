@@ -78,11 +78,11 @@ const update = async (req, res) => {
         where: { id: { [Op.ne]: id }, title: title }
     });
     if (vehicleStyle) {
-        setMessage(req, `${ title } `, 'danger');
+        setMessage(req, `Vehicle style ${ title } already exists`, 'danger');
         return res.redirect(`/vehicle-styles/${ id }/edit`);    
     }
     await VehicleStyle.update({ title }, { where: { id } });
-    setMessage(req, ` ${ title } `, 'success');
+    setMessage(req, `Vehicle style was edited`, 'success');
 
     res.redirect('/VehicleStyles');
 }

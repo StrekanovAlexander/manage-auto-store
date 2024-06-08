@@ -3,6 +3,7 @@ import sequelize from '../db/sequelize.js';
 
 const Operation = sequelize.define('Operation', {
     user_id: DataTypes.INTEGER,
+    customer_id: DataTypes.INTEGER,
     participant_id: DataTypes.INTEGER,
     operation_type_id: DataTypes.INTEGER,
     payment_type_id: DataTypes.INTEGER,

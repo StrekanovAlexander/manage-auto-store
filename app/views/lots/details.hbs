@@ -90,7 +90,11 @@
                     <td class="text-end">{{ amount }}</td>
                     <td>{{ description }}</td>
                     <td>{{ User.dataValues.username }}</td>
-                    <td class="text-center"><i class="bi bi-gear"></i></td>
+                    <td class="text-center">
+                        <a href="/operations/{{ id }}/edit" title="Edit">
+                            <i class="bi bi-gear"> </i>
+                        </a>
+                    </td>
                 </tr>
             {{/with}}
         {{/each}}
