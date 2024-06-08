@@ -8,9 +8,9 @@
                 <th class="col-2">Operation type</th>
                 <th class="col-1">Payment type</th>
                 <th class="col-1 text-end">Amount</th>
+                <th class="col-2">Description</th>
                 <th class="col-1 text-center">Stock no</th>
                 <th class="col-1">Author</th>
-                <th class="col-2">Created at</th>
                 <th class="col-1 text-center">Details</th>
             </tr>
         </thead>
@@ -23,11 +23,11 @@
                     <td>{{ OperationType.dataValues.title }}</td>
                     <td>{{ PaymentType.dataValues.title }}</td>
                     <td class="text-end">{{ amount }}</td>
+                    <td>{{ description }}</td>
                     <td class="text-center">
                         {{#if lot_id}}<a href="/lots/{{ lot_id }}/details">{{ Lot.dataValues.stock_id }}</a>{{/if}}
                      </td>
                     <td>{{ User.dataValues.username }}</td>
-                    <td>{{ date created_at }} {{ time created_at }}</td>
                     <td class="text-center">
                         <a href="/operations/{{ id }}/details" class="{{#unless ../../access}} disabled{{/unless}}" title="Details"> 
                             <i class="bi bi-card-text"></i>
