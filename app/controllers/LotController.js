@@ -7,6 +7,7 @@ import Specification from '../models/Specification.js';
 import SpecificationItem from '../models/SpecificationItem.js';
 import OperationType from '../models/OperationType.js';
 import Operation from '../models/Operation.js';
+import Customer from '../models/Customer.js';
 import Participant from '../models/Participant.js';
 import PaymentType from '../models/PaymentType.js';
 import User from '../models/User.js';
@@ -179,10 +180,11 @@ const details = async (req, res) => {
     const { id } = req.params;
     const lot = await Lot.findOne({ where: { id }, include: [ Model, VehicleStyle, LotStatus ]});
     const operations = await Operation.findAll({ where: { lot_id: id }, 
-        include: [ Participant, OperationType, PaymentType, User ]
+        include: [ Participant, OperationType, PaymentType, User, Customer ]
     });
 
     const specifications = lot.specifications ? await buildSpecifications(lot.specifications) : [];
+    const customers = await Customer.findAll({ order: [['is_main', 'DESC']], where: {activity: true}});
     const participants = await Participant.findAll({ order: [['full_name']], where: {activity: true}});
     const operationTypes = await OperationType.findAll({ order: [['title']], where: {activity: true, is_lot: true}});
     const paymentTypes = await PaymentType.findAll({ order: [['title']], where: {activity: true}});
@@ -191,6 +193,7 @@ const details = async (req, res) => {
         title: `Lot details`,
         lot: lot.dataValues,
         specifications,
+        customers,
         participants,
         operationTypes,
         paymentTypes,

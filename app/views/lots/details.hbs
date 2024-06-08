@@ -69,10 +69,10 @@
         <thead>
             <tr>
                 <th scope="col" class="col-1 text-end">ID. Date</th>
-                <th scope="col" class="col-1 text-center">Direction</th>
+                <th scope="col" class="col-1">Customer</th>
+                <th scope="col" class="col-1">Participant</th>
                 <th scope="col" class="col-2">Operation type</th>
                 <th scope="col" class="col-1">Payment type</th>
-                <th scope="col" class="col-1">Participant</th>
                 <th scope="col" class="col-1 text-end">Amount</th>
                 <th scope="col" class="col-3">Description</th>
                 <th scope="col" class="col-1">Author</th>
@@ -83,10 +83,10 @@
             {{#with this.dataValues}}
                 <tr>
                     <td class="text-end">{{ id }}. {{ date_reg }}</td>
-                    <td class="text-center">{{ direction }}</td>
+                    <td>{{ Customer.dataValues.title }}</td>
+                    <td>{{ Participant.dataValues.full_name }}</td>
                     <td>{{ OperationType.dataValues.title }}</td>
                     <td>{{ PaymentType.dataValues.title }}</td>
-                    <td>{{ Participant.dataValues.full_name }}</td>
                     <td class="text-end">{{ amount }}</td>
                     <td>{{ description }}</td>
                     <td>{{ User.dataValues.username }}</td>
@@ -120,7 +120,19 @@
                                     class="form-control form-control-sm form-input-required-date" value="{{ currentDate }}" />  
                                 <span class="fs-75 text-muted fst-italic">YYYY-MM-DD</span>   
                             </div>
-                        </div>    
+                        </div> 
+                        <div class="row mb-3">
+                            <div class="col-3">
+                                <label for="customer_id" class="form-label small">Customer</label>
+                            </div>
+                            <div class="col">
+                                <select class="form-select form-select-sm" id="customer_id" name="customer_id">
+                                {{#each customers }}
+                                    <option value="{{ this.dataValues.id }}">{{ this.dataValues.title }}</option>
+                                {{/each}}
+                                </select>    
+                            </div>
+                        </div>
                         <div class="row mb-3">
                             <div class="col-3">
                                 <label for="participant_id" class="form-label small">Participant</label>

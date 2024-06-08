@@ -3,10 +3,10 @@
         <thead>
             <tr>
                 <th class="col-1 text-end">ID. Date</th>
-                <th class="col-1 text-center">Direction</th>
+                <th>Customer</th>
+                <th class="col-1">Participant</th>
                 <th class="col-2">Operation type</th>
                 <th class="col-1">Payment type</th>
-                <th class="col-1">Participant</th>
                 <th class="col-1 text-end">Amount</th>
                 <th class="col-1 text-center">Stock no</th>
                 <th class="col-1">Author</th>
@@ -18,10 +18,10 @@
             {{#with this.dataValues}}
                 <tr>
                     <td class="text-end">{{ id }}. {{ date_reg }}</td>
-                    <td class="col-1 text-center">{{ direction }}</td>
+                    <td>{{ Customer.dataValues.title }}</td>
+                    <td>{{ Participant.dataValues.full_name }}</td>
                     <td>{{ OperationType.dataValues.title }}</td>
                     <td>{{ PaymentType.dataValues.title }}</td>
-                    <td>{{ Participant.dataValues.full_name }}</td>
                     <td class="text-end">{{ amount }}</td>
                     <td class="text-center">
                         {{#if lot_id}}<a href="/lots/{{ lot_id }}/details">{{ Lot.dataValues.stock_id }}</a>{{/if}}
