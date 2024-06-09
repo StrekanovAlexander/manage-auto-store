@@ -1,12 +1,18 @@
 import 'dotenv/config';
 import express from 'express';
 import hbs from 'express-handlebars';
+import paginate from 'express-paginate';
 import session from 'express-session';
 import helpers from './app/common/helpers.js';
 import { routes } from './app/routes/index.js';
 import sequelize from './app/db/sequelize.js';
 
+const rowsLimit = 15;
+const rowsMaxLimit = rowsLimit;
+
 const app = express();
+
+app.use(paginate.middleware(rowsLimit, rowsMaxLimit));
 
 app.use(session({ secret: process.env.JWT_KEY, resave: false, saveUninitialized: true }));
 

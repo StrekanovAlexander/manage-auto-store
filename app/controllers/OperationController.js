@@ -1,3 +1,4 @@
+import paginate from 'express-paginate';
 import Operation from '../models/Operation.js';
 import OperationType from '../models/OperationType.js';
 import Customer from '../models/Customer.js';
@@ -20,19 +21,44 @@ Operation.belongsTo(Lot, { foreignKey: 'lot_id' });
 
 const all = async (req, res) => {
     
-    const operations = await Operation.findAll({ 
+    const results = await Operation.findAndCountAll({
+        order: [['date_reg', 'DESC'], ['created_at', 'DESC']],
+        limit: req.query.limit, 
+        offset: req.skip,
         include: [ Participant, OperationType, PaymentType, User, Lot, Customer ]
     });
 
+    const pageCount = Math.ceil(results.count / req.query.limit);
+    const pages = paginate.getArrayPages(req)(req.query.limit, pageCount, req.query.page);
+    
     res.render('operations', { 
-        title: 'Funds movement',
-        operations,
+        title: 'Operations list',
+        operations: results.rows,
+        pages,
+        hasPrevPage: req.query.page > 1,
+        hasNextPage: req.query.page < pageCount,
+        prevPage: paginate.href(req)(true),
+        nextPage: paginate.href(req)(),
         access: access.high(req),
         msg: message(req),
         breadcrumb: breadcrumb.build([
             breadcrumb.make('/operations', 'Funds movement')
         ])
-     });
+    });
+    
+//     const operations = await Operation.findAll({ 
+//         include: [ Participant, OperationType, PaymentType, User, Lot, Customer ]
+//     });
+// 
+//     res.render('operations', { 
+//         title: 'Funds movement',
+//         operations,
+//         access: access.high(req),
+//         msg: message(req),
+//         breadcrumb: breadcrumb.build([
+//             breadcrumb.make('/operations', 'Funds movement')
+//         ])
+//      });
 }
 
 const create = async (req, res) => {
