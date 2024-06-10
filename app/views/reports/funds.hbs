@@ -1,31 +1,35 @@
-{{#if operations1}}
-<h2>{{ customer1.title }}: {{ currency customerTotal1}}</h2>
+{{#if operations}}
+<h2>{{ customer.title }}: {{ currency customerTotal}}</h2>
 <table class="table table-sm table-bordered">
     <tr>
         <th class="col-1 text-end">ID</th>
         <th class="col-1 text-center">Date</th>
         <th class="col-2">Operation type</th>
-        {{#each participants1}}
+        <th class="col-1">Payment type</th>
+        {{#each participants}}
             <th class="col-1 text-end">{{ this.full_name }}</th>
         {{/each}}
         <th class="col text-center">Description</th>
     </tr>
     <tr class="bg-light">
-        <td class="text-end"><a href="#" id="btn-operations-1">Details</a></td>
-        <td colspan="2"></td>
-        {{#each participants1}}
+        <td class="text-end"><a href="#" id="btn-operations">Details</a></td>
+        <td colspan="3"></td>
+        {{#each participants}}
             <td class="fw-bold small text-end">{{ currency this.totalAmount }}</td>
         {{/each}}
         <td></td>
     </tr>
 </table>
-<div class="hidden" id="operations-1">
+<div class="hidden" id="operations">
     <table class="table table-sm table-bordered">    
-        {{#each operations1}}
+        {{#each operations}}
         <tr class="small">
-            <td class="col-1 text-end">{{ this.id }}</td>
+            <td class="col-1 text-end">
+                <a href="/operations/{{ this.id }}/details" target="_blank">{{ this.id }}</a>
+            </td>
             <td class="col-1 text-center">{{ this.date_reg }}</td>
             <td class="col-2">{{ this.operationType }}</td>
+            <td class="col-1">{{ this.paymentType }}</td>
             {{#each this.participants}}
                 <td class="col-1 text-end">{{ currency amount }}</td>
             {{/each}}
@@ -35,11 +39,10 @@
     </table>
 </div>
 {{/if}}
-
 <script>
 (() => {
-    document.querySelector('#btn-operations-1').addEventListener('click', (ev) => {
-        const el = document.querySelector('#operations-1');
+    document.querySelector('#btn-operations').addEventListener('click', (ev) => {
+        const el = document.querySelector('#operations');
         toggleVisibility(el);
         ev.target.text = el.classList.contains('visible') ? 'Hide details' : 'Details';
     });
