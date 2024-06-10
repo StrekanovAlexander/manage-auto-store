@@ -35,6 +35,7 @@ try {
     app.use('/operation-types', routes.operationTypes);
     app.use('/participants', routes.participants);
     app.use('/specifications', routes.specifications);
+    app.use('/reports', routes.reports);
     app.use('/vehicle-styles', routes.vehicleStyles);
     app.use('/users', routes.users);
 
