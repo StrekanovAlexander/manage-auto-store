@@ -42,23 +42,9 @@ const all = async (req, res) => {
         access: access.high(req),
         msg: message(req),
         breadcrumb: breadcrumb.build([
-            breadcrumb.make('/operations', 'Funds movement')
+            breadcrumb.make('/operations', 'Operations')
         ])
     });
-    
-//     const operations = await Operation.findAll({ 
-//         include: [ Participant, OperationType, PaymentType, User, Lot, Customer ]
-//     });
-// 
-//     res.render('operations', { 
-//         title: 'Funds movement',
-//         operations,
-//         access: access.high(req),
-//         msg: message(req),
-//         breadcrumb: breadcrumb.build([
-//             breadcrumb.make('/operations', 'Funds movement')
-//         ])
-//      });
 }
 
 const create = async (req, res) => {
@@ -67,10 +53,10 @@ const create = async (req, res) => {
     }
     const customers = await Customer.findAll({ order: [['is_main', 'DESC']], where: {activity: true}});
     const participants = await Participant.findAll({ order: [['full_name']], where: {activity: true}});
-    const operationTypes = await OperationType.findAll({ order: [['title']], where: {activity: true, is_lot: false}});
+    const operationTypes = await OperationType.findAll({ order: [['title']], where: {activity: true, is_car_cost: false}});
     const paymentTypes = await PaymentType.findAll({ order: [['title']], where: {activity: true}});
     res.render('operations/create', { 
-        title: 'Funds movement creating',
+        title: 'Adding to fund',
         customers,
         participants,
         operationTypes,
@@ -112,13 +98,13 @@ const edit = async (req, res) => {
     
     const operationTypes = await OperationType.findAll({ order: [['title']], where: {
         activity: true, 
-        is_lot: operation.lot_id ? true : false
+        is_car_cost: operation.lot_id ? true : false
     }});
         
     const paymentTypes = await PaymentType.findAll({ order: [['title']], where: {activity: true}});
 
     res.render('operations/edit', { 
-        title: `Funds movement edit`,
+        title: `Operation edit`,
         operation: operation.dataValues,
         customers,
         participants,
@@ -144,12 +130,18 @@ const update = async (req, res) => {
     const operationType = await OperationType.findByPk(operation_type_id);
     const direction = operationType.direction;
     const user_id = req.session.user_id;
-    const operation = { ...req.body, direction, user_id };
-
-    await Operation.update(operation, { where: { id } });
+    // const operation = { ...req.body, direction, user_id };
+    const operation = await Operation.findByPk(id);
     
-    setMessage(req, `Funds movement record was edited`, 'success');
-    res.redirect(`/operations/${ id}/details`);
+    await Operation.update({ ...req.body, direction, user_id }, { where: { id } });
+    
+    if (operation.lot_id) {
+        setMessage(req, `Cost was edited`, 'success');
+        res.redirect(`/lots/${ operation.lot_id }/details`);    
+    } else {
+        setMessage(req, `Operation was edited`, 'success');
+        res.redirect(`/operations/${ id}/details`);
+    }    
 }
 
 const storeLot = async (req, res) => {
@@ -211,7 +203,7 @@ const details = async (req, res) => {
     });
 
     res.render('operations/details', { 
-        title: `Funds movement details`,
+        title: `Operation details`,
         operation: operation.dataValues,
         msg: message(req),
         breadcrumb: breadcrumb.build([

@@ -1,3 +1,4 @@
+import { Sequelize } from 'sequelize';
 import Lot from '../models/Lot.js';
 import LotStatus from '../models/LotStatus.js';
 import Brand from '../models/Brand.js';
@@ -178,6 +179,29 @@ const update = async (req, res) => {
 
 const details = async (req, res) => {
     const { id } = req.params;
+
+    const costs = await Operation.findAll({
+        attributes: [ 'operation_type_id', [Sequelize.fn('SUM', Sequelize.col('amount')), 'total'] ], 
+        group: ['operation_type_id'],
+        where: { lot_id: id },
+        include: [ OperationType ]    
+    });
+
+    const costSummary = costs.reduce((acc, el) => {
+        const title = (el.dataValues.OperationType.dataValues.title).toLowerCase().replace(' ', '_'); 
+        acc[title] = parseInt(el.dataValues.total);
+        return acc;
+    }, {});
+
+    const costTotal = Object.values(costSummary).reduce((acc,el) => acc += el, 0);
+    // const sum = totalCost.reduce((acc, el) => {
+    //     acc += el;
+    //     return acc;
+    // }, 0);
+
+    // res.json(totalCost);
+
+
     const lot = await Lot.findOne({ where: { id }, include: [ Model, VehicleStyle, LotStatus ]});
     const operations = await Operation.findAll({ where: { lot_id: id }, 
         include: [ Participant, OperationType, PaymentType, User, Customer ]
@@ -186,7 +210,7 @@ const details = async (req, res) => {
     const specifications = lot.specifications ? await buildSpecifications(lot.specifications) : [];
     const customers = await Customer.findAll({ order: [['is_main', 'DESC']], where: {activity: true}});
     const participants = await Participant.findAll({ order: [['full_name']], where: {activity: true}});
-    const operationTypes = await OperationType.findAll({ order: [['title']], where: {activity: true, is_lot: true}});
+    const operationTypes = await OperationType.findAll({ order: [['title']], where: {activity: true, is_car_cost: true}});
     const paymentTypes = await PaymentType.findAll({ order: [['title']], where: {activity: true}});
 
     res.render('lots/details', {
@@ -198,6 +222,8 @@ const details = async (req, res) => {
         operationTypes,
         paymentTypes,
         operations,
+        costSummary,
+        costTotal,
         validator: scriptPath('validators/operation/operation-edit.js'),
         script: scriptPath('lot/lot-details.js'),
         msg: message(req),

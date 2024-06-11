@@ -38,10 +38,9 @@ const store = async (req, res) => {
         return res.redirect('/operation-types');
     }
 
-    const { title, direction, is_lot: _is_lot } = req.body;
-    const is_lot = _is_lot === 'on' ? true : false;
+    const { title, direction, is_car_cost } = req.body;
 
-    await OperationType.create({ title, direction, is_lot });
+    await OperationType.create({ title, direction, is_car_cost: is_car_cost === 'on' });
     setMessage(req, `Operation type was created`, 'success');
     res.redirect('/operation-types');
 }
@@ -70,11 +69,13 @@ const update = async (req, res) => {
     if (!access.isAllow(req, access.high)) {
         return res.redirect('/operation-types');
     }
-    const { id, title, is_lot, direction, activity } = req.body;
-    const _is_lot = is_lot === 'on' ? true : false;
-    const _activity = activity === 'on' ? true : false
+    const { id, title, direction, is_car_cost, activity } = req.body;
 
-    await OperationType.update({ title, direction, is_lot: _is_lot,  activity: _activity }, { where: { id } });
+    await OperationType.update({ title, direction, 
+        is_car_cost: is_car_cost === 'on',  
+        activity: activity === 'on' }, 
+        { where: { id } }
+    );
     setMessage(req, `Operation type was edited`, 'success');
     res.redirect('/operation-types');
 }

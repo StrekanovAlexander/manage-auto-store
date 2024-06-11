@@ -9,7 +9,7 @@ const OperationType = sequelize.define('OperationType', {
             isIn: [['in', 'out']],
         },
     },
-    is_lot: {
+    is_car_cost: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,    
     },

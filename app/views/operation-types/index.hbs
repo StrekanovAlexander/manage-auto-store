@@ -6,7 +6,7 @@
                     <th class="text-end">ID</th>
                     <th>Title</th>
                     <th class="text-center">Direction</th>
-                    <th class="text-center">In lots</th>
+                    <th class="text-center">Car cost</th>
                     <th class="text-center">Activity</th>
                     <th></th>
                 </tr>
@@ -17,7 +17,7 @@
                     <td>{{ title }}</td>
                     <td class="text-center">{{ direction }}</td>
                     <td class="text-center">
-                        {{#if is_lot }}
+                        {{#if is_car_cost }}
                             <i class="bi bi-check-square"></i>
                         {{else}}
                             <span class="text-muted">
