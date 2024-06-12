@@ -2,36 +2,43 @@
     <table class="table table-sm table-bordered">
         <thead>
             <tr>
-                <th class="col-1 text-end">ID. Date</th>
-                <th>Customer</th>
+                <th class="col-1 text-end">ID</th>
+                <th class="col-1">Date</th>
+                <th class="col-1">Customer</th>
                 <th class="col-1">Participant</th>
-                <th class="col-2">Operation type</th>
+                <th class="col-1">Operation type</th>
                 <th class="col-1">Payment type</th>
                 <th class="col-1 text-end">Amount</th>
                 <th class="col-2">Description</th>
-                <th class="col-1 text-center">Stock no</th>
-                <th class="col-1">Author</th>
+                <th class="col-2">Created</th>
                 <th class="col-1 text-center">Details</th>
             </tr>
         </thead>
         {{#each operations}}
             {{#with this.dataValues}}
-                <tr>
-                    <td class="text-end">{{ id }}. {{ date_reg }}</td>
+                <tr class="small" id="row-id-{{ id }}">
+                    <td class="text-end">{{ id }}</td>
+                    <td>{{ date_reg }}</td>
                     <td>{{ Customer.dataValues.title }}</td>
                     <td>{{ Participant.dataValues.full_name }}</td>
                     <td>{{ OperationType.dataValues.title }}</td>
                     <td>{{ PaymentType.dataValues.title }}</td>
                     <td class="text-end">{{ amount }}</td>
                     <td>{{ description }}</td>
-                    <td class="text-center">
-                        {{#if lot_id}}<a href="/lots/{{ lot_id }}/details">{{ Lot.dataValues.stock_id }}</a>{{/if}}
-                     </td>
-                    <td>{{ User.dataValues.username }}</td>
-                    <td class="text-center">
-                        <a href="/operations/{{ id }}/details" class="{{#unless ../../access}} disabled{{/unless}}" title="Details"> 
-                            <i class="bi bi-card-text"></i>
-                        </a>
+                    <td>{{ date created_at }} {{ time created_at }} <span class="fst-italic">{{ User.dataValues.username }}</span></td>
+                    <td>
+                        <div class="row">
+                            <div class="col text-center">
+                                <a href="#" title="Edit" data-bs-toggle="modal" data-bs-target="#modal-edit">
+                                    <i class="bi bi-gear btn-modal-edit" data-btn-modal-id="{{ id }}"></i>
+                                </a>
+                            </div>
+                            <div class="col text-center">
+                                <a href="#" title="Edit" data-bs-toggle="modal" data-bs-target="#modal-remove">
+                                    <i class="bi bi-x-circle btn-modal-remove text-danger" data-btn-modal-id="{{ id }}"></i>
+                                </a>
+                            </div>
+                        </div>
                      </td>
                 </tr>
             {{/with}}
@@ -39,9 +46,10 @@
     </table>
 {{/if}}
 <div class="d-flex justify-content-start my-3">
-    <a href="/operations/create" class="btn btn-sm btn-primary{{#unless access}} disabled{{/unless}}">
-        <i class="bi bi-plus-square"></i> Create
-    </a>
+    <button type="button" id="btn-modal" class="btn btn-sm btn-primary{{#unless access}} disabled{{/unless}}" 
+      data-bs-toggle="modal" data-bs-target="#modal-edit">
+        <i class="bi bi-plus-square"></i> Add
+    </button>
 </div>
 {{#if pages }}
 <nav aria-label="Page navigation">
@@ -64,3 +72,164 @@
   </ul>
 </nav>
 {{/if}}
+
+<!-- Modal Operation edit -->
+<div class="modal" id="modal-edit">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="/operations/create" method="POST" id="form-edit">
+                <div class="modal-header">
+                    <h5 class="modal-title">Operation data</h5>
+                    <button type="button" class="btn-sm btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <label for="date_reg" class="form-label small">Date</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" id="date_reg" name="date_reg" 
+                                class="form-control form-control-sm form-input-required-date" value="{{ currentDate }}" />  
+                            <span class="fs-75 text-muted fst-italic">YYYY-MM-DD</span>   
+                        </div>
+                    </div> 
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <label for="customer_id" class="form-label small">Customer</label>
+                        </div>
+                        <div class="col">
+                            <select class="form-select form-select-sm" id="customer_id" name="customer_id">
+                            {{#each customers }}
+                                <option value="{{ this.dataValues.id }}">{{ this.dataValues.title }}</option>
+                            {{/each}}
+                            </select>    
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <label for="participant_id" class="form-label small">Participant</label>
+                        </div>
+                        <div class="col">
+                            <select class="form-select form-select-sm" id="participant_id" name="participant_id">
+                                <option value="" selected>Select...</option>
+                                {{#each participants }}
+                                    <option value="{{ this.dataValues.id }}">{{ this.dataValues.full_name }}</option>
+                                {{/each}}
+                            </select>    
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <label for="operation_type_id" class="form-label small">Operation type</label>
+                        </div>
+                        <div class="col">
+                            <select class="form-select form-select-sm" id="operation_type_id" name="operation_type_id">
+                                <option value="" selected>Select...</option>
+                                {{#each operationTypes }}
+                                    <option value="{{ this.dataValues.id }}">{{ this.dataValues.title }}</option>
+                                {{/each}}
+                            </select>    
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <label for="payment_type_id" class="form-label small">Payment type</label>
+                        </div>
+                        <div class="col">
+                            <select class="form-select form-select-sm" id="payment_type_id" name="payment_type_id">
+                                <option value="" selected>Select...</option>
+                                {{#each paymentTypes }}
+                                    <option value="{{ this.dataValues.id }}">{{ this.dataValues.title }}</option>
+                                {{/each}}
+                            </select>    
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <label for="amount" class="form-label small">Amount</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="text" id="amount" name="amount" 
+                                class="form-control form-control-sm number" />
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <label for="description" class="form-label small">Description</label>
+                        </div>
+                        <div class="col">
+                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                    <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="submit" id="button-submit" class="btn btn-sm btn-primary" disabled>
+                        <i class="bi bi-save2"></i> Save
+                    </button>
+                </div>
+                <input type="hidden" name="id" value="{{ id }}" id="hidden-id" />
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Operation remove -->
+<div class="modal" id="modal-remove">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="/operations/remove" method="POST" id="form-remove">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger">Remove operation ?</h5>
+                    <button type="button" class="btn-sm btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-2">
+                        <div class="col-4 fw-bold">ID</div><div class="col" id="rm-id"></div>    
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 fw-bold">Date</div><div class="col" id="rm-date-reg"></div>    
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 fw-bold">Customer</div><div class="col" id="rm-customer"></div>    
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 fw-bold">Participant</div><div class="col" id="rm-participant"></div>    
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 fw-bold">Operation type</div><div class="col" id="rm-operation-type"></div>    
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 fw-bold">Payment type</div><div class="col" id="rm-payment-type"></div>    
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 fw-bold">Amount</div><div class="col" id="rm-amount"></div>    
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 fw-bold">Description</div><div class="col" id="rm-description"></div>    
+                    </div>
+                    <div class="mt-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="rm-check-box">
+                            <label class="form-check-label" for="rm-check-box">I am sure</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                    <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="submit" id="btn-rm-submit" class="btn btn-sm btn-primary" disabled>
+                        <i class="bi bi-save2"></i> Remove
+                    </button>
+                </div>
+                <input type="hidden" name="id" id="hidden-rm-id" />
+            </form>
+        </div>
+    </div>
+</div>
+
+{{{ script }}}

@@ -194,13 +194,6 @@ const details = async (req, res) => {
     }, {});
 
     const costTotal = Object.values(costSummary).reduce((acc,el) => acc += el, 0);
-    // const sum = totalCost.reduce((acc, el) => {
-    //     acc += el;
-    //     return acc;
-    // }, 0);
-
-    // res.json(totalCost);
-
 
     const lot = await Lot.findOne({ where: { id }, include: [ Model, VehicleStyle, LotStatus ]});
     const operations = await Operation.findAll({ where: { lot_id: id }, 
