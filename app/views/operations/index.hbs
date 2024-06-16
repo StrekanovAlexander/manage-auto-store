@@ -4,12 +4,12 @@
             <tr>
                 <th class="col-1 text-end">ID</th>
                 <th class="col-1">Date</th>
-                <th class="col-1">Customer</th>
-                <th class="col-1">Participant</th>
+                <th class="col-1">Account</th>
+                <th class="col-1">Subject</th>
                 <th class="col-1">Operation type</th>
-                <th class="col-1">Payment type</th>
                 <th class="col-1 text-end">Amount</th>
                 <th class="col-2">Description</th>
+                <th class="col-1">Author</th>
                 <th class="col-2">Created</th>
                 <th class="col-1 text-center">Details</th>
             </tr>
@@ -19,13 +19,13 @@
                 <tr class="small" id="row-id-{{ id }}">
                     <td class="text-end">{{ id }}</td>
                     <td>{{ date_reg }}</td>
-                    <td>{{ Customer.dataValues.title }}</td>
-                    <td>{{ Participant.dataValues.full_name }}</td>
+                    <td>{{ account.dataValues.title }}</td>
+                    <td>{{ subAccount.dataValues.title }}</td>
                     <td>{{ OperationType.dataValues.title }}</td>
-                    <td>{{ PaymentType.dataValues.title }}</td>
                     <td class="text-end">{{ currency amount }}</td>
                     <td>{{ description }}</td>
-                    <td>{{ date created_at }} {{ time created_at }} <span class="fst-italic">{{ User.dataValues.username }}</span></td>
+                    <td>{{ User.dataValues.username }}</td>
+                    <td>{{ date created_at }} {{ time created_at }}</td>
                     <td>
                         <div class="row">
                             <div class="col text-center">
@@ -85,7 +85,7 @@
                 <div class="modal-body">
                     <div class="row mb-3">
                         <div class="col-3">
-                            <label for="date_reg" class="form-label small">Date</label>
+                            <label for="date_reg" class="form-label">Date</label>
                         </div>
                         <div class="col">
                             <input type="text" id="date_reg" name="date_reg" 
@@ -95,11 +95,11 @@
                     </div> 
                     <div class="row mb-3">
                         <div class="col-3">
-                            <label for="customer_id" class="form-label small">Customer</label>
+                            <label for="account_id" class="form-label">Account</label>
                         </div>
                         <div class="col">
-                            <select class="form-select form-select-sm" id="customer_id" name="customer_id">
-                            {{#each customers }}
+                            <select class="form-select form-select-sm" id="account_id" name="account_id">
+                            {{#each accounts }}
                                 <option value="{{ this.dataValues.id }}">{{ this.dataValues.title }}</option>
                             {{/each}}
                             </select>    
@@ -107,24 +107,23 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-3">
-                            <label for="participant_id" class="form-label small">Participant</label>
+                            <label for="sub_account_id" class="form-label">Subject</label>
                         </div>
                         <div class="col">
-                            <select class="form-select form-select-sm" id="participant_id" name="participant_id">
+                            <select class="form-select form-select-sm" id="sub_account_id" name="sub_account_id">
                                 <option value="" selected>Select...</option>
-                                {{#each participants }}
-                                    <option value="{{ this.dataValues.id }}">{{ this.dataValues.full_name }}</option>
+                                {{#each subAccounts }}
+                                    <option value="{{ this.dataValues.id }}">{{ this.dataValues.title }}</option>
                                 {{/each}}
                             </select>    
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-3">
-                            <label for="operation_type_id" class="form-label small">Operation type</label>
+                            <label for="operation_type_id" class="form-label">Operation type</label>
                         </div>
                         <div class="col">
                             <select class="form-select form-select-sm" id="operation_type_id" name="operation_type_id">
-                                <option value="" selected>Select...</option>
                                 {{#each operationTypes }}
                                     <option value="{{ this.dataValues.id }}">{{ this.dataValues.title }}</option>
                                 {{/each}}
@@ -133,22 +132,9 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-3">
-                            <label for="payment_type_id" class="form-label small">Payment type</label>
+                            <label for="amount" class="form-label">Amount</label>
                         </div>
                         <div class="col">
-                            <select class="form-select form-select-sm" id="payment_type_id" name="payment_type_id">
-                                <option value="" selected>Select...</option>
-                                {{#each paymentTypes }}
-                                    <option value="{{ this.dataValues.id }}">{{ this.dataValues.title }}</option>
-                                {{/each}}
-                            </select>    
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-3">
-                            <label for="amount" class="form-label small">Amount</label>
-                        </div>
-                        <div class="col-3">
                             <input type="text" id="amount" name="amount" 
                                 class="form-control form-control-sm number" />
                         </div>
@@ -194,16 +180,13 @@
                         <div class="col-4 fw-bold">Date</div><div class="col" id="rm-date-reg"></div>    
                     </div>
                     <div class="row mb-2">
-                        <div class="col-4 fw-bold">Customer</div><div class="col" id="rm-customer"></div>    
+                        <div class="col-4 fw-bold">Account</div><div class="col" id="rm-account"></div>    
                     </div>
                     <div class="row mb-2">
-                        <div class="col-4 fw-bold">Participant</div><div class="col" id="rm-participant"></div>    
+                        <div class="col-4 fw-bold">Subject</div><div class="col" id="rm-subject"></div>    
                     </div>
                     <div class="row mb-2">
                         <div class="col-4 fw-bold">Operation type</div><div class="col" id="rm-operation-type"></div>    
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-4 fw-bold">Payment type</div><div class="col" id="rm-payment-type"></div>    
                     </div>
                     <div class="row mb-2">
                         <div class="col-4 fw-bold">Amount</div><div class="col" id="rm-amount"></div>    

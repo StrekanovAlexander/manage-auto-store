@@ -2,12 +2,11 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../db/sequelize.js';
 
 const Operation = sequelize.define('Operation', {
-    user_id: DataTypes.INTEGER,
-    customer_id: DataTypes.INTEGER,
-    participant_id: DataTypes.INTEGER,
+    account_id: DataTypes.INTEGER,
+    sub_account_id: DataTypes.INTEGER,
     operation_type_id: DataTypes.INTEGER,
-    payment_type_id: DataTypes.INTEGER,
     lot_id: DataTypes.INTEGER,
+    user_id: DataTypes.INTEGER,
     date_reg: {
         type: DataTypes.DATEONLY,
         defaultValue: DataTypes.NOW

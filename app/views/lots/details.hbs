@@ -5,18 +5,22 @@
                <td class="col-6 fw-bold">Stock No</td>
                <td class="col-6">{{ lot.stock_id }}</td> 
             </tr>
+             <tr>
+               <td class="col-6 fw-bold">Account (dealer)</td>
+               <td class="col-6">{{ lot.Account.dataValues.title }}</td> 
+            </tr>
             <tr>
                <td class="col-6 fw-bold">Vehicle style</td>
                <td class="col-6">{{ lot.VehicleStyle.dataValues.title }}</td> 
-            </tr>
-            <tr>
-               <td class="col-6 fw-bold">Model</td>
-               <td class="col-6">{{ lot.Model.dataValues.title }}</td> 
             </tr>
         </table>
     </div>
     <div class="col">
         <table class="table table-sm table-bordered">
+             <tr>
+               <td class="col-6 fw-bold">Model</td>
+               <td class="col-6">{{ lot.Model.dataValues.title }}</td> 
+            </tr>
             <tr>
                <td class="col-6 fw-bold">Vin</td>
                <td class="col-6">{{ lot.vin }}</td> 
@@ -25,14 +29,14 @@
                <td class="col-6 fw-bold">Year</td>
                <td class="col-6">{{ lot.year }}</td> 
             </tr>
-            <tr>
-               <td class="col-6 fw-bold">Status</td>
-               <td class="col-6">{{ lot.LotStatus.dataValues.title }}</td> 
-            </tr>
         </table>
     </div>
     <div class="col">
         <table class="table table-sm table-bordered">
+            <tr>
+               <td class="col-6 fw-bold">Status</td>
+               <td class="col-6">{{ lot.LotStatus.dataValues.title }}</td> 
+            </tr>
             <tr>
                <td>Description</td>
             </tr>
@@ -79,13 +83,12 @@
             <tr>
                 <th class="col-1 text-end">ID</th>
                 <th class="col-1 text-center">Date</th>
-                <th class="col-1">Customer</th>
-                <th class="col-1">Participant</th>
+                <th class="col-1">Subject</th>
                 <th class="col-2">Operation type</th>
-                <th class="col-1">Payment type</th>
                 <th class="col-1 text-end">Amount</th>
                 <th class="col-2">Description</th>
                 <th class="col-1">Author</th>
+                <th class="col-2">Created at</th>
                 <th class="col-1"></th>
             </tr>
         </thead>
@@ -94,13 +97,12 @@
                 <tr id="cost-row-id-{{ id }}">
                     <td class="text-end">{{ id }}</td>
                     <td class="text-center">{{ date_reg }}</td>
-                    <td>{{ Customer.dataValues.title }}</td>
-                    <td>{{ Participant.dataValues.full_name }}</td>
+                    <td>{{ subAccount.dataValues.title }}</td>
                     <td>{{ OperationType.dataValues.title }}</td>
-                    <td>{{ PaymentType.dataValues.title }}</td>
-                    <td class="text-end">{{ amount }}</td>
+                    <td class="text-end">{{ currency amount }}</td>
                     <td>{{ description }}</td>
                     <td>{{ User.dataValues.username }}</td>
+                    <td>{{ date created_at }} {{ time created_at }}</td>
                     <td class="text-center">
                         <a href="#" title="Edit" data-bs-toggle="modal" data-bs-target="#modalCostEdit">
                             <i class="bi bi-gear btn-edit-cost" data-btn-edit-cost="{{ id }}"></i>
@@ -124,63 +126,63 @@
                 <div class="row">
                     <div class="col-md-6 com-sm-12">
                         <div class="mb-2">
-                            <label class="form-label small">Auction bid</label>
-                            <input type="text" class="form-control form-control-sm" value="{{ currency costSummary.auction_bid }}" readonly />
+                            <label for="auction-bid" class="form-label">Auction bid</label>
+                            <input type="text" id="auction-bid" class="form-control form-control-sm" value="{{ currency costSummary.auction_bid }}" readonly />
                         </div>
                         <div class="mb-2">
-                            <label class="form-label small">Auction fee</label>
-                            <input type="text" class="form-control form-control-sm" 
+                            <label for="auction-fee" class="form-label">Auction fee</label>
+                            <input type="text" id="auction-fee" class="form-control form-control-sm" 
                                 value="{{ currency costSummary.auction_fee }}" readonly />
                         </div>
                         <div class="mb-2">
-                            <label class="form-label small">Dealer services</label>
-                            <input type="text" class="form-control form-control-sm" value="{{ currency costSummary.dealer_services }}" readonly />
+                            <label for="dealer-service" class="form-label">Dealer services</label>
+                            <input type="text" id="dealer-service" class="form-control form-control-sm" value="{{ currency costSummary.dealer_services }}" readonly />
                         </div>
                         <div class="mb-2">
-                            <label class="form-label small">Registration</label>
-                            <input type="text" class="form-control form-control-sm" value="{{ currency costSummary.registration }}" readonly />
+                            <label for="registration" class="form-label">Registration</label>
+                            <input type="text" id="registration" class="form-control form-control-sm" value="{{ currency costSummary.registration }}" readonly />
                         </div>
                         <div class="mb-2">
-                            <label class="form-label small">Delivery</label>
-                            <input type="text" class="form-control form-control-sm" value="{{ currency costSummary.delivery }}" readonly />
+                            <label for="delivery" class="form-label">Delivery</label>
+                            <input type="text" id="delivery" class="form-control form-control-sm" value="{{ currency costSummary.delivery }}" readonly />
                         </div>
                         <div class="mb-2">
-                            <label class="form-label small">Spares</label>
-                            <input type="text" class="form-control form-control-sm" value="{{ currency costSummary.spares }}" readonly />
+                            <label for="spares" class="form-label">Spares</label>
+                            <input type="text" id="spares" class="form-control form-control-sm" value="{{ currency costSummary.spares }}" readonly />
                         </div>
                         <div class="mb-2">
-                            <label class="form-label small">Repair</label>
-                            <input type="text" class="form-control form-control-sm" value="{{ currency costSummary.repair }}" readonly />
+                            <label for="repair" class="form-label">Repair</label>
+                            <input type="text" id="repair" class="form-control form-control-sm" value="{{ currency costSummary.repair }}" readonly />
                         </div>
                     </div>
                     <div class="col-md-6 com-sm-12">
                         <div class="mb-2">
-                            <label class="form-label small">Painting</label>
-                            <input type="text" class="form-control form-control-sm" value="{{ currency costSummary.painting }}" readonly />
+                            <label for="painting" class="form-label">Painting</label>
+                            <input type="text" id="painting" class="form-control form-control-sm" value="{{ currency costSummary.painting }}" readonly />
                         </div>
                         <div class="mb-2">
-                            <label class="form-label small">Consumables</label>
-                            <input type="text" class="form-control form-control-sm" value="{{ currency costSummary.consumables }}" readonly />
+                            <label for="consumables" class="form-label">Consumables</label>
+                            <input type="text" id="consumables" class="form-control form-control-sm" value="{{ currency costSummary.consumables }}" readonly />
                         </div>
                         <div class="mb-2">
-                            <label class="form-label small">Inspection</label>
-                            <input type="text" class="form-control form-control-sm" value="{{ currency costSummary.inspection }}" readonly />
+                            <label for="inspection" class="form-label">Inspection</label>
+                            <input type="text" id="inspection" class="form-control form-control-sm" value="{{ currency costSummary.inspection }}" readonly />
                         </div>
                         <div class="mb-2">
-                            <label class="form-label small">Washing</label>
-                            <input type="text" class="form-control form-control-sm" value="{{ currency costSummary.washing }}" readonly />
+                            <label for="washing" class="form-label">Washing</label>
+                            <input type="text" id="washing" class="form-control form-control-sm" value="{{ currency costSummary.washing }}" readonly />
                         </div>
                         <div class="mb-2">
-                            <label class="form-label small">Dealer number rent</label>
-                            <input type="text" class="form-control form-control-sm" value="{{ currency costSummary.dealer_number_rent }}" readonly />
+                            <label for="dealer-number-rent" class="form-label">Dealer number rent</label>
+                            <input type="text" id="dealer-number-rent" class="form-control form-control-sm" value="{{ currency costSummary.dealer_number_rent }}" readonly />
                         </div>
                         <div class="mb-2">
-                            <label class="form-label small">Other costs</label>
-                            <input type="text" class="form-control form-control-sm" value="{{ currency costSummary.other_costs }}" readonly />
+                            <label for="other-costs" class="form-label">Other costs</label>
+                            <input type="text" id="other-costs" class="form-control form-control-sm" value="{{ currency costSummary.other_costs }}" readonly />
                         </div>
                         <div class="mb-2">
-                            <label class="form-label small fw-bold">Total costs</label>
-                            <input type="text" class="form-control form-control-sm fw-bold" value="{{ currency costTotal }}" readonly />
+                            <label for="total-costs" class="form-label fw-bold">Total costs</label>
+                            <input type="text" id="total-costs" class="form-control form-control-sm fw-bold" value="{{ currency costTotal }}" readonly />
                         </div>
                     </div>
                 </div>
@@ -203,7 +205,7 @@
                 <div class="modal-body">
                     <div class="row mb-3">
                         <div class="col-3">
-                            <label for="date_reg" class="form-label small">Date</label>
+                            <label for="date_reg" class="form-label">Date</label>
                         </div>
                         <div class="col">
                             <input type="text" id="date_reg" name="date_reg" 
@@ -213,25 +215,22 @@
                     </div> 
                     <div class="row mb-3">
                         <div class="col-3">
-                            <label for="customer_id" class="form-label small">Customer</label>
+                            <label for="account-title" class="form-label">Account</label>
                         </div>
                         <div class="col">
-                            <select class="form-select form-select-sm" id="customer_id" name="customer_id">
-                            {{#each customers }}
-                                <option value="{{ this.dataValues.id }}">{{ this.dataValues.title }}</option>
-                            {{/each}}
-                            </select>    
+                            <input type="text" id="account-title" class="form-control form-control-sm" value="{{ lot.Account.dataValues.title}}" readonly />
+                            <input type="hidden" id="account_id" name="account_id" value="{{ lot.account_id}}" />
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-3">
-                            <label for="participant_id" class="form-label small">Participant</label>
+                            <label for="sub_account_id" class="form-label">Subject</label>
                         </div>
                         <div class="col">
-                            <select class="form-select form-select-sm" id="participant_id" name="participant_id">
+                            <select class="form-select form-select-sm" id="sub_account_id" name="sub_account_id">
                                 <option value="" selected>Select...</option>
-                                {{#each participants }}
-                                    <option value="{{ this.dataValues.id }}">{{ this.dataValues.full_name }}</option>
+                                {{#each subAccounts }}
+                                    <option value="{{ this.dataValues.id }}">{{ this.dataValues.title }}</option>
                                 {{/each}}
                             </select>    
                         </div>
@@ -244,19 +243,6 @@
                             <select class="form-select form-select-sm" id="operation_type_id" name="operation_type_id">
                                 <option value="" selected>Select...</option>
                                 {{#each operationTypes }}
-                                    <option value="{{ this.dataValues.id }}">{{ this.dataValues.title }}</option>
-                                {{/each}}
-                            </select>    
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-3">
-                            <label for="payment_type_id" class="form-label small">Payment type</label>
-                        </div>
-                        <div class="col">
-                            <select class="form-select form-select-sm" id="payment_type_id" name="payment_type_id">
-                                <option value="" selected>Select...</option>
-                                {{#each paymentTypes }}
                                     <option value="{{ this.dataValues.id }}">{{ this.dataValues.title }}</option>
                                 {{/each}}
                             </select>    

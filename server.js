@@ -28,12 +28,11 @@ try {
     await sequelize.authenticate();
 
     app.use('/', routes.home);
+    app.use('/accounts', routes.accounts);
     app.use('/brands', routes.brands);
-    app.use('/customers', routes.customers);
     app.use('/lots', routes.lots);
     app.use('/operations', routes.operations);
     app.use('/operation-types', routes.operationTypes);
-    app.use('/participants', routes.participants);
     app.use('/specifications', routes.specifications);
     app.use('/reports', routes.reports);
     app.use('/vehicle-styles', routes.vehicleStyles);

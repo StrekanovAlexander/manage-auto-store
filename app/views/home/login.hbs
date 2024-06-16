@@ -11,43 +11,43 @@
     <link rel="stylesheet" href="/css/custom.css"/>
 </head>
 <body>
-    <div class="row mt-5">
-        <div class="col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-sm-8 offset-sm-2 p-5">
-            <div class="card m-5">
-                <form action="/login" method="POST">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col-3">
-                                <i class="bi bi-car-front"></i>
-                            </div>
-                            <div class="col small">
-                                Authorization
-                            </div>
-                        </div>
-                    </div>
+    <div class="row d-flex justify-content-center mt-5">
+        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-8">
+            <form action="/login" method="POST">
+                <div class="card mx-3">
+                    <div class="card-header text-center">Authorization</div>
                     <div class="card-body">
                         <div class="row mb-3">
-                            <div class="col-3 small">Login</div>
-                            <div class="col small">
-                                <input type="text" class="form-control form-control-sm" 
-                                    name="username" value="" />
+                            <div class="col-2 text-center">
+                                <i class="bi bi-person-circle lead text-secondary"></i>
                             </div>
-                        </div>
+                            <div class="col">
+                                <input type="text" class="form-control form-control-sm" 
+                                    name="username" value="" placeholder="Login" />
+                            </div>
+                        </div>    
                         <div class="row">
-                            <div class="col-3 small">Password</div>
+                            <div class="col-2 text-center">
+                                <i class="bi bi-shield-lock-fill lead text-secondary"></i>
+                            </div>
                             <div class="col">
                                 <input type="password" class="form-control form-control-sm" 
-                                    name="password" value="" />
+                                    name="password" value="" placeholder="Password" />
                             </div>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary btn-sm">
-                            <i class="bi bi-key-fill"></i> Next
-                        </button>
+                        <div class="row">
+                            <div class="col-2"></div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    <i class="bi bi-key-fill"></i> Next
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                </form>
-            </div>
+                </div>    
+            </form>
         </div>
     </div>
 </body>

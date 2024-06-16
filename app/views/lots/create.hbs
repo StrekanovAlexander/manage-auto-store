@@ -26,6 +26,18 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="col-4">
+                                    <label for="account_id" class="form-label">Account</label>
+                                </div>
+                                <div class="col">
+                                    <select class="form-select form-select-sm form-select-required" id="account_id" name="account_id">
+                                        {{#each accounts }}
+                                            <option value="{{ this.dataValues.id }}">{{ this.dataValues.title }}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-4">
                                     <label for="vehicle_style_id" class="form-label small">Vehicle style</label>
                                 </div>
                                 <div class="col">

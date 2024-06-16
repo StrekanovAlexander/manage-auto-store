@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import helpers from '../common/helpers.js';
 import breadcrumb from '../common/breadcrumb.js';
+
 import Role from '../models/Role.js';
 import User from '../models/User.js';
 
@@ -41,7 +42,10 @@ const logout = (req, res) => {
 };
 
 const home = (req, res) => {
-    res.render('home', { title: 'Home', breadcrumb: breadcrumb.build() });
+    res.render('home', { 
+        title: 'Home', 
+        breadcrumb: breadcrumb.build() 
+    });
 };
 
 export default { login, logout, home };

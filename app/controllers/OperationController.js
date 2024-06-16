@@ -1,24 +1,22 @@
 import { Op } from 'sequelize';
 import paginate from 'express-paginate';
+import Account from '../models/Account.js';
+import Lot from '../models/Lot.js';
 import Operation from '../models/Operation.js';
 import OperationType from '../models/OperationType.js';
-import Customer from '../models/Customer.js';
-import Participant from '../models/Participant.js';
-import PaymentType from '../models/PaymentType.js';
 import User from '../models/User.js';
-import Lot from '../models/Lot.js';
 
 import access from '../common/access.js';
 import breadcrumb from '../common/breadcrumb.js';
 import scriptPath from '../common/script-path.js';
 import { message, setMessage } from '../common/message.js';
 
-Operation.belongsTo(Customer, { foreignKey: 'customer_id' });
-Operation.belongsTo(Participant, { foreignKey: 'participant_id' });
-Operation.belongsTo(OperationType, { foreignKey: 'operation_type_id' });
-Operation.belongsTo(PaymentType, { foreignKey: 'payment_type_id' });
-Operation.belongsTo(User, { foreignKey: 'user_id' });
+Operation.belongsTo(Account, { as: 'account', foreignKey: 'account_id' });
+Operation.belongsTo(Account, { as: 'subAccount', foreignKey: 'sub_account_id' });
 Operation.belongsTo(Lot, { foreignKey: 'lot_id' });
+Operation.belongsTo(OperationType, { foreignKey: 'operation_type_id' });
+Operation.belongsTo(User, { foreignKey: 'user_id' });
+
 
 const all = async (req, res) => {
     
@@ -27,25 +25,22 @@ const all = async (req, res) => {
         order: [['date_reg', 'DESC'], ['created_at', 'DESC']],
         limit: req.query.limit, 
         offset: req.skip,
-        include: [ Participant, OperationType, PaymentType, User, Lot, Customer ]
+        include: [ Lot, OperationType, User, { model: Account, as: 'account' }, { model: Account, as: 'subAccount'} ]
     });
 
     const pageCount = Math.ceil(results.count / req.query.limit);
     const pages = paginate.getArrayPages(req)(req.query.limit, pageCount, req.query.page);
 
-    const customers = await Customer.findAll({ order: [['is_main', 'DESC']], where: {activity: true}});
-    const participants = await Participant.findAll({ order: [['full_name']], where: {activity: true}});
+    const accounts = await Account.findAll({ order: [['is_default', 'DESC']], where: { activity: true, user_id: { [Op.is]: null } }});
+    const subAccounts = await Account.findAll({ order: [['title']], where: { activity: true, is_default: false } } );
     const operationTypes = await OperationType.findAll({ order: [['title']], where: {activity: true, is_car_cost: false}});
-    const paymentTypes = await PaymentType.findAll({ order: [['title']], where: {activity: true}});
-    
+     
     res.render('operations', { 
         title: 'Operations',
-        customers,
-        participants,
+        accounts,
+        subAccounts,
         operationTypes,
-        paymentTypes,
-        validator: scriptPath('validators/operation/operation-edit.js'),
-        script: scriptPath('operation/operation-edit.js'),
+        script: scriptPath('operations.js'),
         operations: results.rows,
         pages,
         hasPrevPage: req.query.page > 1,
@@ -65,15 +60,15 @@ const store = async (req, res) => {
         return res.redirect('/operations');
     }
    
-    const { date_reg, customer_id, participant_id, operation_type_id, payment_type_id, amount, description } = req.body;
+    const { date_reg, account_id, sub_account_id, operation_type_id, amount, description } = req.body;
     const operationType = await OperationType.findByPk(operation_type_id);
     const direction = operationType.direction;
     const user_id = req.session.user_id;
-    const operation = { date_reg, customer_id, participant_id, operation_type_id, payment_type_id, amount, description, direction, user_id };
+    const operation = { date_reg, account_id, sub_account_id, operation_type_id, amount, description, direction, user_id };
      
     await Operation.create(operation);
     setMessage(req, `Operation was created`, 'success');
-    res.redirect('/operations');
+    res.redirect('/');
 }
 
 const update = async (req, res) => {
@@ -95,7 +90,7 @@ const update = async (req, res) => {
         res.redirect(`/lots/${ operation.lot_id }/details`);    
     } else {
         setMessage(req, `Operation was edited`, 'success');
-        res.redirect('/operations');
+        res.redirect('/');
     }    
 }
 
@@ -108,31 +103,11 @@ const storeLot = async (req, res) => {
     const direction = operationType.direction;
     const user_id = req.session.user_id;
     const operation = { ...req.body, direction, user_id, lot_id };
-    
+     
     await Operation.create(operation);
-    setMessage(req, `Operation by lot was created`, 'success');
+    setMessage(req, `Cost for lot was created`, 'success');
     res.redirect(`/lots/${lot_id}/details`);
 }
-
-// const remove = async (req, res) => {
-//     if (!access.isAllow(req, access.high)) {
-//         return res.redirect('/operations');
-//     }
-// 
-//     const { id } = req.params;
-//     const operation = await Operation.findOne({ where: { id }, 
-//         include: [ Participant, OperationType, PaymentType, User, Lot ] });
-// 
-//     res.render('operations/remove', { 
-//         title: 'Operation removing',
-//         operation: operation.dataValues, 
-//         breadcrumb: breadcrumb.build([
-//             breadcrumb.make('/operations', 'Funds movement'),
-//             breadcrumb.make('#', id),
-//             breadcrumb.make('#', 'Remove...'),
-//         ])
-//     });
-// }
 
 const remove = async (req, res) => {
     if (!access.isAllow(req, access.high)) {

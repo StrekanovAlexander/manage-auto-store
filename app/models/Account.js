@@ -1,9 +1,10 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db/sequelize.js';
 
-const Customer = sequelize.define('Customer', {
+const Account = sequelize.define('Account', {
     title: DataTypes.STRING,
-    is_main: {
+    user_id: DataTypes.INTEGER,
+    is_default: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
     },
@@ -12,10 +13,10 @@ const Customer = sequelize.define('Customer', {
         defaultValue: true,
     }
 }, {
-    tableName: 'customers',
+    tableName: 'accounts',
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at'
 });
 
-export default Customer;
+export default Account;
