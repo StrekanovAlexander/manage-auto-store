@@ -18,6 +18,7 @@ import access from '../common/access.js';
 import breadcrumb from '../common/breadcrumb.js';
 import scriptPath from '../common/script-path.js';
 import { message, setMessage } from '../common/message.js';
+import utils from '../common/utils.js';
 
 const offset = 100;
 
@@ -268,4 +269,22 @@ const editDate = async (req, res) => {
 
 }
 
-export default { all, create, store, edit, update, details, editDate };
+const currentLots = async (req, res) => {
+    const rows = await Lot.findAll({ where: { lot_status_id: { [Op.ne]: 2 } }, include: [ Model ] });
+    const lots = await Promise.all(rows.map(async (el) => {
+        el.dataValues.days_repair = utils.daysDiff(el.date_buy, el.date_ready);
+        el.dataValues.days_sale = utils.daysDiff(el.date_ready, utils.currentDate());
+        el.dataValues.days_downtime = utils.daysDiff(el.date_buy, utils.currentDate());
+        el.dataValues.total_cost = await Operation.sum('amount', { where: { lot_id: el.id } });
+        el.dataValues.money_price = utils.moneyPrice(el.dataValues.total_cost, el.dataValues.days_downtime);
+        return el;
+    }));
+
+    res.render('lots/current-lots', {
+        title: `Current lots`,
+        lots
+    });
+
+}
+
+export default { all, create, store, edit, update, details, editDate, currentLots };
