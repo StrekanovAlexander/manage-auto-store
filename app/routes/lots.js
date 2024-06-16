@@ -11,4 +11,6 @@ router.get('/:id/edit', auth, lotController.edit);
 router.post('/edit', auth, lotController.update);
 router.get('/:id/details', auth, lotController.details);
 
+router.post('/date/edit', auth, lotController.editDate);
+
 export default router;

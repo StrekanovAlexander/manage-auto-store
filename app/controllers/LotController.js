@@ -254,4 +254,18 @@ const buildSpecifications = async (specifications) => {
     }, []);
 }
 
-export default { all, create, store, edit, update, details };
+const editDate = async (req, res) => {
+    const { id, date_buy, date_ready, date_sale } = req.body;
+  
+    await Lot.update({ 
+        date_buy: date_buy ? date_buy : null, 
+        date_ready: date_ready ? date_ready : null, 
+        date_sale: date_sale ? date_sale : null 
+    }, { where: { id } });
+    
+    setMessage(req, `Lot was edited`, 'success');
+    res.redirect(`/lots/${ id }/details`);
+
+}
+
+export default { all, create, store, edit, update, details, editDate };
