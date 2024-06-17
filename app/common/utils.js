@@ -8,7 +8,8 @@ const daysDiff = (date1, date2 = '') => {
 }
 
 const moneyPrice = (cost, days) => cost * 0.15 / 366 * days;
+const marginality = (val1, val2) => val1 / val2 * 100 - 100;
 
 export default {
-    currentDate, daysDiff, moneyPrice
+    currentDate, daysDiff, marginality, moneyPrice
 }

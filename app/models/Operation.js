@@ -24,6 +24,8 @@ const Operation = sequelize.define('Operation', {
         defaultValue: true,
     }
 }, {
+    charset: 'utf8',
+    collate: 'utf8_unicode_ci',
     tableName: 'operations',
     timestamps: true,
     createdAt: 'created_at',

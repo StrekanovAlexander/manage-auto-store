@@ -5,6 +5,10 @@
                <td class="col fw-bold">Stock No</td>
                <td class="col">{{ lot.stock_id }}</td> 
             </tr>
+            <tr>
+               <td class="col fw-bold">Lot Number</td>
+               <td class="col">{{ lot.number_id }}</td> 
+            </tr>
              <tr>
                <td class="col fw-bold">Account (dealer)</td>
                <td class="col">{{ lot.Account.dataValues.title }}</td> 
@@ -29,6 +33,10 @@
                <td class="col fw-bold">Year</td>
                <td class="col">{{ lot.year }}</td> 
             </tr>
+            <tr>
+               <td class="col fw-bold">Status</td>
+               <td class="col">{{ lot.LotStatus.dataValues.title }}</td> 
+            </tr>
         </table>
     </div>
     <div class="col-md-3">
@@ -45,16 +53,16 @@
                <td class="col fw-bold">Date sale</td>
                <td class="col">{{ lot.date_sale }}</td> 
             </tr>
+            <tr>
+               <td class="col fw-bold">Target price</td>
+               <td class="col">{{ currency lot.target_price }}</td> 
+            </tr>
         </table>
     </div>
     <div class="col-md-3">
         <table class="table table-sm table-bordered">
             <tr>
-               <td class="col fw-bold">Status</td>
-               <td class="col">{{ lot.LotStatus.dataValues.title }}</td> 
-            </tr>
-            <tr>
-               <td colspan="2 fw-bold">Description</td>
+               <td colspan="2" class="fw-bold">Description</td>
             </tr>
             <tr>
                <td colspan="2">{{ lot.description }}</td>
@@ -91,8 +99,11 @@
         </button>
     </div>
     <div class="col text-end">
-        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalDateEdit">
+        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalDatesEdit">
             <i class="bi bi-calendar-check"></i> Edit dates
+        </button>
+        <button type="button" id="btn-edit-price" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalPriceEdit">
+            <i class="bi bi-currency-dollar"></i> Set price
         </button>
         <a href="/lots/{{ lot.id }}/edit" class="btn btn-primary btn-sm" title="Edit"> 
             <i class="bi bi-gear"></i> Edit lot
@@ -304,9 +315,8 @@
     </div>
 </div>
 
-<!-- Date edit -->
-
-<div class="modal" id="modalDateEdit">
+<!-- Dates edit -->
+<div class="modal" id="modalDatesEdit">
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="/lots/date/edit" method="POST" id="form-date-edit">
@@ -341,6 +351,40 @@
                         <div class="col">
                             <input type="text" id="date_sale" name="date_sale" 
                                 class="form-control form-control-sm form-input-required-date" value="{{ lot.date_sale }}" />  
+                        </div>
+                    </div> 
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                    <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="submit" id="button-submit" class="btn btn-sm btn-primary">
+                        <i class="bi bi-save2"></i> Save
+                    </button>
+                </div>
+                <input type="hidden" name="id" value="{{ lot.id }}" id="hidden-id" />
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Price edit -->
+<div class="modal" id="modalPriceEdit">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="/lots/price/edit" method="POST" id="form-price-edit">
+                <div class="modal-header">
+                    <h5 class="modal-title">Set price. Stock No {{ lot.stock_id }} </h5>
+                    <button type="button" class="btn-sm btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <label for="target_price" class="form-label">Target price</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" id="target_price" name="target_price" 
+                                class="form-control form-control-sm number" value="{{ lot.target_price }}" />  
                         </div>
                     </div> 
                 </div>

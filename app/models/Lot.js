@@ -5,6 +5,7 @@ const Lot = sequelize.define('Lot', {
     account_id: DataTypes.INTEGER,
     user_id: DataTypes.INTEGER,
     stock_id: DataTypes.INTEGER,
+    number_id: DataTypes.STRING,
     lot_status_id: DataTypes.INTEGER,
     model_id: DataTypes.INTEGER,
     vehicle_style_id: DataTypes.INTEGER,
@@ -13,6 +14,7 @@ const Lot = sequelize.define('Lot', {
     date_sale: DataTypes.DATEONLY,
     vin: DataTypes.STRING,
     year: DataTypes.STRING,
+    target_price: DataTypes.DECIMAL(10, 2),
     specifications: DataTypes.TEXT,
     description: DataTypes.TEXT,
     activity: {
@@ -20,6 +22,8 @@ const Lot = sequelize.define('Lot', {
         defaultValue: true,
     }
 }, {
+    charset: 'utf8',
+    collate: 'utf8_unicode_ci',
     tableName: 'lots',
     timestamps: true,
     createdAt: 'created_at',

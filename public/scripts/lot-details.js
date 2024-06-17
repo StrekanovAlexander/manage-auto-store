@@ -69,6 +69,12 @@
         form.querySelector('#button-submit').disabled = true;
     });
 
+    document.querySelector('#btn-edit-price').addEventListener('click', (ev) => {
+        const form = document.querySelector('#form-price-edit');
+        const targetPrice = form.querySelector('#target_price');
+        targetPrice.value = parseInt(targetPrice.value);
+    });
+
     // Validators
     const selectors = document.querySelectorAll('select');
     [...selectors].forEach(el => {

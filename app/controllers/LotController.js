@@ -105,8 +105,8 @@ const store = async (req, res) => {
         }, []);
     const specifications = JSON.stringify(_specifications);
 
-    const { stock_id, account_id, vehicle_style_id, model_id, lot_status_id, vin, year, description } = req.body;
-    await Lot.create({ stock_id, account_id, vehicle_style_id, model_id, lot_status_id, 
+    const { stock_id, number_id, account_id, vehicle_style_id, model_id, lot_status_id, vin, year, description } = req.body;
+    await Lot.create({ stock_id, number_id, account_id, vehicle_style_id, model_id, lot_status_id, 
         vin, year, description, specifications, user_id: req.session.user_id });
 
     const lot = await Lot.findOne({ where: { stock_id }});   
@@ -269,6 +269,16 @@ const editDate = async (req, res) => {
 
 }
 
+const editPrice = async (req, res) => {
+    const { id, target_price } = req.body;
+  
+    await Lot.update({ target_price: target_price ? target_price : null }, { where: { id } });
+    
+    setMessage(req, `Target price was edited`, 'success');
+    res.redirect(`/lots/${ id }/details`);
+
+}
+
 const currentLots = async (req, res) => {
     const rows = await Lot.findAll({ where: { lot_status_id: { [Op.ne]: 2 } }, include: [ Model ] });
     const lots = await Promise.all(rows.map(async (el) => {
@@ -277,6 +287,8 @@ const currentLots = async (req, res) => {
         el.dataValues.days_downtime = utils.daysDiff(el.date_buy, utils.currentDate());
         el.dataValues.total_cost = await Operation.sum('amount', { where: { lot_id: el.id } });
         el.dataValues.money_price = utils.moneyPrice(el.dataValues.total_cost, el.dataValues.days_downtime);
+        el.dataValues.target_margin = el.dataValues.target_price - el.dataValues.total_cost;
+        el.dataValues.marginality = utils.marginality(el.dataValues.target_price, el.dataValues.total_cost);
         return el;
     }));
 
@@ -287,4 +299,4 @@ const currentLots = async (req, res) => {
 
 }
 
-export default { all, create, store, edit, update, details, editDate, currentLots };
+export default { all, create, store, edit, update, details, editDate, editPrice, currentLots };
