@@ -5,8 +5,8 @@ import auth from '../middleware/auth.js';
 
 const router = express.Router();
 
-// router.get('/', auth, reportController.all);
-// router.get('/funds/:id', auth, reportController.funds);
-router.get('/current-lots', lotController.currentLots);
+router.get('/current-lots', auth, lotController.currentLots);
+router.get('/accounts', auth, reportController.accounts);
+router.get('/accounts/:id', auth, reportController.account);
 
 export default router;

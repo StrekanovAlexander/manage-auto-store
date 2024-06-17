@@ -1,36 +1,33 @@
-{{#if operations}}
-<h2>{{ customer.title }}: {{ currency customerTotal}}</h2>
 <table class="table table-sm table-bordered">
     <tr>
         <th class="col-1 text-end">ID</th>
         <th class="col-1 text-center">Date</th>
         <th class="col-2">Operation type</th>
-        <th class="col-1">Payment type</th>
-        {{#each participants}}
-            <th class="col-1 text-end">{{ this.full_name }}</th>
+        {{#each subAccounts }}
+            <th class="col-1 text-end">{{ this.title }}</th>
         {{/each}}
         <th class="col text-center">Description</th>
     </tr>
     <tr class="bg-light">
         <td class="text-end"><a href="#" id="btn-operations">Details</a></td>
-        <td colspan="3"></td>
-        {{#each participants}}
-            <td class="fw-bold small text-end">{{ currency this.totalAmount }}</td>
+        <td colspan="2"></td>
+        {{#each subAccounts }}
+            <td class="fw-bold small text-end">{{ currency this.amount }}</td>
         {{/each}}
         <td></td>
     </tr>
-</table>
+</table> 
+{{#if operations}}
 <div class="hidden" id="operations">
     <table class="table table-sm table-bordered">    
         {{#each operations}}
         <tr class="small">
             <td class="col-1 text-end">
-                <a href="/operations/{{ this.id }}/details" target="_blank">{{ this.id }}</a>
+                {{ this.id }}
             </td>
             <td class="col-1 text-center">{{ this.date_reg }}</td>
             <td class="col-2">{{ this.operationType }}</td>
-            <td class="col-1">{{ this.paymentType }}</td>
-            {{#each this.participants}}
+            {{#each this.subAccounts}}
                 <td class="col-1 text-end">{{ currency amount }}</td>
             {{/each}}
             <td class="col text-start">{{ this.description }}</td>
