@@ -11,24 +11,9 @@ const all = async (req, res) => {
         operationTypes,
         access: access.high(req),
         msg: message(req),
+        script: scriptPath('operation-types.js'),
         breadcrumb: breadcrumb.build([
             breadcrumb.make('/operation-types', 'Operation types')
-        ])
-    });
-}
-
-const create = async (req, res) => {
-    if (!access.isAllow(req, access.high)) {
-        return res.redirect('/operation-types');
-    }
-
-    res.render('operation-types/create', { 
-        title: 'Operation type creating',
-        validator: scriptPath('validators/single/single-edit.js'),
-        msg: message(req),
-        breadcrumb: breadcrumb.build([
-            breadcrumb.make('/operation-types', 'Operation types'),
-            breadcrumb.make('#', 'Create....'),
         ])
     });
 }
@@ -38,31 +23,17 @@ const store = async (req, res) => {
         return res.redirect('/operation-types');
     }
 
-    const { title, direction, is_car_cost } = req.body;
+    const { title, direction, is_car_cost, activity } = req.body;
 
-    await OperationType.create({ title, direction, is_car_cost: is_car_cost === 'on' });
+    await OperationType.create({ 
+        title, 
+        direction, 
+        is_car_cost: is_car_cost === 'on',
+        activity: activity === 'on' 
+    });
+    
     setMessage(req, `Operation type was created`, 'success');
     res.redirect('/operation-types');
-}
-
-const edit = async (req, res) => {
-    if (!access.isAllow(req, access.high)) {
-        return res.redirect('/operation-types');
-    }
-    const { id } = req.params;
-    const operationType = await OperationType.findByPk(id);
-    
-    res.render('operation-types/edit', {
-        title: `Operation type "${ operationType.title }" edititng`,
-        operationType: operationType.dataValues,
-        validator: scriptPath('validators/single/single-edit.js'),
-        msg: message(req),
-        breadcrumb: breadcrumb.build([
-            breadcrumb.make('/operation-types', 'Operation types'),
-            breadcrumb.make('#', operationType.title),
-            breadcrumb.make('#', 'Edit...'),
-        ])
-    });
 }
 
 const update = async (req, res) => {
@@ -80,4 +51,8 @@ const update = async (req, res) => {
     res.redirect('/operation-types');
 }
 
-export default { all, create, store, edit, update };
+export default { 
+    all, 
+    store, 
+    update
+};

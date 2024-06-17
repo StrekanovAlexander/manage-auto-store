@@ -39,8 +39,7 @@ const operationsDetails = async (account_id, operation_type_id, subAccounts) => 
         };
 
         subAccounts.forEach(el => {
-            const _amount = sub_account_id === el.id ? amount : 0;
-            row.subAccounts.push({ title: el.title, amount: _amount })
+            row.subAccounts.push({ title: el.title, amount: sub_account_id === el.id ? amount : 0 })
         });
 
         acc.push(row);
