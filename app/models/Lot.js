@@ -14,7 +14,10 @@ const Lot = sequelize.define('Lot', {
     date_sale: DataTypes.DATEONLY,
     vin: DataTypes.STRING,
     year: DataTypes.STRING,
-    target_price: DataTypes.DECIMAL(10, 2),
+    target_price: {
+        type: DataTypes.DECIMAL(10, 2),
+        defaultValue: 0
+    },
     specifications: DataTypes.TEXT,
     description: DataTypes.TEXT,
     activity: {
