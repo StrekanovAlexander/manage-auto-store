@@ -1,0 +1,11 @@
+<h2>{{ lot.Model.dataValues.title }} ({{ lot.year }}). Stock No: {{ lot.stock_id }}</h2>
+<form action="/lots/files/upload" method="POST" enctype="multipart/form-data" >
+    <div class="mb-2">
+        <input type="file" class="form-control form-control-sm" name="vehicle">
+    </div>
+    <button type="submit" class="btn btn-sm btn-primary">
+        <i class="bi bi-upload"></i> Upload
+    </button>
+    <input type="hidden" name="id" value="{{ lot.id }}" />
+    <input type="hidden" name="stock_id" value="{{ lot.stock_id }}" />
+</form>

@@ -1,3 +1,4 @@
+import fs from 'fs';
 import { Op, Sequelize } from 'sequelize';
 
 import Account from '../models/Account.js';
@@ -94,6 +95,16 @@ const store = async (req, res) => {
     if (!access.isAllow(req, access.high)) {
         return res.redirect('/lots');
     }
+
+    if (!fs.existsSync(`public/images/vehicles/${ req.body.stock_id }`)) {
+        fs.mkdir(`public/images/vehicles/${ req.body.stock_id }`, (err) => {
+            if (err) {
+                setMessage(req, `Lot was not created`, 'danger');
+                return res.redirect(`/lots`); 
+            } 
+        });
+    } 
+
     const entries = Object.entries(req.body);
     const _specifications = entries
         .filter(el => el[0].includes('specification_') && el[1].length > 0)
@@ -299,4 +310,39 @@ const currentLots = async (req, res) => {
 
 }
 
-export default { all, create, store, edit, update, details, editDate, editPrice, currentLots };
+const files = async (req, res) => {
+    const lot = await Lot.findOne({ where: { id: req.params.id }, include: [Model] });
+    res.render('lots/files', {
+        title: 'Files',
+        lot: lot.dataValues,
+        msg: message(req),
+        breadcrumb: breadcrumb.build([
+            breadcrumb.make('/lots', 'Lots'),
+            breadcrumb.make(`/lots/${ lot.id }/details`, `Stock No: ${ lot.stock_id }`),
+            breadcrumb.make('#', 'Files'),
+        ])
+    });
+}
+
+const upload = (req, res) => {
+    const { id, stock_id } = req.body;
+    
+    if (!req.files) {
+        setMessage(req, `File was not selected`, 'danger');
+        return res.redirect(`/lots/${ id }/files`); 
+    }
+        
+    const fileName = `${ stock_id }-${ Date.now() }.${ (req.files.vehicle.name).split('.').splice(-1) }`;
+ 
+    req.files.vehicle.mv(`public/images/vehicles/${ stock_id }/${ fileName }`, (err) => {
+        if (err) {
+            setMessage(req, `File was not uploaded`, 'danger');
+            return res.redirect(`/lots/${ id }/files`); 
+        }
+    });
+
+    setMessage(req, `File was uploaded`, 'success');
+    return res.redirect(`/lots/${ id }/files`);  
+}
+
+export default { all, create, store, edit, update, details, editDate, editPrice, currentLots, files, upload };

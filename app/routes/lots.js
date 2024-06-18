@@ -14,4 +14,7 @@ router.get('/:id/details', auth, lotController.details);
 router.post('/date/edit', auth, lotController.editDate);
 router.post('/price/edit', auth, lotController.editPrice);
 
+router.get('/:id/files', lotController.files);
+router.post('/files/upload', lotController.upload);
+
 export default router;
