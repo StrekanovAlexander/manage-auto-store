@@ -312,9 +312,14 @@ const currentLots = async (req, res) => {
 
 const files = async (req, res) => {
     const lot = await Lot.findOne({ where: { id: req.params.id }, include: [Model] });
+
+    const dir = `public/images/vehicles/${ lot.stock_id }`;
+    const files = fs.readdirSync(dir).map(file => file);
+
     res.render('lots/files', {
         title: 'Files',
         lot: lot.dataValues,
+        files,
         msg: message(req),
         breadcrumb: breadcrumb.build([
             breadcrumb.make('/lots', 'Lots'),

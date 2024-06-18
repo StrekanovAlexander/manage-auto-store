@@ -53,6 +53,11 @@ a.disabled {
     font-size: .75em;
 }
 
+.img-item {
+    cursor: pointer;
+    width: 100%;
+}
+
 .message {
     font-size: .8em;
     position: absolute;
